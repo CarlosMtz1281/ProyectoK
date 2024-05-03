@@ -1,11 +1,24 @@
-import * as React from "react";
-import { Grid, Typography, Box, Button, Paper } from "@mui/material";
+'use client'
+
+import React from "react";
+import { Grid, Typography, Box, Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const appRouter = useRouter();
+
+  const sendToLogin = () => {
+    appRouter.replace('/login');
+  }
+
+  const sendToRegistration = () => {
+    appRouter.replace('/register');
+  }
+  
   return (
     <div className="MainHTMLBody">
-      <Box sx = {{alignSelf: "center", marginLeft: 10, marginRight: 5, gap: 5, display: "flex", flexDirection: "column", maxWidth: 400 }}>
-        
+      <Box sx = {{alignSelf: "center", marginLeft: 5, marginRight: 5, gap: 5, display: "flex", flexDirection: "column", maxWidth: 400 }}>
+
         <Typography variant = "h6" sx = {{fontWeight: "bold"}}>
           WBAN solutions
         </Typography>
@@ -18,11 +31,11 @@ export default function Home() {
         <Grid container spacing = {3}>
 
           <Grid item>
-            <Button size = "large" variant = "contained">Ingresar</Button>
+            <Button onClick = {sendToLogin} size = "large" variant = "contained">Ingresar</Button>
           </Grid>
 
           <Grid item>
-            <Button size = "large" variant = "outlined">Crear cuenta</Button>
+            <Button onClick = {sendToRegistration} size = "large" variant = "outlined">Crear cuenta</Button>
           </Grid>
 
         </Grid>
