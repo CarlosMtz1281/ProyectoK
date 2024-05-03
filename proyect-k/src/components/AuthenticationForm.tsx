@@ -19,6 +19,25 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/navigation";
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 interface AuthenticationFormProps {
   isRegistration: boolean;
@@ -30,10 +49,11 @@ export default function AuthenticationForm({
   isRegistration,
   APIstring,
 }: AuthenticationFormProps) {
+
   // State variables to save username, password and password visibility
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [transparentPass, setTransparentPass] = React.useState(true);
+  const [transparentPass, setTransparentPass] = React.useState(false);
 
   // Our router
   const router = useRouter();
@@ -68,8 +88,37 @@ export default function AuthenticationForm({
     router.replace("/");
   };
 
-  // TODO: Create a function that receives input and sends it through the desired API.
-  // const handleUserSubmission(user: string, password: string)
+  // Handle user registration to the application
+  const handleRegistration = (email: string, password: string) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        alert("Signed in!")
+        router.replace("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+      });
+  };
+
+  // Handle user login
+  const handleLogin = (email: string, password: string) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        alert("Signed in!")
+        router.replace("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage)
+      });
+  };
 
   return (
     <Paper
@@ -128,6 +177,7 @@ export default function AuthenticationForm({
               id="standard-adornment-password"
               type={transparentPass ? "text" : "password"}
               placeholder="type something better than 123.."
+              onChange = {handlePasswordChange}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -143,18 +193,18 @@ export default function AuthenticationForm({
           </FormControl>
         </Box>
         <Box
-          sx={{
-            display: "flex",
-            flexFlow: "row wrap",
-            gap: 2,
-            width: "100%",
-            justifyContent: "center",
-            marginTop: 3,
-          }}
+            sx={{
+                display: "flex",
+                flexFlow: "row wrap",
+                gap: 2,
+                width: "100%",
+                justifyContent: "center",
+                marginTop: 3,
+            }}
         >
-          <Fab color="info" variant="extended" size="large">
-            {ActionButton}
-          </Fab>
+            <Fab color="info" variant="extended" size="large" onClick={(event) => isRegistration ? handleRegistration(username, password) : handleLogin(username, password)}>
+                {ActionButton}
+            </Fab>
         </Box>
       </Box>
     </Paper>
