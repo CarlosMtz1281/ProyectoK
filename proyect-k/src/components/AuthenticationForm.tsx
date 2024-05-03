@@ -15,28 +15,18 @@ import {
   FormControl,
   InputLabel,
   IconButton,
+  FormHelperText
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/navigation";
-import { initializeApp } from "firebase/app";
+import app from "@/app/firebase";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_APP_ID
-};
-
-const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 interface AuthenticationFormProps {
@@ -49,11 +39,12 @@ export default function AuthenticationForm({
   isRegistration,
   APIstring,
 }: AuthenticationFormProps) {
-
   // State variables to save username, password and password visibility
   const [username, setUsername] = React.useState("");
+  const [usernameError, setUsernameError] = React.useState(false);
   const [password, setPassword] = React.useState("");
-  const [transparentPass, setTransparentPass] = React.useState(false);
+  const [passwordError, setPasswordError] = React.useState(false);
+  const [transparentPass, setTransparentPass] = React.useState(false); // This helps toggle visibility on password
 
   // Our router
   const router = useRouter();
@@ -65,14 +56,31 @@ export default function AuthenticationForm({
   // We read the size of the media to readjust if necessary
   const isMobile = useMediaQuery("(max-width:600px)");
 
+  // Method to check if the email is valid
+  const isValidEmail = (email: string) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   // Handle username change
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
+    if (isValidEmail(event.target.value)) {
+      setUsername(event.target.value);
+      setUsernameError(false);
+      return;
+    }
+    setUsernameError(true);
   };
 
   // Handle password change
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+    if (event.target.value.length > 5) {
+        setPassword(event.target.value)
+        setPasswordError(false);
+        return;
+    };
+    setPasswordError(true);
   };
 
   // Handle visibility
@@ -90,11 +98,15 @@ export default function AuthenticationForm({
 
   // Handle user registration to the application
   const handleRegistration = (email: string, password: string) => {
+    if (usernameError || passwordError) {
+        alert("Correo o contraseña inválidos. Escríbalos correctamente");
+        return;
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        alert("Signed in!")
+        alert("Signed in!");
         router.replace("/");
       })
       .catch((error) => {
@@ -110,13 +122,13 @@ export default function AuthenticationForm({
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        alert("Signed in!")
+        alert("Signed in!");
         router.replace("/");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorMessage)
+        alert(errorMessage);
       });
   };
 
@@ -162,14 +174,25 @@ export default function AuthenticationForm({
             width: "100%",
           }}
         >
-          <TextField
-            variant="standard"
-            onChange={handleUsernameChange}
-            size="medium"
-            label="Nombre de usuario"
-            placeholder="username@somewhere.xyz"
-          />
-          <FormControl variant="standard">
+          <FormControl error = {usernameError} variant="standard">
+            <InputLabel htmlFor="standard-adornment-password">
+              Correo eléctronico
+            </InputLabel>
+            <Input
+              id="standard-userinput"
+              type="email"
+              placeholder="username@somewhere.xyz"
+              onChange={handleUsernameChange}
+              endAdornment={
+                <InputAdornment position="end" sx={{ mr: 1 }}>
+                  <EmailOutlined />
+                </InputAdornment>
+              }
+            />
+            { usernameError && <FormHelperText id="component-error-text">Correo inválido. Debe seguir este formato: tucuenta@dominio.algo</FormHelperText> }
+          </FormControl>
+
+          <FormControl error = {passwordError} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               Contraseña
             </InputLabel>
@@ -177,7 +200,7 @@ export default function AuthenticationForm({
               id="standard-adornment-password"
               type={transparentPass ? "text" : "password"}
               placeholder="type something better than 123.."
-              onChange = {handlePasswordChange}
+              onChange={handlePasswordChange}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -190,21 +213,31 @@ export default function AuthenticationForm({
                 </InputAdornment>
               }
             />
+            { passwordError && <FormHelperText id="component-error-text">Contraseña inválida. Debe tener al menos 6 carácteres</FormHelperText> }
           </FormControl>
         </Box>
         <Box
-            sx={{
-                display: "flex",
-                flexFlow: "row wrap",
-                gap: 2,
-                width: "100%",
-                justifyContent: "center",
-                marginTop: 3,
-            }}
+          sx={{
+            display: "flex",
+            flexFlow: "row wrap",
+            gap: 2,
+            width: "100%",
+            justifyContent: "center",
+            marginTop: 3,
+          }}
         >
-            <Fab color="info" variant="extended" size="large" onClick={(event) => isRegistration ? handleRegistration(username, password) : handleLogin(username, password)}>
-                {ActionButton}
-            </Fab>
+          <Fab
+            color="info"
+            variant="extended"
+            size="large"
+            onClick={(event) =>
+              isRegistration
+                ? handleRegistration(username, password)
+                : handleLogin(username, password)
+            }
+          >
+            {ActionButton}
+          </Fab>
         </Box>
       </Box>
     </Paper>
