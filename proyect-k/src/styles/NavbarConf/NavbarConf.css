@@ -1,0 +1,15 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    width: 25vw;
+    height: 90vh;
+    align-items: center;
+    border: solid;
+    border-color: black;
+    border-radius: 1rem
+}
+
+.header {
+    padding: 5rem 2rem 1rem 2rem;
+    font-size: 2rem;
+}
