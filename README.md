@@ -3,3 +3,4 @@ Proyect developed for software construction class with the objective to develop 
 
 Developed By: </br>
 @CarlosMtz1281
+@imanolgzz
