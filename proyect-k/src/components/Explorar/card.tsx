@@ -1,23 +1,28 @@
 "use-client";
 import React from 'react';
+import "../../styles/QuizConf/QuizConf.css";
+import Image from "next/image"
 
 interface CardProps {
-    title: string;
-    description: string;
-    img: string;
+    autor: string;
+    nombre: string;
+    tema: string;
+
 }
 
 
-export default function Card() {
+export default function Card({nombre, autor, tema}) {
     const onClick = () => {
         console.log("click");
     };
 
     return (
-        <div className="card" >
+        <div className="card">
             <div className="card-content">
-                <h1>test</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, natus! Commodi, eaque doloremque praesentium natus est voluptas veniam nulla explicabo soluta reprehenderit perspiciatis inventore at accusantium maiores odit sed placeat.</p>
+                <a>
+                    <Image src="/matematicas.jpg" width={250} height={250} className="card-img" alt="foto"/>
+                    <p className="card-text">{nombre}</p>
+                </a>
             </div>
         </div>
     );

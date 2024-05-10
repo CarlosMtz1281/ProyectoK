@@ -1,0 +1,26 @@
+.card{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-content: flex-start;;
+    width: 150vh;
+    height: 90vh;
+    border: 10px solid black;
+}
+.card-content{
+    width: 250px;
+    height: 250px;
+    font-size: 2em;
+    border-radius: 20px;
+    background-color: #1f1f22;
+}
+.card-content:hover{
+    box-shadow: 0 0 20px #0bbb5b;
+}
+.card-text{
+    color: #0bbb5b;
+    text-align: center;
+}
+.card-img{
+    height: 200px;
+}
