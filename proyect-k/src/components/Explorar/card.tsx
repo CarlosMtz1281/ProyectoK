@@ -11,7 +11,7 @@ interface CardProps {
 }
 
 
-export default function Card({nombre, autor, tema}) {
+export default function Card({autor, nombre, tema}: CardProps) {
     const onClick = () => {
         console.log("click");
     };
@@ -22,6 +22,7 @@ export default function Card({nombre, autor, tema}) {
                 <a>
                     <Image src="/matematicas.jpg" width={250} height={250} className="card-img" alt="foto"/>
                     <p className="card-text">{nombre}</p>
+                    <p className="card-text">{autor}</p>
                 </a>
             </div>
         </div>
