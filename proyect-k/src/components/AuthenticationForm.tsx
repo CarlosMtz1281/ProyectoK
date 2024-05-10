@@ -124,7 +124,7 @@ export default function AuthenticationForm({
         // Signed in
         const user = userCredential.user;
         alert("Signed in!");
-        router.replace("/");
+        router.replace("/dashboard/Explorar");
         console.log(user);
       })
       .catch((error) => {
