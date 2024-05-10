@@ -1,5 +1,5 @@
 import React from "react";
-import AuthenticationForm from "@/components/AuthenticationForm";
+import AuthenticationForm from "@/components/Authentication/RegistrationForm";
 import "@/styles/Authentication.css"
 
 export default function RegisterPage () {

@@ -15,17 +15,16 @@ import {
   FormControl,
   InputLabel,
   IconButton,
-  FormHelperText
+  FormHelperText,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/navigation";
 import app from "@/app/firebase";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const auth = getAuth(app);
 
@@ -39,6 +38,11 @@ export default function AuthenticationForm({
   isRegistration,
   APIstring,
 }: AuthenticationFormProps) {
+  // State variables for user data
+  const [trueName, setTrueName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [role, setRole] = React.useState("");
+
   // State variables to save username, password and password visibility
   const [username, setUsername] = React.useState("");
   const [usernameError, setUsernameError] = React.useState(false);
@@ -48,10 +52,6 @@ export default function AuthenticationForm({
 
   // Our router
   const router = useRouter();
-
-  // Based on props, we customize the text
-  const ModalTitle = isRegistration ? "Registro" : "Iniciar sesión";
-  const ActionButton = isRegistration ? "Registrarme" : "Ingresar";
 
   // We read the size of the media to readjust if necessary
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -76,10 +76,10 @@ export default function AuthenticationForm({
   // Handle password change
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length > 5) {
-        setPassword(event.target.value)
-        setPasswordError(false);
-        return;
-    };
+      setPassword(event.target.value);
+      setPasswordError(false);
+      return;
+    }
     setPasswordError(true);
   };
 
@@ -99,8 +99,8 @@ export default function AuthenticationForm({
   // Handle user registration to the application
   const handleRegistration = (email: string, password: string) => {
     if (usernameError || passwordError) {
-        alert("Correo o contraseña inválidos. Escríbalos correctamente");
-        return;
+      alert("Correo o contraseña inválidos. Escríbalos correctamente");
+      return;
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -116,20 +116,9 @@ export default function AuthenticationForm({
       });
   };
 
-  // Handle user login
-  const handleLogin = (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        alert("Signed in!");
-        router.replace("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
-      });
+  // Handle role change
+  const handleChange = (event: SelectChangeEvent) => {
+    setRole(event.target.value as string);
   };
 
   return (
@@ -137,15 +126,10 @@ export default function AuthenticationForm({
       id="mainauthpaper"
       elevation={12}
       sx={{
-        width: isMobile ? "80%" : "500px",
-        height: isMobile ? "50%" : "500px",
+        width: isMobile ? "90%" : "500px",
+        height: isMobile ? "70%" : "600px",
       }}
     >
-      <Box sx={{ justifySelf: "start", marginLeft: 4, marginTop: 5 }}>
-        <Fab onClick={handleToHome} variant="circular" size="small">
-          <ArrowBackIcon />
-        </Fab>
-      </Box>
       <Box
         id="insideboxonpaper"
         sx={{
@@ -157,15 +141,38 @@ export default function AuthenticationForm({
           flexFlow: "column nowrap",
           alignItems: "center",
           justifyContent: "space-evenly",
-          gap: 2,
+          gap: isMobile ? 3 : 6,
         }}
       >
-        <Typography
-          variant={isMobile ? "h4" : "h3"}
-          sx={{ marginTop: 1, fontWeight: 200 }}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            marginLeft: 0,
+            marginTop: 5,
+            width: "100%",
+          }}
         >
-          {ModalTitle}
-        </Typography>
+          <Fab
+            onClick={handleToHome}
+            variant="circular"
+            size="small"
+            sx={{ marginRight: 1.5 }}
+          >
+            <ArrowBackIcon />
+          </Fab>
+          <Typography
+            variant={isMobile ? "h4" : "h3"}
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              fontWeight: 200,
+              marginRight: 6,
+            }}
+          >
+            Registro
+          </Typography>
+        </Box>
         <Box
           sx={{
             display: "flex",
@@ -174,7 +181,30 @@ export default function AuthenticationForm({
             width: "100%",
           }}
         >
-          <FormControl error = {usernameError} variant="standard">
+          <Box
+            display="flex"
+            flexDirection={isMobile ? "column" : "row"}
+            gap={2}
+            sx={{ width: "100%" }}
+          >
+            <TextField
+              sx={{ width: "100%" }}
+              variant="standard"
+              label="Nombre"
+              placeholder="Juan"
+              onChange={(e) => setTrueName(e.target.value)}
+            />
+
+            <TextField
+              sx={{ width: "100%" }}
+              variant="standard"
+              label="Apellidos"
+              placeholder="Gónzalez Gónzalez"
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </Box>
+
+          <FormControl error={usernameError} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               Correo eléctronico
             </InputLabel>
@@ -189,10 +219,14 @@ export default function AuthenticationForm({
                 </InputAdornment>
               }
             />
-            { usernameError && <FormHelperText id="component-error-text">Correo inválido. Debe seguir este formato: tucuenta@dominio.algo</FormHelperText> }
+            {usernameError && (
+              <FormHelperText id="component-error-text">
+                Correo inválido. Debe seguir este formato: tucuenta@dominio.algo
+              </FormHelperText>
+            )}
           </FormControl>
 
-          <FormControl error = {passwordError} variant="standard">
+          <FormControl error={passwordError} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               Contraseña
             </InputLabel>
@@ -213,7 +247,28 @@ export default function AuthenticationForm({
                 </InputAdornment>
               }
             />
-            { passwordError && <FormHelperText id="component-error-text">Contraseña inválida. Debe tener al menos 6 carácteres</FormHelperText> }
+            {passwordError && (
+              <FormHelperText id="component-error-text">
+                Contraseña inválida. Debe tener al menos 6 carácteres
+              </FormHelperText>
+            )}
+          </FormControl>
+        </Box>
+
+        <Box style={{ display: "flex", width: "100%", flexDirection: "row", gap: 5 }}>
+          <Typography variant = "subtitle1" sx = {{marginRight: 2}}>Selecciona un rol</Typography>
+          <FormControl fullWidth>
+            <InputLabel id="selecta role">Rol</InputLabel>
+            <Select
+              labelId="selectrole"
+              id="simple-select"
+              value={role}
+              label="Rol de la cuenta"
+              onChange={handleChange}
+            >
+              <MenuItem value={"Estudiante"}>Estudiante</MenuItem>
+              <MenuItem value={"Administrador"}>Administrador</MenuItem>
+            </Select>
           </FormControl>
         </Box>
         <Box
@@ -223,20 +278,18 @@ export default function AuthenticationForm({
             gap: 2,
             width: "100%",
             justifyContent: "center",
-            marginTop: 3,
+            marginTop: 1,
+            marginBottom: 3,
           }}
         >
           <Fab
-            color="info"
             variant="extended"
             size="large"
-            onClick={(event) =>
-              isRegistration
-                ? handleRegistration(username, password)
-                : handleLogin(username, password)
-            }
+            disabled={usernameError || passwordError}
+            color="info"
+            onClick={(event) => handleRegistration(username, password)}
           >
-            {ActionButton}
+            Registrarme
           </Fab>
         </Box>
       </Box>
