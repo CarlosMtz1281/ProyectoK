@@ -106,6 +106,7 @@ export default function AuthenticationForm({
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
+        console.log(user);
         alert("Signed in!");
         router.replace("/");
       })
@@ -124,6 +125,7 @@ export default function AuthenticationForm({
         const user = userCredential.user;
         alert("Signed in!");
         router.replace("/");
+        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;

@@ -7,6 +7,8 @@ export default function LoginPage () {
         isRegistration: false,
         APIstring: "hellothereimpapu"
     }
+
+
     return (
         <div className = "AuthenticationBody" >
             <AuthenticationForm {...authProps} />
