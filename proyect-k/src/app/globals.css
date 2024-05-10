@@ -9,3 +9,13 @@
   overflow: hidden;
 }
 
+:root {
+
+--primaryBG-200: #3962f3;
+ --primaryBG-300: #2f49d0;
+ --primaryBG-400: #1d319a;
+
+
+ --accent-400: #fffeff;
+
+}

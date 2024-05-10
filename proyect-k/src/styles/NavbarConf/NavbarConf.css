@@ -3,7 +3,7 @@
     flex-direction: column;
     width: 20vw;
     height: 100vh;
-    background-color: #050505;
+    background-color: var(--primaryBG-400);
     border-radius: 0 1rem 1rem 0;
 }
 
@@ -11,7 +11,7 @@
     padding: 2rem 0rem 1rem 1rem;
     font-size: 1.5rem;
     color: #fefefe;
-    background-color: #1f1f22;
+    background-color: var(--primaryBG-200);
     border-radius: 0 1rem 0 0;
     display: flex;
     align-items: center;
@@ -36,7 +36,7 @@
     padding: 1rem;
     font-size: 1.2rem;
     color: #fefefe;
-    background-color: #1f1f22;
+    background-color: var(--primaryBG-200);
     border-radius: 0 0 1rem 0;
     align-items: center;
     gap: 1rem;

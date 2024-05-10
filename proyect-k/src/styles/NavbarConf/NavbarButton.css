@@ -14,7 +14,7 @@
     cursor: pointer;
 }
 .container-selected {
-    background-color: rgba(11, 187, 91, 0.3);
+    background-color: rgba(50, 130, 228, 0.3);
     border-radius: 1rem;
     padding: 0.5rem;
 }
@@ -30,10 +30,10 @@
 }
 
 .icon-selected {
-    color: #0bbb5b;
+    color: var(--accent-400);
 }
 
 .text-selected {
     font-weight: bold;
-    color: #0bbb5b;
+    color: var(--accent-400);
 }
