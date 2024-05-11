@@ -2,6 +2,7 @@
 .main-explora {
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
 }
 
 .title-container {
@@ -15,29 +16,36 @@
 .icon-container {
     background-color: var(--primaryBG-200);
     color: white;
-    border-radius: 0.4rem 0 0 0.4rem;
     justify-content: center;
     align-items: center;
-    padding-top: 0.7rem;
-    padding-left: 0.5rem;
+
 }
 
 .filter-container {
     display: flex;
     flex-direction: row;
     width: 77%;
-    height: 4vh;
+    height: 6vh;
+    align-items: center;
+    background-color: var(--primaryBG-200);
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 0.4rem;
+
+
 }
 
 .searchBar {
     width: 100%;
-    background-color: var(--primaryBG-200);
     font-weight: 600;
     padding-left: 1rem;
     border-radius: 0 0.4rem 0.4rem 0;
     border: none;
     outline: none;
     color: white;
+    background-color: var(--primaryBG-200);
+
+
 }
 
 .searchBar::placeholder {
@@ -68,9 +76,18 @@
 }
 
 .cards-container {
-    display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 1rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 70vh;
+    background-color: var(--neutral-300);
+    border-radius: 0.4rem;
+}
+
+@media (max-width: 600px) {
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
 }

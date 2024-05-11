@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return (
         <div className="flex flex-col sm:flex-row h-screen">
             <NavbarConf />
-            <main className="flex-1 bg-white p-5 overflow-auto">{children}</main>
+            <main className="flex-1 bg-white p-5 overflow-hidden">{children}</main>
         </div>
     );
 };
