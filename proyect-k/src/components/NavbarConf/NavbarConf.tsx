@@ -32,14 +32,14 @@ export default function NavbarConf() {
           icon={2}
           title="Mis Quizes"
           nav="/adminTemas"
-          active={pathname === "/adminTemas"}
+          active={pathname === "/dashboard/"}
           OnClick={() => handleButtonClick("/adminTemas")}
         />
         <NavbarButton
           icon={3}
           title="Perfil"
           nav="/adminPreguntas"
-          active={pathname === "/adminPreguntas"}
+          active={pathname === "/dashboard"}
           OnClick={() => handleButtonClick("/adminPreguntas")}
         />
       </div>

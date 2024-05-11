@@ -15,12 +15,13 @@ import {
   FormControl,
   InputLabel,
   IconButton,
-  FormHelperText,
+  FormHelperText
 } from "@mui/material";
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/navigation";
 import app from "@/app/firebase";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -58,28 +59,26 @@ export default function AuthenticationForm({
   const isMobile = useMediaQuery("(max-width:600px)");
 
   // CONECTION API
-
- // CONECTION API
- function userExists(email: string) {
-  axios
-    .get(`http://localhost:2024/users/${email}`)
-    .then((res) => {
-      console.log(res);
-      console.log(res.data[0].user_email);
-      localStorage.setItem('email', res.data[0].user_email);
+  function userExists(email: string) {
+    axios
+      .get(`http://localhost:2024/users/${email}`)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data[0].email);
+        localStorage.setItem('email', res.data.user.email);
 
 
-    })
-    .catch((err) => {
-      console.log(err);
-      localStorage.setItem('email', 'NOT FOUND');
+      })
+      .catch((err) => {
+        console.log(err);
+        localStorage.setItem('email', 'NOT FOUND');
 
 
-    });
+      });
 
-}
+  }
 
-  function userCreate(email: string) {
+  function createUser(email: string) {
     axios
       .post(`http://localhost:2024/users/`)
       .then((res) => {
@@ -117,10 +116,10 @@ export default function AuthenticationForm({
   // Handle password change
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length > 5) {
-      setPassword(event.target.value);
-      setPasswordError(false);
-      return;
-    }
+        setPassword(event.target.value)
+        setPasswordError(false);
+        return;
+    };
     setPasswordError(true);
   };
 
@@ -140,14 +139,18 @@ export default function AuthenticationForm({
   // Handle user registration to the application
   const handleRegistration = (email: string, password: string) => {
     if (usernameError || passwordError) {
-      alert("Correo o contraseña inválidos. Escríbalos correctamente");
-      return;
+        alert("Correo o contraseña inválidos. Escríbalos correctamente");
+        return;
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
         console.log(user);
+        if (user.email) {
+          createUser(user.email);
+        }
+
         alert("Signed in!");
         router.replace("/");
       })
@@ -195,6 +198,11 @@ export default function AuthenticationForm({
         height: isMobile ? "50%" : "500px",
       }}
     >
+      <Box sx={{ justifySelf: "start", marginLeft: 4, marginTop: 5 }}>
+        <Fab onClick={handleToHome} variant="circular" size="small">
+          <ArrowBackIcon />
+        </Fab>
+      </Box>
       <Box
         id="insideboxonpaper"
         sx={{
@@ -206,38 +214,15 @@ export default function AuthenticationForm({
           flexFlow: "column nowrap",
           alignItems: "center",
           justifyContent: "space-evenly",
-          gap: isMobile ? 3 : 7,
+          gap: 2,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            marginLeft: 0,
-            marginTop: 5,
-            width: "100%",
-          }}
+        <Typography
+          variant={isMobile ? "h4" : "h3"}
+          sx={{ marginTop: 1, fontWeight: 200 }}
         >
-          <Fab
-            onClick={handleToHome}
-            variant="circular"
-            size="small"
-            sx={{ marginRight: 1.5 }}
-          >
-            <ArrowBackIcon />
-          </Fab>
-          <Typography
-            variant={isMobile ? "h5" : "h4"}
-            sx={{
-              flexGrow: 1,
-              textAlign: "center",
-              fontWeight: 200,
-              marginRight: 6,
-            }}
-          >
-            Iniciar sesión
-          </Typography>
-        </Box>
+          {ModalTitle}
+        </Typography>
         <Box
           sx={{
             display: "flex",
@@ -246,7 +231,7 @@ export default function AuthenticationForm({
             width: "100%",
           }}
         >
-          <FormControl error={usernameError} variant="standard">
+          <FormControl error = {usernameError} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               Correo eléctronico
             </InputLabel>
@@ -261,14 +246,10 @@ export default function AuthenticationForm({
                 </InputAdornment>
               }
             />
-            {usernameError && (
-              <FormHelperText id="component-error-text">
-                Correo inválido. Debe seguir este formato: tucuenta@dominio.algo
-              </FormHelperText>
-            )}
+            { usernameError && <FormHelperText id="component-error-text">Correo inválido. Debe seguir este formato: tucuenta@dominio.algo</FormHelperText> }
           </FormControl>
 
-          <FormControl error={passwordError} variant="standard">
+          <FormControl error = {passwordError} variant="standard">
             <InputLabel htmlFor="standard-adornment-password">
               Contraseña
             </InputLabel>
@@ -289,11 +270,7 @@ export default function AuthenticationForm({
                 </InputAdornment>
               }
             />
-            {passwordError && (
-              <FormHelperText id="component-error-text">
-                Contraseña inválida. Debe tener al menos 6 carácteres
-              </FormHelperText>
-            )}
+            { passwordError && <FormHelperText id="component-error-text">Contraseña inválida. Debe tener al menos 6 carácteres</FormHelperText> }
           </FormControl>
         </Box>
         <Box
