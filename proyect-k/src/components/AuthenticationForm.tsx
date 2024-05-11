@@ -26,6 +26,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import axios from "axios";
 
 const auth = getAuth(app);
 
@@ -55,6 +56,45 @@ export default function AuthenticationForm({
 
   // We read the size of the media to readjust if necessary
   const isMobile = useMediaQuery("(max-width:600px)");
+
+  // CONECTION API
+
+  function userExists(email: string) {
+    console.log(`http://localhost:2024/users/${email}`);
+    axios
+      .get(`http://localhost:2024/users/${email}`)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem('email', res.data.user.email);
+
+
+      })
+      .catch((err) => {
+        console.log(err);
+        localStorage.setItem('email', 'NOT FOUND');
+
+
+      });
+
+  }
+
+  function userCreate(email: string) {
+    axios
+      .post(`http://localhost:2024/users/`)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem('email', res.data.user.email);
+
+      }
+      )
+      .catch((err) => {
+        console.log(err);
+        localStorage.setItem('email', 'NOT FOUND');
+
+      });
+
+  }
+
 
   // Method to check if the email is valid
   const isValidEmail = (email: string) => {
@@ -123,9 +163,20 @@ export default function AuthenticationForm({
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        alert("Signed in!");
+
+        if (user.email) {
+          userExists(user.email);
+          if(localStorage.getItem('email') === user.email){
+            alert("Bienvenido! ");
+
+          } else {
+            alert("Usuario no registrado. Por favor, regístrese");
+            return;
+          }
+        }
+
         router.replace("/dashboard/Explorar");
-        console.log(user);
+        console.log(user.email);
       })
       .catch((error) => {
         const errorCode = error.code;
