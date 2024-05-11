@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Card from '../../../components/Explorar/card'
 import '../../../styles/Explora.css'
 import { FaSearch } from "react-icons/fa";
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const cardData = [
     { autor: 'Author 1', nombre: 'Matematicas', tema: 'Topic 1' },
@@ -28,10 +30,13 @@ const cardData = [
     // Add more objects as needed
   ];
 
+
+
 export default function Explorar() {
 
     const [query, setQuery] = useState('')
     const [selectedTema, setSelectedTema] = useState('Temas');
+    const [realData, setCardData] = useState([])
 
     const handleChangeTema = (e : any) => {
         setSelectedTema(e)
@@ -40,7 +45,30 @@ export default function Explorar() {
 
     const handleChange = (e : any) => {
         setQuery(e.target.value)
-    }  
+    }
+
+    // Fetch de datos
+    useEffect(() => {
+        axios
+          .get(`http://localhost:2024/quizes`)
+          .then((res) => {
+            console.log(res);
+            setCardData(res.data);
+            console.log(res.data);
+
+
+          })
+          .catch((err) => {
+            console.log(err);
+            localStorage.setItem('email', 'NOT FOUND');
+
+
+          });
+
+      },
+        []
+        );
+
 
     return (
         <div className="main-explora">
@@ -59,17 +87,20 @@ export default function Explorar() {
                 <div className='temas-button-container'>
                     <select className="temas-button" value={selectedTema} onChange={(e) => handleChangeTema(e.target.value)}>
                         <option value={"Temas"}>Temas</option>
-                        {cardData.map((card, index) => (
-                            <option key={index} value={card.tema}>{card.tema}</option>
-                        ))}
+                        {
+                            (realData as { topic_name: string }[]) // Add type annotation
+                                .map(card => card.topic_name) // Get all topic_names
+                                .filter((value, index, self) => self.indexOf(value) === index) // Filter out duplicates
+                                .map((topic, index) => <option key={index} value={topic}>{topic}</option>) // Map to option elements
+                        }
                     </select>
                 </div>
             </div>
             <div className='cards-container'>
-            {cardData.map((card, index) => { 
-                if (selectedTema === 'Temas' || card.tema === selectedTema) {
-                    if (card.nombre.toLowerCase().includes(query.toLowerCase())) {
-                        return <Card key={index} autor={card.autor} nombre={card.nombre} tema={card.tema} />;
+            {realData.map((card: any, index: number) => {
+                if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
+                    if (card.quiz_name.toLowerCase().includes(query.toLowerCase())) {
+                        return <Card key={index} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} />;
                     } else {
                         return null; // Don't render the card if it doesn't match the search query
                     }

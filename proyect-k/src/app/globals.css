@@ -10,12 +10,20 @@
 }
 
 :root {
-
+  --primaryBG-100: #668ef4;
   --primaryBG-200: #3962f3;
   --primaryBG-300: #2f49d0;
   --primaryBG-400: #1d319a;
 
 
  --accent-400: #fffeff;
+
+  --neutral-100: #f8f8f8;
+  --neutral-200: #e9e9e9;
+  --neutral-300: #d9d9d9;
+  --neutral-400: #c9c9c9;
+  --neutral-500: #b9b9b9;
+
+
 
 }
