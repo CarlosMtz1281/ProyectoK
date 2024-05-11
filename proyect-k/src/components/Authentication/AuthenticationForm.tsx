@@ -59,24 +59,25 @@ export default function AuthenticationForm({
 
   // CONECTION API
 
-  function userExists(email: string) {
-    console.log(`http://localhost:2024/users/${email}`);
-    axios
-      .get(`http://localhost:2024/users/${email}`)
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem('email', res.data.user.email);
+ // CONECTION API
+ function userExists(email: string) {
+  axios
+    .get(`http://localhost:2024/users/${email}`)
+    .then((res) => {
+      console.log(res);
+      console.log(res.data[0].user_email);
+      localStorage.setItem('email', res.data[0].user_email);
 
 
-      })
-      .catch((err) => {
-        console.log(err);
-        localStorage.setItem('email', 'NOT FOUND');
+    })
+    .catch((err) => {
+      console.log(err);
+      localStorage.setItem('email', 'NOT FOUND');
 
 
-      });
+    });
 
-  }
+}
 
   function userCreate(email: string) {
     axios

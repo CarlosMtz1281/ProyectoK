@@ -25,6 +25,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/navigation";
 import app from "@/app/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import axios from "axios";
 
 const auth = getAuth(app);
 
@@ -39,6 +40,7 @@ export default function AuthenticationForm({
   APIstring,
 }: AuthenticationFormProps) {
   // State variables for user data
+  const [dbUsername, setDbUsername] = React.useState("");
   const [trueName, setTrueName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [role, setRole] = React.useState("");
@@ -55,6 +57,35 @@ export default function AuthenticationForm({
 
   // We read the size of the media to readjust if necessary
   const isMobile = useMediaQuery("(max-width:600px)");
+
+
+  //register User on DB
+  function createUser(email: string) {
+    console.log("Creating user on DB");
+    let admin = false;
+    if (role === "Administrador") {
+      admin = true;
+    }
+    const userData = {
+      username: dbUsername,
+      email: email,
+      firstName: trueName,
+      lastName: lastName,
+      isAdmin: admin,
+    };
+
+    axios
+      .post(`http://localhost:2024/users/`, userData)
+      .then((res) => {
+        console.log("success");
+        console.log(res);
+        localStorage.setItem('email', res.data.user.email);
+      })
+      .catch((err) => {
+        console.log(err);
+        localStorage.setItem('email', 'NOT FOUND');
+      });
+  }
 
   // Method to check if the email is valid
   const isValidEmail = (email: string) => {
@@ -106,8 +137,13 @@ export default function AuthenticationForm({
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
+        if(user.email){
+          createUser(user.email);
+
+        }
+
         alert("Signed in!");
-        router.replace("/");
+        router.replace("/dashboard/Explorar");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -127,7 +163,7 @@ export default function AuthenticationForm({
       elevation={12}
       sx={{
         width: isMobile ? "90%" : "500px",
-        height: isMobile ? "70%" : "600px",
+        height: isMobile ? "70%" : "640px",
       }}
     >
       <Box
@@ -201,6 +237,16 @@ export default function AuthenticationForm({
               label="Apellidos"
               placeholder="Gónzalez Gónzalez"
               onChange={(e) => setLastName(e.target.value)}
+            />
+          </Box>
+          <Box>
+            <TextField
+             sx={{ width: "100%" }}
+             variant="standard"
+             label="Nombre de usuario"
+             placeholder="JuanGonzalez123"
+             onChange={(e) => setDbUsername(e.target.value)}
+
             />
           </Box>
 
@@ -278,7 +324,7 @@ export default function AuthenticationForm({
             gap: 2,
             width: "100%",
             justifyContent: "center",
-            marginTop: 1,
+            marginTop: 0,
             marginBottom: 3,
           }}
         >

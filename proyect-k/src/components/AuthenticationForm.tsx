@@ -59,13 +59,12 @@ export default function AuthenticationForm({
   const isMobile = useMediaQuery("(max-width:600px)");
 
   // CONECTION API
-
   function userExists(email: string) {
-    console.log(`http://localhost:2024/users/${email}`);
     axios
       .get(`http://localhost:2024/users/${email}`)
       .then((res) => {
         console.log(res);
+        console.log(res.data[0].email);
         localStorage.setItem('email', res.data.user.email);
 
 
@@ -79,7 +78,7 @@ export default function AuthenticationForm({
 
   }
 
-  function userCreate(email: string) {
+  function createUser(email: string) {
     axios
       .post(`http://localhost:2024/users/`)
       .then((res) => {
@@ -148,6 +147,10 @@ export default function AuthenticationForm({
         // Signed up
         const user = userCredential.user;
         console.log(user);
+        if (user.email) {
+          createUser(user.email);
+        }
+
         alert("Signed in!");
         router.replace("/");
       })
