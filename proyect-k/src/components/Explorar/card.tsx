@@ -17,14 +17,16 @@ export default function Card({autor, nombre, tema}: CardProps) {
     };
 
     return (
-        <div className="card">
+        <a>
             <div className="card-content">
-                <a>
-                    <Image src="/matematicas.jpg" width={250} height={250} className="card-img" alt="foto"/>
+                <div className='image-container'>
+                    <Image src="/matematicas.jpg" width={250} height={250} className="card-img" alt="foto" style={{borderRadius: "20px"}}/>
+                </div>
+                <div className='description-container'>
                     <p className="card-text">{nombre}</p>
-                    <p className="card-text">{autor}</p>
-                </a>
+                    <p className="card-autor">{autor}</p>
+                </div>
             </div>
-        </div>
+        </a>
     );
 }
