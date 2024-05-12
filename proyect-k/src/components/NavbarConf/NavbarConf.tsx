@@ -32,15 +32,15 @@ export default function NavbarConf() {
           icon={2}
           title="Mis Quizes"
           nav="/adminTemas"
-          active={pathname === "/dashboard/"}
-          OnClick={() => handleButtonClick("/adminTemas")}
+          active={pathname === "/dashboard/MisQuizes"}
+          OnClick={() => handleButtonClick("/dashboard/MisQuizes")}
         />
         <NavbarButton
           icon={3}
           title="Perfil"
           nav="/adminPreguntas"
-          active={pathname === "/dashboard"}
-          OnClick={() => handleButtonClick("/adminPreguntas")}
+          active={pathname === "/dashboard/Perfil"}
+          OnClick={() => handleButtonClick("/dashboard/Perfil")}
         />
       </div>
       <div className="footer">

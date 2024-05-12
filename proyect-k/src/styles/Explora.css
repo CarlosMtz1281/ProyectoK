@@ -31,8 +31,11 @@
     justify-content: center;
     padding: 1rem;
     border-radius: 0.4rem;
+    transition: transform 0.3s ease; /* Add this line */
+}
 
-
+.filter-container:focus-within {
+    transform: scale(1.02); /* Add this line */
 }
 
 .searchBar {
