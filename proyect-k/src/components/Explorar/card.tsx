@@ -2,21 +2,29 @@
 import React from "react";
 import "../../styles/QuizConf/QuizConf.css";
 import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
+
 
 interface CardProps {
+  ID: number;
   autor: string;
   nombre: string;
   tema: string;
 }
 
-export default function Card({ autor, nombre, tema }: CardProps) {
+export default function Card({ID, autor, nombre, tema }: CardProps) {
+  const appRouter = useRouter();
+
   const onClick = () => {
-    console.log("click");
+    console.log("ID", ID);
+    localStorage.setItem("ID", ID.toString());
+    appRouter.replace("/quiz");
+
   };
 
   return (
     <a>
-      <div className="card-content">
+      <div className="card-content" onClick={onClick}>
         <div className="image-container">
           {tema === "Matematicas" && (
             <Image
@@ -38,7 +46,7 @@ export default function Card({ autor, nombre, tema }: CardProps) {
           )}
           {tema === "Ciencia" && (
             <Image
-              src="/ciencia.jpg"
+              src="/ciencia.jpeg"
               width={250}
               height={250}
               className="card-img"
