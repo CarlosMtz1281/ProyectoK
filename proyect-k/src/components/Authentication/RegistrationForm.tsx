@@ -297,4 +297,3 @@ export default function AuthenticationForm({
   );
 }
 
-// <TextField variant = "standard" onChange = {handlePasswordChange} size = "medium" label = "Contraseña" type = "password" />
