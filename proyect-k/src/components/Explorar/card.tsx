@@ -38,7 +38,7 @@ export default function Card({ autor, nombre, tema }: CardProps) {
           )}
           {tema === "Ciencia" && (
             <Image
-              src="/ciencia.jpg"
+              src="/ciencia.jpeg"
               width={250}
               height={250}
               className="card-img"
