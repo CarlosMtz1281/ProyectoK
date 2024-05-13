@@ -9,11 +9,20 @@
 
 .header {
     padding: 2rem 0rem 1rem 1rem;
-    font-size: 1.5rem;
     color: #fefefe;
     background-color: var(--primaryBG-200);
     border-radius: 0 1rem 0 0;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+.topHeader{
     display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+.subTittle{
     align-items: center;
     gap: 1rem;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import NavbarButton from "./NavbarButton";
 import "../../styles/NavbarConf/NavbarConf.css";
@@ -11,15 +11,29 @@ export default function NavbarConf() {
   const handleButtonClick = (nav: string) => {
     appRouter.replace(nav);
   };
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+
+    const user = localStorage.getItem("admin");
+    console.log(user);
+    if (user === "true") {
+      setAdmin(true);
+    }
+  }, []);
 
   const pathname = usePathname();
 
   return (
     <div className="navbar">
       <div className="header">
+        <div className="topHeader">
         <div className="logo"/>
         <h1> WBAN Solutions</h1>
+        </div>
+        {admin && <h2 className="subTittle">Administrador</h2>}
       </div>
+
       <div className="btnContainer">
         <NavbarButton
           icon={1}

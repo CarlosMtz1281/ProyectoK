@@ -67,6 +67,7 @@ export default function AuthenticationForm({
       console.log(res);
       console.log(res.data[0].user_email);
       localStorage.setItem('email', res.data[0].user_email);
+      localStorage.setItem('admin', res.data[0].is_admin);
 
 
     })
