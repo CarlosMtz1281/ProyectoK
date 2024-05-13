@@ -1,0 +1,85 @@
+.card-content{
+    display: flex;
+    flex-direction: column;
+    font-size: 2em;
+    border-radius: 10px;
+    background-color: var(--neutral-100);
+    margin: 1rem;
+    box-shadow: 0 0 0.75rem gray;
+    cursor: pointer;
+}
+
+.card-content:hover{
+    position: relative;
+    box-shadow: -0.75rem 0.75rem 0.75rem var(--primaryBG-100);
+    bottom: 5px;
+    left: 5px;
+    transition: top ease 0.3s, right ease 0.3s;
+}
+
+.card-text{
+    font-size: 20px;
+    text-align: left;
+    margin-left: 10px;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+    transition: font-size 0.3s ease;
+}
+
+.card-content:hover .card-text {
+    font-size: 23px; /* Adjust the size as needed */
+}
+
+.card-autor{
+    font-size: 15px;
+    text-align: left;
+    margin-left: 10px;
+    color: rgb(99, 99, 99);
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+}
+
+@media (max-width: 600px) {
+    .image-container {
+        height: 50%;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+    .image-container {
+        height: 60%;
+    }
+}
+
+@media (min-width: 901px) {
+    .image-container {
+        height: 70%;
+    }
+}
+.card-img{
+    width: 100%;
+    height: 70%;
+    border-radius: 10px 10px 0 0;
+}
+
+.image-container {
+    height: 70%;
+}
+
+.description-container {
+    background-color: white;
+    padding: 0.4rem 0 0.4rem;
+    height: 28%;
+    border-radius: 0 0 0.75rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

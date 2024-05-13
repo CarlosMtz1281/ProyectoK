@@ -1,0 +1,52 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    height: 100vh;
+    background-color: var(--primaryBG-400);
+    border-radius: 0 1rem 1rem 0;
+}
+
+.header {
+    padding: 2rem 0rem 1rem 1rem;
+    color: #fefefe;
+    background-color: var(--primaryBG-200);
+    border-radius: 0 1rem 0 0;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+.topHeader{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+.subTittle{
+    align-items: center;
+    gap: 1rem;
+}
+.logo {
+    background-color: #0bbb5b;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+.btnContainer{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+    display: flex;
+
+}
+.footer {
+    display: flex;
+    padding: 1rem;
+    font-size: 1.2rem;
+    color: #fefefe;
+    background-color: var(--primaryBG-200);
+    border-radius: 0 0 1rem 0;
+    align-items: center;
+    gap: 1rem;
+}

@@ -1,0 +1,39 @@
+.button {
+
+
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+.container:hover {
+    cursor: pointer;
+}
+.container-selected {
+    background-color: rgba(50, 130, 228, 0.3);
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+.text {
+    font-size: 1.2rem;
+    color: #fefefe;
+}
+
+.icon {
+    color: #fefefe;
+
+}
+
+.icon-selected {
+    color: var(--accent-400);
+}
+
+.text-selected {
+    font-weight: bold;
+    color: var(--accent-400);
+}
