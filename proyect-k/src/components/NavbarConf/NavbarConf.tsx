@@ -22,6 +22,14 @@ export default function NavbarConf() {
     }
   }, []);
 
+  function signOut() {
+
+    localStorage.removeItem("admin");
+    localStorage.removeItem("email");
+    appRouter.replace("/");
+
+  }
+
   const pathname = usePathname();
 
   return (
@@ -59,7 +67,7 @@ export default function NavbarConf() {
       </div>
       <div className="footer">
         <div>
-          <button>Cerrar Sesión</button>
+          <button onClick={signOut}>Cerrar Sesión</button>
         </div>
       </div>
     </div>
