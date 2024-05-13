@@ -6,8 +6,11 @@ import PlayerCard from "@/components/Quiz/PlayerCard";
 import BarGraph from "@/components/Quiz/BarGraph";
 import UserButtons from "@/components/Authentication/UserButtons";
 import QuizSlider from "@/components/Authentication/QuizSlider";
+import { useRouter, usePathname } from "next/navigation";
+
 
 export default function Quiz() {
+  const appRouter = useRouter();
   // We will keep the current answers for the quiz
   const [currAns, setCurrAns] = React.useState("");
   const [currConf, serCurrConf] = React.useState("");
@@ -18,6 +21,10 @@ export default function Quiz() {
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number);
   };
+
+  const goToGame = () => {
+    appRouter.replace("/game");
+  }
 
   return (
     <div className="flex flex-col h-screen">
@@ -57,7 +64,7 @@ export default function Quiz() {
               id="submission box"
               className="flex items-end w-2/12 justify-end mt-6"
             >
-              <Button variant="contained" size="large">
+              <Button variant="contained" size="large" onClick={goToGame}>
                 Submit
               </Button>
             </Box>
