@@ -60,24 +60,18 @@ export default function AuthenticationForm({
   // CONECTION API
 
  // CONECTION API
- function userExists(email: string) {
-  axios
-    .get(`http://localhost:2024/users/${email}`)
-    .then((res) => {
-      console.log(res);
-      console.log(res.data[0].user_email);
-      localStorage.setItem('email', res.data[0].user_email);
-      localStorage.setItem('admin', res.data[0].is_admin);
-
-
-    })
-    .catch((err) => {
-      console.log(err);
-      localStorage.setItem('email', 'NOT FOUND');
-
-
-    });
-
+async function userExists(email: string) {
+  try {
+    const res = await axios.get(`http://localhost:2024/users/${email}`);
+    console.log(res);
+    console.log(res.data[0].user_email);
+    localStorage.setItem('email', res.data[0].user_email);
+    localStorage.setItem('admin', res.data[0].is_admin);
+    console.log(localStorage.getItem('email'));
+  } catch (err) {
+    console.log(err);
+    localStorage.setItem('email', 'NOT FOUND');
+  }
 }
 
   function userCreate(email: string) {
@@ -160,14 +154,18 @@ export default function AuthenticationForm({
   };
 
   // Handle user login
-  const handleLogin = (email: string, password: string) => {
+   const handleLogin = (email: string, password: string) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
 
         if (user.email) {
+
           userExists(user.email);
+
+          console.log(localStorage.getItem('email'));
+          console.log(user.email);
           if(localStorage.getItem('email') === user.email){
             alert("Bienvenido! ");
 
