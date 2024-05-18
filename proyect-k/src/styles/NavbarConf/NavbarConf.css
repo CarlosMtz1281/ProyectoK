@@ -3,15 +3,13 @@
     flex-direction: column;
     width: 20vw;
     height: 100vh;
-    background-color: var(--primaryBG-400);
-    border-radius: 0 1rem 1rem 0;
+    background-color: " #E3E3E3  ";
 }
 
 .header {
     padding: 2rem 0rem 1rem 1rem;
-    color: #fefefe;
-    background-color: var(--primaryBG-200);
-    border-radius: 0 1rem 0 0;
+    color: "black";
+    background-color: " #E3E3E3  ";
     align-items: center;
     gap: 1rem;
     text-align: center;
@@ -25,9 +23,10 @@
 .subTittle{
     align-items: center;
     gap: 1rem;
+    color: "black"
 }
 .logo {
-    background-color: #0bbb5b;
+    background-image: linear-gradient(to right, blue, indigo);
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -44,9 +43,16 @@
     display: flex;
     padding: 1rem;
     font-size: 1.2rem;
-    color: #fefefe;
-    background-color: var(--primaryBG-200);
-    border-radius: 0 0 1rem 0;
+    color: "black";
+    background-color: " #E3E3E3  ";
     align-items: center;
     gap: 1rem;
+    color: "black";
+    transition: 0.1s;
+}
+
+.footer:hover {
+    font-weight: 600;
+    transition: ease-in-out 0.2s;
+    text-decoration: underline;
 }

@@ -12,22 +12,21 @@ export default function NavbarConf() {
     appRouter.replace(nav);
   };
   const [admin, setAdmin] = useState(false);
+  const [path, setPath] = useState('Player');
 
   useEffect(() => {
-
     const user = localStorage.getItem("admin");
     console.log(user);
     if (user === "true") {
       setAdmin(true);
+      setPath('Admin')
     }
   }, []);
 
   function signOut() {
-
     localStorage.removeItem("admin");
     localStorage.removeItem("email");
     appRouter.replace("/");
-
   }
 
   const pathname = usePathname();
@@ -36,8 +35,8 @@ export default function NavbarConf() {
     <div className="navbar">
       <div className="header">
         <div className="topHeader">
-        <div className="logo"/>
-        <h1> WBAN Solutions</h1>
+          <div className="logo" />
+          <h1> WBAN Solutions</h1>
         </div>
         {admin && <h2 className="subTittle">Administrador</h2>}
       </div>
@@ -46,23 +45,23 @@ export default function NavbarConf() {
         <NavbarButton
           icon={1}
           title="Explorar"
-          nav="dashboard/Explorar"
-          active={pathname === "/dashboard/Explorar"}
-          OnClick={() => handleButtonClick("/dashboard/Explorar")}
+          nav= {`/dashboard/${path}/Explorar`}
+          active={pathname === `/dashboard/${path}/Explorar`}
+          OnClick={() => handleButtonClick(`/dashboard/${path}/Explorar`)}
         />
         <NavbarButton
           icon={2}
           title="Mis Quizes"
-          nav="/adminTemas"
-          active={pathname === "/dashboard/MisQuizes"}
-          OnClick={() => handleButtonClick("/dashboard/MisQuizes")}
+          nav="/adminTemas" 
+          active={pathname === `/dashboard/${path}/MisQuizes`}
+          OnClick={() => handleButtonClick(`/dashboard/${path}/MisQuizes`)}
         />
         <NavbarButton
           icon={3}
           title="Perfil"
           nav="/adminPreguntas"
-          active={pathname === "/dashboard/Perfil"}
-          OnClick={() => handleButtonClick("/dashboard/Perfil")}
+          active={pathname === `/dashboard/${path}/Perfil`}
+          OnClick={() => handleButtonClick(`/dashboard/${path}/Perfil`)}
         />
       </div>
       <div className="footer">

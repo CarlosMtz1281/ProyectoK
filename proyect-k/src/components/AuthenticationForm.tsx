@@ -179,7 +179,7 @@ export default function AuthenticationForm({
           }
         }
 
-        router.replace("/dashboard/Explorar");
+        router.replace("/dashboard");
         console.log(user.email);
       })
       .catch((error) => {

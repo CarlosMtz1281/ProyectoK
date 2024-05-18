@@ -1,6 +1,5 @@
 "use client";
 import React, {use, useEffect}from 'react';
-import NavbarConf from '../../components/NavbarConf/NavbarConf';
 import { useRouter, usePathname } from "next/navigation";
 
 
@@ -8,7 +7,11 @@ export default function Dashboard() {
     const appRouter = useRouter();
 
     useEffect(() => {
-        appRouter.replace("/dashboard/Explorar");
+        if (localStorage.getItem('admin') === 'true') {
+            appRouter.replace("/dashboard/Admin/Explorar");
+        } else {
+            appRouter.replace("/dashboard/Player/Explorar");
+        }
 
     }, []);
 
