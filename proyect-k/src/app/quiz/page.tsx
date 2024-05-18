@@ -23,7 +23,7 @@ export default function Quiz() {
   };
 
   const goToGame = () => {
-    appRouter.replace("/Game");
+    appRouter.replace("/game");
   };
 
   const [admin, setAdmin] = useState(false);
