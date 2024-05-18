@@ -29,16 +29,8 @@ import axios from "axios";
 
 const auth = getAuth(app);
 
-interface AuthenticationFormProps {
-  isRegistration: boolean;
-  APIstring: string;
-}
-
 // This component requires to be rendered on the client side
-export default function AuthenticationForm({
-  isRegistration,
-  APIstring,
-}: AuthenticationFormProps) {
+export default function RegistrationForm() {
   // State variables for user data
   const [dbUsername, setDbUsername] = React.useState("");
   const [trueName, setTrueName] = React.useState("");
@@ -79,7 +71,8 @@ export default function AuthenticationForm({
       .then((res) => {
         console.log("success");
         console.log(res);
-        localStorage.setItem('email', res.data.user.email);
+        localStorage.setItem('email', email);
+        localStorage.setItem('admin', String(admin)); // localStorage ONLY accepts strings
       })
       .catch((err) => {
         console.log(err);
@@ -143,7 +136,7 @@ export default function AuthenticationForm({
         }
 
         alert("Signed in!");
-        router.replace("/dashboard/Explorar");
+        router.replace("/dashboard");
       })
       .catch((error) => {
         const errorCode = error.code;
