@@ -2,10 +2,10 @@
 
 import React from "react";
 import "../../styles/NavbarConf/NavbarButton.css";
-import { MdOutlineExplore } from "react-icons/md";
-import { MdOutlineQuiz } from "react-icons/md";
+import { MdExplore } from "react-icons/md";
+import { FaBookBookmark } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import { CiCircleQuestion } from "react-icons/ci";
+import { IoPersonSharp } from "react-icons/io5";
 
 
 import { usePathname } from "next/navigation";
@@ -28,11 +28,11 @@ export default function NavbarButton({
       <div className={`container ${active ? "container-selected" : ""}`}>
         <div className={`icon ${active ? "icon-selected" : ""}`}>
           {icon === 1 ? (
-            <MdOutlineExplore size={30} />
+            <MdExplore size={30} />
           ) : icon === 2 ? (
-            <MdOutlineQuiz size={30} />
+            <FaBookBookmark size={30} />
           ) : icon === 3 ? (
-            <CgProfile size={30}/>
+            <IoPersonSharp size={30}/>
           ): null}{" "}
 
         </div>

@@ -1,7 +1,7 @@
 .navbar {
     display: flex;
     flex-direction: column;
-    width: 20vw;
+    width: 13vw; 
     height: 100vh;
     background-color: " #E3E3E3  ";
 }
@@ -13,22 +13,26 @@
     align-items: center;
     gap: 1rem;
     text-align: center;
+    margin-right: 30%;
 }
 .topHeader{
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
     font-size: 1.5rem;
+    margin-left: 20%;
 }
 .subTittle{
     align-items: center;
     gap: 1rem;
-    color: "black"
+    color: "black";
+    margin-left: 20%
 }
 .logo {
     background-image: linear-gradient(to right, blue, indigo);
-    height: 50px;
-    width: 50px;
+    height: 100px;
+    width: 100px;
     border-radius: 50%;
 }
 .btnContainer{
@@ -49,10 +53,38 @@
     gap: 1rem;
     color: "black";
     transition: 0.1s;
+    margin-top: auto;
+}
+
+.footerText{
+    display: flex;
+    align-items: bottom;
+    margin-bottom: 0%;
 }
 
 .footer:hover {
     font-weight: 600;
     transition: ease-in-out 0.2s;
     text-decoration: underline;
+}
+
+.Topic {
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    height: 6em;
+    margin-right: 34%;
+    text-align: bottom;
+    justify-content: space-between;
+    
+}
+
+.star{
+    font-size: 2em;
+}
+
+.Text{
+    margin-top: 0.4rem;
+    font-size: 1.8rem;
+    
 }

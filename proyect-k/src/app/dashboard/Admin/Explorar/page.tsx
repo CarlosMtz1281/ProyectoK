@@ -99,7 +99,7 @@ export default function Explorar() {
             <div className='cards-container'>
             {realData.map((card: any, index: number) => {
                 if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
-                    if (card.quiz_name.toLowerCase().includes(query.toLowerCase())) {
+                    if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
                         return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} />;
                     } else {
                         return null; // Don't render the card if it doesn't match the search query
