@@ -1,0 +1,56 @@
+.container-modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55vw;
+    height: 75vh;
+    background-color: white;
+    padding: 3rem;
+    z-index: 1000;
+    border-radius: 1.5rem;
+}
+
+.modal-title {
+    font-size: 2.3rem;
+    font-family: var(--primaryFont);
+    padding: 0rem 1rem 2rem 1rem;
+}
+
+.modal-image-container {
+    display: flex;
+    position: relative;
+    height: 77%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.modal-image {
+    border-radius: 1.5rem 1.5rem 0 0;
+    object-fit: cover;
+}
+
+.modal-description-container{
+    background-color: var(--primaryBG-200);
+    padding: 0.7rem 0 0.4rem;
+    height: 23%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--primaryFont);
+    font-size: 2.5rem;
+    border-radius: 0 0 1.5rem 1.5rem;
+}
+
+.game-button {
+    height: 32rem;
+    width: 21rem;
+    border-radius: 1.5rem;
+}
+
+.game-button:hover {
+    position: relative;
+    box-shadow: 0rem 0.3rem 0.3rem gray;
+    bottom: 5px;
+    transition: top ease 0.3s, right ease 0.3s, box-shadow ease 0.3s;
+}

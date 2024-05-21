@@ -40,7 +40,6 @@ export default function Explorar() {
 
     const handleChangeTema = (e : any) => {
         setSelectedTema(e)
-        setQuery('')
     }
 
     const handleChange = (e : any) => {
