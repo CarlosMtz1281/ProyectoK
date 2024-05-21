@@ -30,7 +30,7 @@
     margin-left: 20%
 }
 .logo {
-    background-image: linear-gradient(to right, blue, indigo);
+    background-image: linear-gradient(to right, #494949, #E3E3E3);
     height: 100px;
     width: 100px;
     border-radius: 50%;
@@ -73,7 +73,6 @@
     width: auto;
     flex-direction: row;
     height: 6em;
-    margin-right: 34%;
     text-align: bottom;
     justify-content: space-between;
     
