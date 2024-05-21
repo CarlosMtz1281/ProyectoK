@@ -30,16 +30,8 @@ import axios from "axios";
 
 const auth = getAuth(app);
 
-interface AuthenticationFormProps {
-  isRegistration: boolean;
-  APIstring: string;
-}
-
 // This component requires to be rendered on the client side
-export default function AuthenticationForm({
-  isRegistration,
-  APIstring,
-}: AuthenticationFormProps) {
+export default function AuthenticationForm() {
   // State variables to save username, password and password visibility
   const [username, setUsername] = React.useState("");
   const [usernameError, setUsernameError] = React.useState(false);
@@ -51,46 +43,28 @@ export default function AuthenticationForm({
   const router = useRouter();
 
   // Based on props, we customize the text
-  const ModalTitle = isRegistration ? "Registro" : "Iniciar sesión";
-  const ActionButton = isRegistration ? "Registrarme" : "Ingresar";
+  const ModalTitle = "Iniciar sesión";
+  const ActionButton = "Ingresar";
 
   // We read the size of the media to readjust if necessary
   const isMobile = useMediaQuery("(max-width:600px)");
 
   // CONECTION API
 
- // CONECTION API
-async function userExists(email: string) {
-  try {
-    const res = await axios.get(`http://localhost:2024/users/${email}`);
-    console.log(res);
-    console.log(res.data[0].user_email);
-    localStorage.setItem('email', res.data[0].user_email);
-    localStorage.setItem('admin', res.data[0].is_admin);
-    console.log(localStorage.getItem('email'));
-  } catch (err) {
-    console.log(err);
-    localStorage.setItem('email', 'NOT FOUND');
+  // CONECTION API
+  async function userExists(email: string) {
+    try {
+      const res = await axios.get(`http://localhost:2024/users/${email}`);
+      console.log(res);
+      console.log(res.data[0].user_email);
+      localStorage.setItem("email", res.data[0].user_email);
+      localStorage.setItem("admin", res.data[0].is_admin);
+      console.log(localStorage.getItem("email"));
+    } catch (err) {
+      console.log(err);
+      localStorage.setItem("email", "NOT FOUND");
+    }
   }
-}
-
-  function userCreate(email: string) {
-    axios
-      .post(`http://localhost:2024/users/`)
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem('email', res.data.user.email);
-
-      }
-      )
-      .catch((err) => {
-        console.log(err);
-        localStorage.setItem('email', 'NOT FOUND');
-
-      });
-
-  }
-
 
   // Method to check if the email is valid
   const isValidEmail = (email: string) => {
@@ -132,57 +106,34 @@ async function userExists(email: string) {
     router.replace("/");
   };
 
-  // Handle user registration to the application
-  const handleRegistration = (email: string, password: string) => {
-    if (usernameError || passwordError) {
-      alert("Correo o contraseña inválidos. Escríbalos correctamente");
-      return;
-    }
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        console.log(user);
-        alert("Signed in!");
-        router.replace("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
-      });
-  };
-
   // Handle user login
-   const handleLogin = (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // Signed in
+      const user = userCredential.user;
 
-        if (user.email) {
-
-          userExists(user.email);
-
-          console.log(localStorage.getItem('email'));
-          console.log(user.email);
-          if(localStorage.getItem('email') === user.email){
-            alert("Bienvenido! ");
-
-          } else {
-            alert("Usuario no registrado. Por favor, regístrese");
-            return;
-          }
-        }
-
-        router.replace("/dashboard/Explorar");
+      if (user.email) {
+        await userExists(user.email); // userExists is an asynchronous function, it should be completely finished to proceed
+        console.log(localStorage.getItem("email"));
         console.log(user.email);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
-      });
+        if (localStorage.getItem("email") === user.email) {
+          alert("Bienvenido! ");
+        } else {
+          alert("Usuario no registrado. Por favor, regístrese");
+          return;
+        }
+      }
+
+      router.replace("/dashboard");
+      console.log(user.email);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -309,11 +260,7 @@ async function userExists(email: string) {
             color="info"
             variant="extended"
             size="large"
-            onClick={(event) =>
-              isRegistration
-                ? handleRegistration(username, password)
-                : handleLogin(username, password)
-            }
+            onClick={(event) => handleLogin(username, password)}
           >
             {ActionButton}
           </Fab>

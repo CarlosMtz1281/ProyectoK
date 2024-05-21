@@ -13,7 +13,7 @@ export default function Game() {
   });
 
   const goBackToMenu = () => {
-    appRouter.replace("/dashboard/Explorar");
+    appRouter.replace("/dashboard");
   };
   return (
     <div className="flex align-center" >

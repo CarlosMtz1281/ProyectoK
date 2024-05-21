@@ -1,35 +1,38 @@
 .navbar {
     display: flex;
     flex-direction: column;
-    width: 20vw;
+    width: 13vw; 
     height: 100vh;
-    background-color: var(--primaryBG-400);
-    border-radius: 0 1rem 1rem 0;
+    background-color: " #E3E3E3  ";
 }
 
 .header {
     padding: 2rem 0rem 1rem 1rem;
-    color: #fefefe;
-    background-color: var(--primaryBG-200);
-    border-radius: 0 1rem 0 0;
+    color: "black";
+    background-color: " #E3E3E3  ";
     align-items: center;
     gap: 1rem;
     text-align: center;
+    margin-right: 30%;
 }
 .topHeader{
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
     font-size: 1.5rem;
+    margin-left: 20%;
 }
 .subTittle{
     align-items: center;
     gap: 1rem;
+    color: "black";
+    margin-left: 20%
 }
 .logo {
-    background-color: #0bbb5b;
-    height: 50px;
-    width: 50px;
+    background-image: linear-gradient(to right, #494949, #E3E3E3);
+    height: 100px;
+    width: 100px;
     border-radius: 50%;
 }
 .btnContainer{
@@ -44,9 +47,43 @@
     display: flex;
     padding: 1rem;
     font-size: 1.2rem;
-    color: #fefefe;
-    background-color: var(--primaryBG-200);
-    border-radius: 0 0 1rem 0;
+    color: "black";
+    background-color: " #E3E3E3  ";
     align-items: center;
     gap: 1rem;
+    color: "black";
+    transition: 0.1s;
+    margin-top: auto;
+}
+
+.footerText{
+    display: flex;
+    align-items: bottom;
+    margin-bottom: 0%;
+}
+
+.footer:hover {
+    font-weight: 600;
+    transition: ease-in-out 0.2s;
+    text-decoration: underline;
+}
+
+.Topic {
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    height: 6em;
+    text-align: bottom;
+    justify-content: space-between;
+    
+}
+
+.star{
+    font-size: 2em;
+}
+
+.Text{
+    margin-top: 0.4rem;
+    font-size: 1.8rem;
+    
 }
