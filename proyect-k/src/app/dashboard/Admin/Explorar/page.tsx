@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Card from "@/components/Explorar/card"
 import '@/styles/Explora.css'
 import { FaSearch } from "react-icons/fa";
+import { IoIosSearch } from "react-icons/io";
+import Select from 'react-select';
 import axios from 'axios';
 import { useEffect } from 'react';
 
@@ -31,7 +33,6 @@ const cardData = [
   ];
 
 
-
 export default function Explorar() {
 
     const [query, setQuery] = useState('')
@@ -40,7 +41,6 @@ export default function Explorar() {
 
     const handleChangeTema = (e : any) => {
         setSelectedTema(e)
-        setQuery('')
     }
 
     const handleChange = (e : any) => {
@@ -74,15 +74,19 @@ export default function Explorar() {
         <div className="main-explora">
             <div className='title-container'>
                 <p className='title-explora'>
-                    Explorar
+                    Explorar Catalogo
                 </p>
             </div>
-            <div className='flex flex-row justify-around pb-8'>
+            <div className='flex flex-row justify-between pb-8'>
                 <div className='filter-container'>
                     <div className='icon-container'>
-                        <FaSearch />
+                        <IoIosSearch size={40}/>
                     </div>
-                    <input className='searchBar' type='text' placeholder={'Buscar por nombre'} value={query} onChange={handleChange}/>
+                    <input className='searchBar' 
+                        type='text' 
+                        placeholder={'Busqueda por titulo de quiz ej. Calculo diferencial'} 
+                        value={query} 
+                        onChange={handleChange}/>
                 </div>
                 <div className='temas-button-container'>
                     <select className="temas-button" value={selectedTema} onChange={(e) => handleChangeTema(e.target.value)}>

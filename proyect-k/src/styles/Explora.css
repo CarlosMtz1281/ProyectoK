@@ -3,6 +3,9 @@
     display: flex;
     flex-direction: column;
     overflow-y: hidden;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    padding-right: 1rem;
 }
 
 .title-container {
@@ -10,15 +13,15 @@
 }
 
 .title-explora {
-    font-size: 3rem;
+    font: var(--primaryFont);
+    font-size: 2.5rem;
 }
 
 .icon-container {
-    background-color: var(--primaryBG-200);
-    color: white;
+    background-color: var(--white);
+    color: var(--accent-400);
     justify-content: center;
     align-items: center;
-
 }
 
 .filter-container {
@@ -27,10 +30,10 @@
     width: 77%;
     height: 6vh;
     align-items: center;
-    background-color: var(--primaryBG-200);
+    background-color: var(--white);
     justify-content: center;
     padding: 1rem;
-    border-radius: 0.4rem;
+    border-radius: 1.1rem;
     transition: transform 0.3s ease; /* Add this line */
 }
 
@@ -40,19 +43,16 @@
 
 .searchBar {
     width: 100%;
-    font-weight: 600;
+    font-family: var(--primaryFont);
     padding-left: 1rem;
     border-radius: 0 0.4rem 0.4rem 0;
     border: none;
     outline: none;
-    color: white;
-    background-color: var(--primaryBG-200);
-
-
 }
 
 .searchBar::placeholder {
-    color: white
+    color: var(--search);
+    font-size: 1.25rem;
 }
 
 .temas-button-container {
@@ -60,17 +60,17 @@
     justify-content: center;
     align-items: center;
     width: 20%;
-    border-radius: 0.4rem;
 }
 
 .temas-button {
     display: flex;
-    background-color: var(--primaryBG-200);
+    background-color: var(--white);
     width: 100%;
     height: 100%;
-    border-radius: 0.4rem;
-    font-weight: 600;
-    color: white;
+    border-radius: 1.1rem;
+    color: var(--search);
+    font-size: 1.25rem;
+    font-family: var(--primaryFont);
     padding-left: 1.5rem;
 }
 
@@ -80,12 +80,12 @@
 
 .cards-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 0rem;
     overflow-x: hidden;
     overflow-y: scroll;
     height: 70vh;
-    background-color: var(--neutral-300);
+    background-color: var(--primaryBG-200);
     border-radius: 0.4rem;
 }
 

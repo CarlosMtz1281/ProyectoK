@@ -1,0 +1,7 @@
+.layout-content {
+    flex: 1 1 0%;
+    background-color: var(--primaryBG-200);
+    padding: 1.25rem;
+    overflow: hidden;
+    border-radius: 2.5rem 0 0 2.5rem;
+}
