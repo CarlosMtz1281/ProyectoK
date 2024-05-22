@@ -4,7 +4,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 55vw;
-    height: 75vh;
+    height: 85vh;
     background-color: white;
     padding: 3rem;
     z-index: 1000;
@@ -43,8 +43,8 @@
 }
 
 .game-button {
-    height: 32rem;
-    width: 21rem;
+    height: 60vh;
+    width: 20vw;
     border-radius: 1.5rem;
 }
 
