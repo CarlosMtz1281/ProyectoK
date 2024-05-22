@@ -56,9 +56,15 @@ export default function AuthenticationForm() {
     try {
       const res = await axios.get(`http://localhost:2024/users/${email}`);
       console.log(res);
+
       console.log(res.data[0].user_email);
       localStorage.setItem("email", res.data[0].user_email);
       localStorage.setItem("admin", res.data[0].is_admin);
+      localStorage.setItem("userData", res.data[0]);
+      localStorage.setItem("user_id", res.data[0].user_id);
+      localStorage.setItem("first_name", res.data[0].first_name)
+      localStorage.setItem("last_name", res.data[0].last_name)
+
       console.log(localStorage.getItem("email"));
     } catch (err) {
       console.log(err);

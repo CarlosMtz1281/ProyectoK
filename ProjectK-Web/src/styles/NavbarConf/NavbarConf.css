@@ -1,7 +1,7 @@
 .navbar {
     display: flex;
     flex-direction: column;
-    width: 13vw; 
+    width: 18vw;
     height: 100vh;
     background-color: " #E3E3E3  ";
 }
@@ -23,6 +23,20 @@
     font-size: 1.5rem;
     margin-left: 20%;
 }
+.Topic {
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    height: 6em;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+}
+.mainText{
+    font-size: 2.3rem;
+    font-weight: 400;
+}
 .subTittle{
     align-items: center;
     gap: 1rem;
@@ -30,10 +44,16 @@
     margin-left: 20%
 }
 .logo {
-    background-image: linear-gradient(to right, #494949, #E3E3E3);
+    display: flex;
+    background-color: var(--accent-400);
     height: 100px;
     width: 100px;
     border-radius: 50%;
+    color: var(--accent-300);
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    text-align: center;
 }
 .btnContainer{
     display: flex;
@@ -54,6 +74,8 @@
     color: "black";
     transition: 0.1s;
     margin-top: auto;
+    align-items: center;
+    justify-content: center;
 }
 
 .footerText{
@@ -73,9 +95,8 @@
     width: auto;
     flex-direction: row;
     height: 6em;
-    text-align: bottom;
     justify-content: space-between;
-    
+
 }
 
 .star{
@@ -85,5 +106,5 @@
 .Text{
     margin-top: 0.4rem;
     font-size: 1.8rem;
-    
+
 }
