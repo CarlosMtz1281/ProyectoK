@@ -23,14 +23,4 @@ public class Projectile : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
-    // Quiero que el proyectil se destruya si colisiona con un enemigo
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            Destroy(gameObject);
-        }
-    }
 }

@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField] Image h1, h2, h3;
     [SerializeField] Sprite full, empty;
     [SerializeField] GameObject projectilePrefab;
+    [SerializeField] GameManager gameManager;
     AudioSource audioSource;
+    bool canShoot = true;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -18,9 +20,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canShoot)
         {
             audioSource.Play();
+            canShoot = false;
+            Invoke("AllowShoot", 0.3f);
             Instantiate(projectilePrefab, transform.position + new Vector3(0.015f, 0.49f, 0), Quaternion.identity);
         }
     }
@@ -31,6 +35,7 @@ public class Player : MonoBehaviour
         UpdateLife();
         if (life <= 0)
         {
+            gameManager.gameOver();
             Destroy(gameObject);
         }
     }
@@ -72,5 +77,15 @@ public class Player : MonoBehaviour
         {
             transform.position += new Vector3(horizontal, 0, 0) * speed * Time.deltaTime;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Player is colliding");
+    }
+
+    void AllowShoot()
+    {
+        canShoot = true;
     }
 }
