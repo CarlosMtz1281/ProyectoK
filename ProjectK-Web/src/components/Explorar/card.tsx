@@ -11,9 +11,10 @@ interface CardProps {
   autor: string;
   nombre: string;
   tema: string;
+  openQuiz: () => void
 }
 
-export default function Card({ID, autor, nombre, tema }: CardProps) {
+export default function Card({ID, autor, nombre, tema, openQuiz}: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
 
@@ -67,7 +68,7 @@ export default function Card({ID, autor, nombre, tema }: CardProps) {
           </div>
         </div>
       </div>
-      {open && <GameModal open={open} handleClose={handleClose} />}
+      {open && <GameModal open={open} handleClose={handleClose} confirm={()=> openQuiz()} />}
     </a>
 
   );

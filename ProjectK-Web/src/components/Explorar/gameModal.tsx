@@ -9,15 +9,19 @@ import { useRouter } from "next/navigation";
 export default function GameModal({
     open,
     handleClose,
+    confirm
 } : {
     open: boolean;
     handleClose: () => void;
+    confirm: () => void;
 }) {
 
     const appRouter = useRouter();
 
     const handleClickQuiz = () => {
-        appRouter.replace("/quiz");
+        //appRouter.replace("/quiz");
+        confirm();
+        handleClose();
     }
 
     const handleClickGame = () => {
@@ -41,7 +45,7 @@ export default function GameModal({
                             <div className='flex flex-col'>
                                 <button className='game-button' onClick={handleClickQuiz}>
                                     <div className='modal-image-container'>
-                                        <Image 
+                                        <Image
                                             src="/game_Preview.png"
                                             className="modal-image"
                                             alt="foto"
@@ -56,7 +60,7 @@ export default function GameModal({
                             <div className='flex flex-col'>
                                 <button className='game-button' onClick={handleClickGame}>
                                     <div className='modal-image-container'>
-                                        <Image 
+                                        <Image
                                             src="/game_Preview.png"
                                             className="modal-image"
                                             alt="foto"

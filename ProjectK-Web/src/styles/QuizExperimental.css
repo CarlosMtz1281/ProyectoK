@@ -1,0 +1,80 @@
+/* QuizExperimental.css */
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+@keyframes slideDown {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.quiz{
+    height: 95vh;
+    display: flex;
+    margin-top: 5vh;
+    background-color: var(--primaryBG-300);
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    animation: slideUp 1s forwards; /* Add this line */
+    border-radius: 1.5rem 1.5rem 0 0;
+}
+.quiz.closing {
+    animation: slideDown 1s forwards;
+}
+.quizHeader{
+    padding: 2rem;
+    width: 100vw;
+}
+.quizTopHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.closeButton{
+    font-size: 2rem;
+    cursor: pointer;
+}
+.closeButton:hover{
+    color: red;
+}
+
+.quizTitle{
+    font-size: 1.4rem;
+    text-align: left;
+}
+.questionSubHeader{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+}
+.teacherProfile{
+    background-color: var(--accent-400);
+    height: 5vw;
+    width: 5vw;
+    border-radius: 50%;
+}
+.questionText{
+    font-size: 1.8rem;
+}
+.mainTitle{
+    font-size: 2.5rem;
+    font-family: var(--primaryFont);
+    padding: 0.7rem 0 0.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.5rem 1.5rem 0 0;
+    width: 100%;
+}
