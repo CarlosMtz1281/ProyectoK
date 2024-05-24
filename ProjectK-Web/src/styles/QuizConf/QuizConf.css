@@ -95,3 +95,18 @@
     padding-right:1.5rem;
     padding-top: 1rem;
 }
+
+.onDelete {
+    display: flex;
+    margin-left: 1%;
+    margin-bottom: 0%;
+    height: 3%;
+    width: 7%;
+    cursor: pointer;
+    transition: all 1s ease;
+}
+
+.onDelete:hover {
+    transform: translateY(-3px); /* Lift the button slightly */
+}
+

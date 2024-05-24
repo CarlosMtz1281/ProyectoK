@@ -93,3 +93,62 @@
         grid-template-columns: 1fr;
     }
 }
+
+.card-buttons{
+    display: flex;
+    justify-content: right;
+    bottom: 20px;
+    right: 20px;
+}
+
+#readyButton {
+    background-color: white;
+    color: black;
+    width: 12rem;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  #readyButton:hover{
+    background-color: black;
+    color: white;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  #readyButton:active {
+    background-color: gray;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  #deleteButton {
+    background-color: black;
+    color: white;
+    width: 12rem;
+    border: 2px solid white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 10px; /* Separation between buttons */
+  }
+  
+  #deleteButton:hover {
+    background-color: white;
+    color: black;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  #deleteButton:active {
+    background-color: gray;
+    color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  
