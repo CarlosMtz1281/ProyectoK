@@ -15,12 +15,20 @@
         transform: translateY(100%);
     }
 }
-
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1; /* Position behind the Quiz component */
+}
 .quiz{
     height: 95vh;
     display: flex;
     margin-top: 5vh;
-    background-color: var(--primaryBG-300);
+    background-color: var(--primaryBG-200);
     width: 100vw;
     position: fixed;
     top: 0;
@@ -56,7 +64,7 @@
     margin-top: 1rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
 
 }
 .teacherProfile{
@@ -77,4 +85,34 @@
     align-items: center;
     border-radius: 1.5rem 1.5rem 0 0;
     width: 100%;
+}
+.playerIcons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5vh;
+}
+.userProfileContainer{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+}
+.userProfile{
+    background-color: green;
+    height: 7vw;
+    width: 7vw;
+    border-radius: 50%;
+}
+.botIconsWrapper{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+.botIcon{
+    background-color: var(--accent-400);
+    color: aliceblue;
+    height: 7vw;
+    width: 7vw;
+    border-radius: 50%;
 }

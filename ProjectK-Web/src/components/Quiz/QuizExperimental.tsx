@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import "@/styles/QuizExperimental.css";
 import { IoIosClose } from "react-icons/io";
-
 
 interface QuizProps {
   // Define the props for your component here
@@ -10,33 +9,49 @@ interface QuizProps {
 }
 
 export default function Quiz({ onClose }: QuizProps) {
-    const [isClosing, setIsClosing] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   // Add your component logic here
   const closeQuiz = () => {
     setIsClosing(true);
     setTimeout(onClose, 1000); // Adjust this to match the duration of your animation
-}
+  };
 
   return (
-    <div className={`quiz ${isClosing ? 'closing' : ''}`}>
-
+    <div className="overlay">
+      <div className={`quiz ${isClosing ? "closing" : ""}`}>
         <div className="quizHeader">
-            <div className="quizTopHeader">
-                <h4 className="quizTitle">Calculo diferencial II</h4>
-                <IoIosClose size={60} className="closeButton" onClick={closeQuiz}/>
-
+          <div className="quizTopHeader">
+            <h4 className="quizTitle">Calculo diferencial II</h4>
+            <IoIosClose size={60} className="closeButton" onClick={closeQuiz} />
+          </div>
+          <div className="questionSubHeader">
+            <div className="teacherProfile"></div>
+            <div className="questionText">
+              <h2>
+                1. ¿Que representa el area bajo la curva en una curva de
+                velocidad contra tiempo?
+              </h2>
             </div>
-            <div className="questionSubHeader">
-                <div className="teacherProfile">
-
-                </div>
-                <div className="questionText">
-                    <h2>1. ¿Que representa el area bajo la curva en una curva de velocidad contra tiempo?</h2>
-                </div>
+          </div>
+          <div className="playerIcons">
+            <div className="userProfileContainer">
+              <div className="userProfile"></div>
             </div>
+            <div className="botIconsWrapper">
+              <div className="botIcon">
+                <h3>2</h3>
+              </div>
+              <div className="botIcon">
+                <h3>3</h3>
+              </div>
+              <div className="botIcon">
+                <h3>4</h3>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
   );
-};
-
+}
