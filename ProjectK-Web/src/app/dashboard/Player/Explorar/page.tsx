@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import Card from "@/components/Explorar/card"
+import Card from "@/components/Explorar/cardExplorar"
 import '@/styles/Explora.css'
 import { FaSearch } from "react-icons/fa";
 import axios from 'axios';

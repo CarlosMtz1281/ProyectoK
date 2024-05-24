@@ -74,10 +74,14 @@
     height: 70%;
     border-radius: 10px 10px 0 0;
     object-fit: cover;
+    z-index: 1;
 }
 
 .image-container {
     height: 70%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 
 .description-container {
@@ -94,4 +98,33 @@
     justify-content: end;
     padding-right:1.5rem;
     padding-top: 1rem;
+}
+
+.onDelete {
+    display: flex;
+    margin-left: 1%;
+    margin-bottom: 0%;
+    height: 2rem;
+    width: 2rem;
+    cursor: pointer;
+    transition: all 1s ease;
+    color: white;
+    background-color: black;
+    border-radius: 50%;
+    z-index: 2;
+    margin: .5rem;
+}
+
+.onDelete:hover {
+    transform: translateY(-3px); /* Lift the button slightly */
+}
+
+.editBtn{
+    display: flex;
+    margin-left: 1%;
+    margin-bottom: 0%;
+    height: 3%;
+    width: 7%;
+    cursor: pointer;
+    transition: all 1s ease;
 }

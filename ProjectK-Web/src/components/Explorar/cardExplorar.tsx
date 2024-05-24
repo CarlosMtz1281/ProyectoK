@@ -4,6 +4,7 @@ import "../../styles/QuizConf/QuizConf.css";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import GameModal from "./gameModal";
+import { MdDelete } from "react-icons/md";
 
 
 interface CardProps {
@@ -12,9 +13,10 @@ interface CardProps {
   nombre: string;
   tema: string;
   openQuiz: () => void
+  onDelete: (id: number) => void;
 }
 
-export default function Card({ID, autor, nombre, tema, openQuiz}: CardProps) {
+export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
 
