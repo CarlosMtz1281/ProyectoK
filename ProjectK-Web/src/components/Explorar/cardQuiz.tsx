@@ -14,15 +14,18 @@ interface CardProps {
   tema: string;
   openQuiz: () => void
   onDelete: () => void;
+  mayDelete: boolean;
 }
 
-export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: CardProps) {
+export default function Card({ID, autor, nombre, tema, openQuiz, onDelete, mayDelete}: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+
   function handleDelete (){
     console.log(ID);
     onDelete();
@@ -40,7 +43,11 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: Card
   return (
     <a>
       <div className="card-content" onClick={onClick}>
+
         <div className="image-container">
+          {mayDelete && <div  className="onDelete" onClick={handleDelete}><MdDelete size={30} /></div>}
+
+
           {tema === "Matematicas" && (
             <Image
               src="/matematicas.jpg"
@@ -69,7 +76,8 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: Card
         <div className="description-container">
           <p className="card-text">{nombre}</p>
           <p className="card-autor">{tema}</p>
-          <button  className="onDelete" onClick={handleDelete}><MdDelete /></button>
+
+
           <div className="autor-container">
             <p className="card-autor">{autor}</p>
           </div>

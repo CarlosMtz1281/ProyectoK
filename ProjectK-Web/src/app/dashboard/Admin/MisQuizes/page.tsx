@@ -15,6 +15,7 @@ export default function Explorar() {
     const [selectedTema, setSelectedTema] = useState('Temas');
     const [realData, setCardData] = useState([])
     const [quizRuning, setQuizRuning] = useState(true);
+    const[deleting, setDeleting] = useState(false);
     const removeQuiz = (ID: number) => {
         console.log("Deleting Quiz", ID);
 
@@ -73,10 +74,10 @@ export default function Explorar() {
                     <div className='icon-container'>
                         <IoIosSearch size={40}/>
                     </div>
-                    <input className='searchBar' 
-                        type='text' 
-                        placeholder={'Busqueda por titulo de quiz ej. Calculo diferencial'} 
-                        value={query} 
+                    <input className='searchBar'
+                        type='text'
+                        placeholder={'Busqueda por titulo de quiz ej. Calculo diferencial'}
+                        value={query}
                         onChange={handleChange}/>
                 </div>
                 <div className='temas-button-container'>
@@ -95,7 +96,7 @@ export default function Explorar() {
             {realData.map((card: any, index: number) => {
                 if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
                     if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
-                        return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} onDelete={()=> removeQuiz(card.quiz_id)}  openQuiz = {() => setQuizRuning(true)}/>;
+                        return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} onDelete={()=> removeQuiz(card.quiz_id)}  openQuiz = {() => setQuizRuning(true)} mayDelete={deleting}/>;
                     } else {
                         return null; // Don't render the card if it doesn't match the search query
                     }
@@ -105,8 +106,9 @@ export default function Explorar() {
             })}
             </div>
             <div className="card-buttons">
-                <button id="readyButton">Listo</button>
-                <button id="deleteButton">Eliminar</button>
+                {deleting && <button id="readyButton" onClick={()=> setDeleting(false)}>Listo</button>}
+
+                <button id="deleteButton" onClick={()=> setDeleting(true)}>Eliminar</button>
             </div>
         </div>
     );
