@@ -12,8 +12,8 @@ interface CardProps {
   autor: string;
   nombre: string;
   tema: string;
-  openQuiz: () => void
-  onDelete: (id: number) => void;
+  openQuiz?: () => void
+  onDelete?: (id: number) => void;
 }
 
 export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: CardProps) {
@@ -27,7 +27,6 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: Card
   const onClick = () => {
     console.log("ID", ID);
     localStorage.setItem("ID", ID.toString());
-    //appRouter.replace("/quiz");
     if(pathName === "/dashboard/Player/Explorar" || pathName === "/dashboard/Admin/Explorar"){
       handleOpen();
     }
@@ -70,7 +69,9 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: Card
           </div>
         </div>
       </div>
-      {open && <GameModal open={open} handleClose={handleClose} confirm={()=> openQuiz()} />}
+      {open && <GameModal open={open} handleClose={handleClose} confirm={()=> {
+        if(openQuiz) {
+          openQuiz()}} }/>}
     </a>
 
   );

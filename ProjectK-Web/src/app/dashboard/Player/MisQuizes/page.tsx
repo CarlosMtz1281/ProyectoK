@@ -66,7 +66,7 @@ export default function Explorar() {
         <div className="main-explora">
             <div className='title-container'>
                 <p className='title-explora'>
-                    Explorar Catalogo
+                    Mis Quizes
                 </p>
             </div>
             <div className='flex flex-row justify-between pb-8'>

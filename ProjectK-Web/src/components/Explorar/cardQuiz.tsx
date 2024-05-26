@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import "../../styles/QuizConf/QuizConf.css";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import GameModal from "./gameModal";
 import { MdDelete } from "react-icons/md";
 
 
@@ -12,31 +11,28 @@ interface CardProps {
   autor: string;
   nombre: string;
   tema: string;
-  openQuiz: () => void
-  onDelete: () => void;
-  mayDelete: boolean;
+  openQuiz?: () => void
+  onDelete?: () => void;
+  mayDelete?: boolean;
 }
 
-export default function Card({ID, autor, nombre, tema, openQuiz, onDelete, mayDelete}: CardProps) {
+export default function Card({ID, autor, nombre, tema, openQuiz, onDelete, mayDelete = false}: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
 
   function handleDelete (){
     console.log(ID);
-    onDelete();
+    if(onDelete){
+      onDelete();
+    }
   }
 
   const onClick = () => {
-    console.log("ID", ID);
-    localStorage.setItem("ID", ID.toString());
-    //appRouter.replace("/quiz");
-    if(pathName === "/dashboard/Player/Explorar" || pathName === "/dashboard/Admin/Explorar"){
-      handleOpen();
+    if(mayDelete === false){
+      console.log("ID", ID);
+      localStorage.setItem("ID", ID.toString());
+      appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
     }
   };
 
@@ -83,7 +79,6 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete, mayDe
           </div>
         </div>
       </div>
-      {open && <GameModal open={open} handleClose={handleClose} confirm={()=> openQuiz()} />}
     </a>
 
   );
