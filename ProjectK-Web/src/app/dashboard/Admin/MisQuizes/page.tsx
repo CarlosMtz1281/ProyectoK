@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Card from "@/components/Explorar/cardQuiz"
-import '@/styles/MisQuizes.css'
+import '@/styles/MisQuizesAdmin.css'
 import { FaSearch } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import Select from 'react-select';
