@@ -18,7 +18,7 @@ export default function Quiz({ onClose }: QuizProps) {
   const [optionSelected, setOptionSelected] = useState(0);
   const [sliderValue, setSliderValue] = useState(0);
   const [canSubmit, setCanSubmit] = useState(false);
-  const [openBreak, setOpenBreak] = useState(true);
+  const [openBreak, setOpenBreak] = useState(false);
 
   function valuetext(value: number) {
     return { value };
@@ -26,7 +26,7 @@ export default function Quiz({ onClose }: QuizProps) {
   // Add your component logic here
   const closeQuiz = () => {
     setIsClosing(true);
-    setTimeout(onClose, 1000); // Adjust this to match the duration of your animation
+    setTimeout(onClose, 500);
   };
 
   const selectOption = (option: number) => {
@@ -76,6 +76,7 @@ export default function Quiz({ onClose }: QuizProps) {
                 <Image src={profile} alt="profile" />
               </div>
             </div>
+
             <div className="botIconsWrapper">
               <div className="botIcon">
                 <Image src={profile} alt="profile" />
@@ -130,7 +131,7 @@ export default function Quiz({ onClose }: QuizProps) {
           </div>
         </div>
       </div>
-      {openBreak && <QuizBreak />}
+      {openBreak && <QuizBreak onClose={()=> setOpenBreak(false)} />}
     </div>
   );
 }
