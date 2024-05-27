@@ -9,8 +9,8 @@ export default function FileUpload() {
         <button className="bg-gray-400 h-32 w-32 rounded-md">
             <UploadIcon />
         </button>
-        <Typography className = 'w-1/4'>
-            Archivo: mileiesgei.png
+        <Typography className = 'w-1/4 text-wrap'>
+            Coming soon!
         </Typography>
       </Paper>
     </Grid>

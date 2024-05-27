@@ -19,6 +19,8 @@ const TextFieldComponent = ({ name, label, rules }: TextFieldComponentProps) => 
       render={({ field }) => (
         <TextField
           {...field}
+          multiline={true}
+          maxRows={2}
           label={label}
           variant="standard"
           className = 'w-5/6'

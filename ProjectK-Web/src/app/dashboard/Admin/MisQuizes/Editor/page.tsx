@@ -37,7 +37,7 @@ export default function Editor() {
             className="h-full"
           >
             {/* This item will contain the first column */}
-            <Grid id="fcolumn" item xs={4}>
+            <Grid id="fcolumn" item xs={12} md = {4}>
               <Grid container direction="column" className="h-full">
                 <FileUpload />
                 <ThemeSelection />
@@ -45,12 +45,12 @@ export default function Editor() {
               </Grid>
             </Grid>
             {/* Contains inputs for quiz creation: title and question pad */}
-            <Grid item xs={8}>
+            <Grid item xs={12} md = {8}>
               <Grid container direction="column" className="h-full w-full">
-                <Grid item xs={2}>
+                <Grid item xs={12} md = {2}>
                   <QuizTitle />
                 </Grid>
-                <Grid item xs={10}>
+                <Grid item xs={12} md = {9}>
                   <QuestionPad />
                 </Grid>
               </Grid>

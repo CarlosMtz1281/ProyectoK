@@ -7,7 +7,7 @@ export default function QuizTitle() {
     return (
         <div className = 'flex flex-col h-full w-full gap-6'>
             <Typography variant = 'h6' className = 'font-thin font-serif'> Título: </Typography>
-            <Paper elevation={24} className = 'flex flex-row w-full h-1/2 justify-center items-center'>
+            <Paper elevation={24} className = 'flex flex-row w-full h-3/4 justify-center items-center'>
                 <TextFieldComponent name = "name" label = "Title" rules = {null} />
             </Paper>
         </div>
