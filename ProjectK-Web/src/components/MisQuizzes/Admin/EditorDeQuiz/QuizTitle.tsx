@@ -1,15 +1,15 @@
 import React from "react"
 import { Grid, Typography, TextField, Paper } from "@mui/material"
 import { FaPencil } from "react-icons/fa6";
+import TextFieldComponent from "./TextFieldController";
 
 export default function QuizTitle() {
     return (
-        <div className = 'flex flex-col w-full gap-6'>
-            <Typography variant = 'h6' className = 'font-thin font-serif'> Título del Examen: </Typography>
-            <div className = 'flex flex-row w-full'>
-                <TextField variant = 'standard' placeholder="Quiz de los Papus" className = 'w-3/4' />
-                <FaPencil className = 'w-1/4 self-end' />
-            </div>
+        <div className = 'flex flex-col h-full w-full gap-6'>
+            <Typography variant = 'h6' className = 'font-thin font-serif'> Título: </Typography>
+            <Paper elevation={24} className = 'flex flex-row w-full h-1/2 justify-center items-center'>
+                <TextFieldComponent name = "name" label = "Title" rules = {null} />
+            </Paper>
         </div>
     );
 }

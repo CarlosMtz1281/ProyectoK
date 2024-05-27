@@ -1,8 +1,17 @@
 "use client";
 
 import React from "react";
-import { Grid, Typography, Paper, TextField } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Paper,
+  TextField,
+  Pagination,
+  Fab,
+} from "@mui/material";
+import { Add } from "@mui/icons-material";
 import { useForm, useFormContext } from "react-hook-form";
+import AnswerButtons from "./AnswerButtons";
 
 export default function QuestionPad() {
   // We retrieve the registration method
@@ -13,9 +22,12 @@ export default function QuestionPad() {
   const [currentQuestion, setCurrentQuestion] = React.useState<number>(1);
 
   return (
-    <div className="flex flex-col w-full h-full gap-12">
+    <div className="flex flex-col w-full h-full gap-6">
+      <Typography variant="h6" className="font-thin font-serif">
+        Preguntas:
+      </Typography>
       <Paper
-        className="flex flex-row h-1/6 items-center justify-center gap-1"
+        className="flex flex-row h-2/6 items-center justify-center gap-1"
         elevation={24}
       >
         <TextField
@@ -27,66 +39,19 @@ export default function QuestionPad() {
         />
       </Paper>
 
-      <div className="flex flex-row flex-wrap h-1/4 w-full ">
-        <div className="flex items-center justify-start w-1/2 h-5/6">
-          <Paper
-            elevation={24}
-            className="w-11/12 h-5/6 flex items-center justify-center"
-          >
-            <TextField
-              multiline={true}
-              maxRows={2}
-              variant="standard"
-              className="w-5/6"
-              placeholder="monterrey"
-            />
-          </Paper>
-        </div>
-        <div className="flex items-center justify-end w-1/2 h-5/6">
-          <Paper
-            elevation={24}
-            className="w-11/12 h-5/6 flex items-center justify-center"
-          >
-            <TextField
-              multiline={true}
-              maxRows={2}
-              variant="standard"
-              className="w-5/6"
-              placeholder="papulandia"
-            />
-          </Paper>
-        </div>
-        <div className="flex items-center justify-start w-1/2 h-5/6">
-          <Paper
-            elevation={24}
-            className="w-11/12 h-5/6 flex items-center justify-center"
-          >
-            <TextField
-              multiline={true}
-              maxRows={2}
-              variant="standard"
-              className="w-5/6"
-              placeholder="suisa"
-            />
-          </Paper>
-        </div>
-        <div className="flex items-center justify-end w-1/2 h-5/6">
-          <Paper
-            elevation={24}
-            className="w-11/12 h-5/6 flex flex-col items-center justify-center gap-4"
-          >
-            <button className = 'self-end bg-green-500'>
-                correct
-            </button>
-            <TextField
-              multiline={true}
-              maxRows={2}
-              variant="standard"
-              className="w-5/6"
-              placeholder="jiji"
-            />
-          </Paper>
-        </div>
+      <div id="buttonsbox" className="w-full h-full flex flex-col">
+        <AnswerButtons />
+        <AnswerButtons />
+      </div>
+
+      <div
+        id="pagination boxybox"
+        className="flex flex-row h-full w-full justify-center gap-3"
+      >
+        <Pagination count={10} />
+        <Fab size="small">
+          <Add />
+        </Fab>
       </div>
     </div>
   );
