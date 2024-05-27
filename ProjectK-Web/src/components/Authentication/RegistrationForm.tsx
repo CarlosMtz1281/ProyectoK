@@ -71,6 +71,7 @@ export default function RegistrationForm() {
       .then((res) => {
         console.log("success");
         console.log(res);
+        localStorage.setItem('Key', res.data.session_key);
         localStorage.setItem('email', email);
         localStorage.setItem('admin', String(admin)); // localStorage ONLY accepts strings
       })

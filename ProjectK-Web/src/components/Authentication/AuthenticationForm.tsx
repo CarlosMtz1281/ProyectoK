@@ -65,6 +65,8 @@ export default function AuthenticationForm() {
       localStorage.setItem("first_name", res.data[0].first_name)
       localStorage.setItem("last_name", res.data[0].last_name)
 
+      localStorage.setItem('Key', res.data.session_key);
+
       console.log(localStorage.getItem("email"));
     } catch (err) {
       console.log(err);
@@ -126,6 +128,7 @@ export default function AuthenticationForm() {
       if (user.email) {
         await userExists(user.email); // userExists is an asynchronous function, it should be completely finished to proceed
         console.log(localStorage.getItem("email"));
+
         console.log(user.email);
         if (localStorage.getItem("email") === user.email) {
           alert("Bienvenido! ");

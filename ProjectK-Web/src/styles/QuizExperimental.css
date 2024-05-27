@@ -26,7 +26,6 @@
 }
 .quiz{
     height: 95vh;
-    display: flex;
     margin-top: 5vh;
     background-color: var(--primaryBG-200);
     width: 100vw;
@@ -68,7 +67,7 @@
 
 }
 .teacherProfile{
-    background-color: var(--accent-400);
+    background-color: var(--primaryBG-400);
     height: 5vw;
     width: 5vw;
     border-radius: 50%;
@@ -98,7 +97,7 @@
 
 }
 .userProfile{
-    background-color: green;
+    background-color: rgb(37, 151, 37);
     height: 7vw;
     width: 7vw;
     border-radius: 50%;
@@ -110,9 +109,117 @@
     justify-content: center;
 }
 .botIcon{
-    background-color: var(--accent-400);
-    color: aliceblue;
+    background-color: rgb(40, 116, 197);
     height: 7vw;
     width: 7vw;
     border-radius: 50%;
+}
+.profileIcon{
+    color: white;
+}
+
+.answerContainer{
+    display: flex;
+    margin-top: 5vh;
+    width: 100vw;
+    padding: 2rem;
+}
+.buttonContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px;
+    justify-content: center;
+    margin-top: 5vh;
+    width: 80vw;
+}
+
+.answerButton{
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    background-color: var(--primaryBG-300);
+    height: 7vw;;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.answerButton.selected {
+    background-color: rgb(25, 150, 196); /* Change as needed */
+}
+.selectionContainer{
+    width: 20vw;
+    align-items: center;
+    justify-content: center;
+}
+.selectWrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    height: 70%;
+}
+
+.submitButton{
+    font-size: 1.5rem;
+    background-color: rgb(40, 116, 197);
+    text-align: center;
+    display: flex;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    height: 3rem;
+    width: 12rem;
+    align-items: center;
+    justify-content: center;
+}
+.submitButton.disabled {
+    background-color: grey;
+    cursor: not-allowed;
+
+}
+.submitWrap{
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+    align-items: center;
+
+}
+
+/******************************************** Break Container **********************************/
+
+
+
+.breakContainer{
+    height: 90vh;
+    margin-top: 10vh;
+    background-color: var(--primaryBG-300);
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    animation: slideUp 1s forwards; /* Add this line */
+    border-radius: 1.5rem 1.5rem 0 0;
+    animation: slideUp 1s forwards; /* Add this line */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.breakContainer.closing {
+    animation: slideDown 1s forwards;
+}
+
+.mainHeader{
+    font-size: 2.5rem;
+    font-family: var(--primaryFont);
+    padding: 0.7rem 0 0.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.5rem 1.5rem 0 0;
+    width: 100%;
+    text-align: center;
 }
