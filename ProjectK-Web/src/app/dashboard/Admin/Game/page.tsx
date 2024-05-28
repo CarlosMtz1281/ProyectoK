@@ -1,21 +1,16 @@
 "use client";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { useRouter } from "next/navigation";
-import { Button } from "@mui/material";
 import { useEffect } from "react";
 
 export default function Game() {
   const appRouter = useRouter();
   const { unityProvider, unload } = useUnityContext({
-    loaderUrl: "Build/ProjectKGame.loader.js",
-    dataUrl: "Build/ProjectKGame.data.unityweb",
-    frameworkUrl: "Build/ProjectKGame.framework.js.unityweb",
-    codeUrl: "Build/ProjectKGame.wasm.unityweb",
+    loaderUrl: "/Build/ProjectKGame.loader.js",
+    dataUrl: "/Build/ProjectKGame.data.unityweb",
+    frameworkUrl: "/Build/ProjectKGame.framework.js.unityweb",
+    codeUrl: "/Build/ProjectKGame.wasm.unityweb",
   });
-
-  const goBackToMenu = () => {
-    appRouter.replace("/dashboard");
-  };
 
   useEffect(() => {
     // Cleanup function to unload Unity context when the component unmounts
@@ -33,7 +28,7 @@ export default function Game() {
           display: "flex",
           justifyContent: "center",
           overflow: "hidden",
-          alignItems: "center",
+          alignItems: "start",
         }}
       >
         <Unity
@@ -55,9 +50,6 @@ export default function Game() {
           marginLeft: "-20vw",
         }}
       >
-        <Button variant="contained" size="large" onClick={goBackToMenu}>
-          Go back to menu
-        </Button>
       </div>
     </div>
   );
