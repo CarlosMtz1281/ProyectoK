@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Slider from "@mui/material/Slider";
 
@@ -7,27 +7,107 @@ import { IoIosClose } from "react-icons/io";
 import profile from "@/../public/profileIcon.svg";
 import QuizBreak from "./QuizBreak";
 import { set } from "firebase/database";
+import axios from "axios";
 
 interface QuizProps {
   // Define the props for your component here
   onClose: () => void;
+  quizId: number;
+}
+interface Option {
+  question_id: number;
+  question: string;
+  options: string[];
+  correct_answer: number;
+  active: boolean;
 }
 
-export default function Quiz({ onClose }: QuizProps) {
+interface QuizData {
+  admin_id: number;
+  questions: Option[];
+  quiz_id: number;
+  quiz_name: string;
+  topic_id: number;
+  topic_name: string;
+}
+
+const dummyData = {
+  bot1: {
+    respuestas: 10,
+    correctas: 7,
+    errores: 3,
+    resultadoFinal: 70,
+    confianzaFinal: 80,
+    precision: 70,
+  },
+  bot2: {
+    respuestas: 12,
+    correctas: 8,
+    errores: 4,
+    resultadoFinal: 66.67,
+    confianzaFinal: 75,
+    precision: 66.67,
+  },
+  bot3: {
+    respuestas: 15,
+    correctas: 10,
+    errores: 5,
+    resultadoFinal: 66.67,
+    confianzaFinal: 70,
+    precision: 66.67,
+  },
+  player: {
+    respuestas: 20,
+    correctas: 15,
+    errores: 5,
+    resultadoFinal: 75,
+    confianzaFinal: 85,
+    precision: 75,
+  },
+};
+
+export default function Quiz({ onClose, quizId }: QuizProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [optionSelected, setOptionSelected] = useState(0);
   const [sliderValue, setSliderValue] = useState(0);
   const [canSubmit, setCanSubmit] = useState(false);
   const [openBreak, setOpenBreak] = useState(false);
+  const [quizData, setQuizData] = useState({} as QuizData);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [typeOfBreak, setTypeOfBreak] = useState(0);
+  const [stats, setStats] = useState(dummyData);
+  const [questionData, setQuestionData] = useState({} as any);
+  const [userAnswers, setUserAnswers] = useState<
+    Array<{ questionId: number; answer: number; confidence: number }>
+  >([]);
 
-  function valuetext(value: number) {
-    return { value };
+  useEffect(() => {
+    axios
+      .get(`http://localhost:2024/quizes/${quizId}`)
+      .then((res) => {
+        console.log(res);
+        setQuizData(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        localStorage.setItem("email", "NOT FOUND");
+      });
+  }, []); // Runs only once after the initial render
+
+  function closeQuiz() {
+    if (window.confirm("¿Desea cancelar el quiz?")) {
+      setIsClosing(true);
+      setTimeout(onClose, 500);
+    }
+    return;
   }
-  // Add your component logic here
-  const closeQuiz = () => {
+  async function endQuiz() {
+    alert("Quiz finalizado, Felicidades!");
+    await postResults();
     setIsClosing(true);
     setTimeout(onClose, 500);
-  };
+  }
 
   const selectOption = (option: number) => {
     setOptionSelected(option);
@@ -35,13 +115,24 @@ export default function Quiz({ onClose }: QuizProps) {
   const handleSliderChange = (event: any, newValue: number | number[]) => {
     setSliderValue(newValue as number);
   };
-  const handleSubmit = () => {
+  async function handleSubmit() {
     console.log("Submitted");
+    setQuestionData(quizData?.questions[currentQuestion]);
+    await checkAnswer();
     setOpenBreak(true);
     setOptionSelected(0);
     setSliderValue(0);
 
-  };
+    // Store the user's answer and confidence level
+    setUserAnswers((prevAnswers) => [
+      ...prevAnswers,
+      {
+        questionId: quizData.questions[currentQuestion].question_id,
+        answer: optionSelected,
+        confidence: sliderValue,
+      },
+    ]);
+  }
 
   useEffect(() => {
     if (optionSelected !== 0 && sliderValue !== 0) {
@@ -51,23 +142,66 @@ export default function Quiz({ onClose }: QuizProps) {
     }
   }, [optionSelected, sliderValue]);
 
+  async function checkAnswer() {
+    if (quizData.questions[currentQuestion].correct_answer === optionSelected) {
+      await setTypeOfBreak(1);
+    } else {
+      await setTypeOfBreak(2);
+    }
+    return;
+  }
+
+  const nextQuestion = () => {
+    console.log("starting next question");
+    if (currentQuestion === quizData.questions.length - 1) {
+      //send data
+      setOpenBreak(false);
+      endQuiz();
+    } else {
+      setCurrentQuestion(currentQuestion + 1);
+      setOpenBreak(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log(currentQuestion);
+  }, [currentQuestion]);
+
+  async function postResults() {
+    console.log("Posting results");
+    const dataToSend = {
+      quizId: quizId,
+      userId: 1,
+      responses: userAnswers,
+    };
+    axios
+      .post("http://localhost:2024/responses/", dataToSend)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <div className="overlay">
       <div className={`quiz ${isClosing ? "closing" : ""}`}>
         <div className="quizHeader">
           <div className="quizTopHeader">
-            <h4 className="quizTitle">Calculo diferencial II</h4>
-            <IoIosClose size={60} className="closeButton" onClick={closeQuiz} />
+            <h4 className="quizTitle">{quizData.quiz_name}</h4>
+            <IoIosClose
+              size={60}
+              className="closeButton"
+              onClick={() => closeQuiz()}
+            />
           </div>
           <div className="questionSubHeader">
             <div className="teacherProfile">
               <Image src={profile} alt="profile" className="profileIcon" />
             </div>
             <div className="questionText">
-              <h2>
-                1. ¿Que representa el area bajo la curva en una curva de
-                velocidad contra tiempo?
-              </h2>
+              <h2>{quizData?.questions?.[currentQuestion]?.question} </h2>
             </div>
           </div>
           <div className="playerIcons">
@@ -93,17 +227,45 @@ export default function Quiz({ onClose }: QuizProps) {
         <div>
           <div className="answerContainer">
             <div className="buttonContainer">
-              <div className={`answerButton ${optionSelected === 1 ? 'selected' : ''}`} onClick={() => {selectOption(1)}}>
-                  <h3>Respuesta 1</h3>
+              <div
+                className={`answerButton ${
+                  optionSelected === 1 ? "selected" : ""
+                }`}
+                onClick={() => {
+                  selectOption(1);
+                }}
+              >
+                <h3>{quizData?.questions?.[currentQuestion]?.options[0]}</h3>
               </div>
-              <div className={`answerButton ${optionSelected === 2 ? 'selected' : ''}`} onClick={() => {selectOption(2)}}>
-                  <h3>Respuesta 2</h3>
+              <div
+                className={`answerButton ${
+                  optionSelected === 2 ? "selected" : ""
+                }`}
+                onClick={() => {
+                  selectOption(2);
+                }}
+              >
+                <h3>{quizData?.questions?.[currentQuestion]?.options[1]}</h3>
               </div>
-              <div className={`answerButton ${optionSelected === 3 ? 'selected' : ''}`} onClick={() => {selectOption(3)}}>
-                  <h3>Respuesta 3</h3>
+              <div
+                className={`answerButton ${
+                  optionSelected === 3 ? "selected" : ""
+                }`}
+                onClick={() => {
+                  selectOption(3);
+                }}
+              >
+                <h3>{quizData?.questions?.[currentQuestion]?.options[2]}</h3>
               </div>
-              <div className={`answerButton ${optionSelected === 4 ? 'selected' : ''}`} onClick={() => {selectOption(4)}}>
-                  <h3>Respuesta 4</h3>
+              <div
+                className={`answerButton ${
+                  optionSelected === 4 ? "selected" : ""
+                }`}
+                onClick={() => {
+                  selectOption(4);
+                }}
+              >
+                <h3>{quizData?.questions?.[currentQuestion]?.options[3]}</h3>
               </div>
             </div>
             <div className="selectionContainer">
@@ -121,7 +283,7 @@ export default function Quiz({ onClose }: QuizProps) {
               <div className="submitWrap">
                 <button
                   className={`submitButton ${canSubmit ? "" : "disabled"}`}
-                  onClick={canSubmit ? handleSubmit : undefined}
+                  onClick={handleSubmit}
                   disabled={!canSubmit}
                 >
                   <h3>Enviar</h3>
@@ -131,7 +293,14 @@ export default function Quiz({ onClose }: QuizProps) {
           </div>
         </div>
       </div>
-      {openBreak && <QuizBreak onClose={()=> setOpenBreak(false)} />}
+      {openBreak && (
+        <QuizBreak
+          onClose={() => nextQuestion()}
+          type={typeOfBreak}
+          questionData={questionData}
+          stats={stats}
+        />
+      )}
     </div>
   );
 }

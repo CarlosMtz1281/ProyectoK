@@ -230,11 +230,20 @@
 
 }
 
-.checkmark{
+.icon{
     font-size: 5rem;
-    background-color: green;
     color: white;
     border-radius: 50%;
+}
+.checkmark{
+    background-color: green;
+    border-radius: 50%;
+
+}
+.cross{
+    background-color: red;
+    border-radius: 50%;
+
 }
 .mainBody {
     display: grid;
