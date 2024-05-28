@@ -87,8 +87,8 @@ export default function NavbarConf() {
           icon={4}
           title="Juego"
           nav="/adminGame"
-          active={pathname === `/game`}
-          OnClick={() => handleButtonClick(`/game`)}
+          active={pathname === `/dashboard/${path}/Game`}
+          OnClick={() => handleButtonClick(`/dashboard/${path}/Game`)}
         />
       </div>
       <div className="footer">
