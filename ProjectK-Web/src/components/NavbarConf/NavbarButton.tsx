@@ -6,6 +6,8 @@ import { MdExplore } from "react-icons/md";
 import { FaBookBookmark } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { IoPersonSharp } from "react-icons/io5";
+import { SiStarship } from "react-icons/si";
+
 
 
 import { usePathname } from "next/navigation";
@@ -33,7 +35,9 @@ export default function NavbarButton({
             <FaBookBookmark size={30} />
           ) : icon === 3 ? (
             <IoPersonSharp size={30}/>
-          ): null}{" "}
+          ): icon ===4 ? (
+            <SiStarship size={30}/>
+          ):null}{" "}
 
         </div>
         <div className={`text ${active ? "text-selected" : ""}`}>{title}</div>

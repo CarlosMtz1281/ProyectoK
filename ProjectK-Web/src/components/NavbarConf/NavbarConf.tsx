@@ -83,6 +83,13 @@ export default function NavbarConf() {
           active={pathname === `/dashboard/${path}/Perfil`}
           OnClick={() => handleButtonClick(`/dashboard/${path}/Perfil`)}
         />
+        <NavbarButton
+          icon={4}
+          title="Juego"
+          nav="/adminGame"
+          active={pathname === `/game`}
+          OnClick={() => handleButtonClick(`/game`)}
+        />
       </div>
       <div className="footer">
         <div className="footerText">

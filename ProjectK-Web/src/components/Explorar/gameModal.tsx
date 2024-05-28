@@ -39,7 +39,7 @@ export default function GameModal({
                 <div className='container-modal'>
                     <div className='flex flex-col justify-center items-center'>
                         <div className='modal-title'>
-                            <p>Elige como quieres practicar este quiz</p>
+                            <p>Inicia ya!!!</p>
                         </div>
                         <div className='flex flex-row justify-center items-center gap-x-16'>
                             <div className='flex flex-col'>
@@ -57,26 +57,9 @@ export default function GameModal({
                                     </div>
                                 </button>
                             </div>
-                            <div className='flex flex-col'>
-                                <button className='game-button' onClick={handleClickGame}>
-                                    <div className='modal-image-container'>
-                                        <Image
-                                            src="/game_Preview.png"
-                                            className="modal-image"
-                                            alt="foto"
-                                            fill
-                                        />
-                                    </div>
-                                    <div className='modal-description-container'>
-                                        <p>Juego</p>
-                                    </div>
-                                </button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
-
             </Modal>
         </div>
     )
