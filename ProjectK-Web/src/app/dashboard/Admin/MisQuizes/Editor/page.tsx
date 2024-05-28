@@ -7,7 +7,7 @@ import {
   useFormContext,
   FormProvider,
   FormProviderProps,
-  FieldValues
+  FieldValues,
 } from "react-hook-form";
 import FileUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/FileUpload";
 import ThemeSelection from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeSelection";
@@ -19,6 +19,10 @@ import QuestionPad from "@/components/MisQuizzes/Admin/EditorDeQuiz/QuestionPad"
 export default function Editor() {
   // Form hook that manages the admin's selections.
   const methods = useForm();
+  const { register } = methods;
+
+  // We add the admin's id
+  register("adminId", {value: localStorage.getItem('ID')});
 
   // Submission handler for the form.
   const onSubmit = (data: FieldValues) => console.log(data); // we just print it for now
@@ -26,7 +30,7 @@ export default function Editor() {
   return (
     // Provides context to the form
     <FormProvider {...methods}>
-        {/* Passes methods into children */}
+      {/* Passes methods into children */}
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="h-screen m-2">
           <EditorBanner />
@@ -37,7 +41,7 @@ export default function Editor() {
             className="h-full"
           >
             {/* This item will contain the first column */}
-            <Grid id="fcolumn" item xs={12} md = {4}>
+            <Grid id="fcolumn" item xs={12} md={4}>
               <Grid container direction="column" className="h-full">
                 <FileUpload />
                 <ThemeSelection />
@@ -45,12 +49,12 @@ export default function Editor() {
               </Grid>
             </Grid>
             {/* Contains inputs for quiz creation: title and question pad */}
-            <Grid item xs={12} md = {8}>
+            <Grid item xs={12} md={8}>
               <Grid container direction="column" className="h-full w-full">
-                <Grid item xs={12} md = {2}>
+                <Grid item xs={12} md={2}>
                   <QuizTitle />
                 </Grid>
-                <Grid item xs={12} md = {9}>
+                <Grid item xs={12} md={9}>
                   <QuestionPad />
                 </Grid>
               </Grid>

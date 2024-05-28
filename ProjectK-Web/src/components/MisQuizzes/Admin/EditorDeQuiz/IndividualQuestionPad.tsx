@@ -26,7 +26,7 @@ export default function IndividualQuestionPad({
   const { register, setValue } = useFormContext();
 
   // Registramos la respuesta correcta (inicia siempre en 1)
-  register(`questions.${idx - 1}.answer`, {value : true});
+  register(`questions.${idx - 1}.answer`, {value : 1});
   // Registramos que está activa
   register(`questions.${idx - 1}.active`, {value: true})
   const [checkedAns, setCheckedAns] = React.useState(1);

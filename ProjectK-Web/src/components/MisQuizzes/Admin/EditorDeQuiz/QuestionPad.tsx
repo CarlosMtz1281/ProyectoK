@@ -17,7 +17,7 @@ import IndividualQuestionPad from "./IndividualQuestionPad";
 
 export default function QuestionPad() {
   // We should keep track of the number of questions and the current location
-  const [numberOfQuestions, setNumberOfQuestions] = React.useState<number>(10);
+  const [numberOfQuestions, setNumberOfQuestions] = React.useState<number>(5);
   const [currentQuestion, setCurrentQuestion] = React.useState<number>(1);
 
   // We iterate whenever the pagination changes
