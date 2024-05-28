@@ -6,10 +6,10 @@ import { Button } from "@mui/material";
 export default function Game() {
   const appRouter = useRouter();
   const { unityProvider } = useUnityContext({
-    loaderUrl: "Build/ProjectK-Game.loader.js",
-    dataUrl: "Build/ProjectK-Game.data.unityweb",
-    frameworkUrl: "Build/ProjectK-Game.framework.js.unityweb",
-    codeUrl: "Build/ProjectK-Game.wasm.unityweb",
+    loaderUrl: "Build/ProjectKGame.loader.js",
+    dataUrl: "Build/ProjectKGame.data.unityweb",
+    frameworkUrl: "Build/ProjectKGame.framework.js.unityweb",
+    codeUrl: "Build/ProjectKGame.wasm.unityweb",
   });
 
   const goBackToMenu = () => {

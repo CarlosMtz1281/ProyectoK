@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     float timer = 10f, timerTransition = 3f;
     bool flag = true, transition = false, questions = false;
     JsonData data; 
+    string endpoint = "http://ec2-52-15-179-17.us-east-2.compute.amazonaws.com:2024";
 
     // Start is called before the first frame update
     void Start()

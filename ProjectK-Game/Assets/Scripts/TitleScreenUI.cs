@@ -9,9 +9,9 @@ using TMPro;
 
 public class TitleScreenUI : MonoBehaviour
 {
-    [SerializeField] GameObject titleScreen, instructionsScreen, settingsScreen, selectLevelScreen;
+    [SerializeField] GameObject titleScreen, instructionsScreen, settingsScreen, selectLevelScreen, quizButtonPrefab;
     [SerializeField] Transform quizListHolder;
-    [SerializeField] GameObject quizButtonPrefab;
+    string endpoint = "http://ec2-52-15-179-17.us-east-2.compute.amazonaws.com:2024";
     JsonData data;
 
     public void StartGame()
@@ -44,6 +44,11 @@ public class TitleScreenUI : MonoBehaviour
         instructionsScreen.SetActive(false);
         settingsScreen.SetActive(false);
         selectLevelScreen.SetActive(false);
+        // Destroy all quiz buttons
+        foreach (Transform child in quizListHolder)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     public void QuitGame()
@@ -58,7 +63,7 @@ public class TitleScreenUI : MonoBehaviour
 
     IEnumerator GetQuizes()
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:2024/quizes"))
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(endpoint + "/quizes"))
         {
             yield return webRequest.SendWebRequest();
 
@@ -84,7 +89,7 @@ public class TitleScreenUI : MonoBehaviour
 
     IEnumerator GetQuiz(int id)
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get("http://localhost:2024/quizes/" + id))
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(endpoint + "/quizes/" + id))
         {
             yield return webRequest.SendWebRequest();
 
