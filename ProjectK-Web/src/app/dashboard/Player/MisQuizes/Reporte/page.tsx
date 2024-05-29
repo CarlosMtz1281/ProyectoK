@@ -133,7 +133,7 @@ export default function Reporte() {
     });
 
     const averageConfidence =
-      (totalConfidence * 10) / reportData.responses.length;
+    Math.round((totalConfidence * 10) / reportData.responses.length);
     const averageScore = Math.round(
       (100 / reportData.responses.length) * reportData.report.score
     );
