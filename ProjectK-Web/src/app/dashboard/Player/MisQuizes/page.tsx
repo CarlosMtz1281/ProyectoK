@@ -11,6 +11,9 @@ import { useEffect } from 'react';
 
 export default function Explorar() {
 
+    const api = process.env.NEXT_PUBLIC_API_URL;
+
+
     const [query, setQuery] = useState('')
     const [selectedTema, setSelectedTema] = useState('Temas');
     const [realData, setCardData] = useState([])
@@ -32,7 +35,7 @@ export default function Explorar() {
     // Fetch de datos
     useEffect(() => {
         axios
-          .get(`http://localhost:2024/quizes`)
+          .get(api+`quizes`)
           .then((res) => {
             console.log(res);
             setCardData(res.data);

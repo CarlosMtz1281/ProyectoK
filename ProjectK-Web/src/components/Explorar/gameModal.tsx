@@ -41,8 +41,7 @@ export default function GameModal({
                         <div className='modal-title'>
                             <p>Elige como quieres practicar este quiz</p>
                         </div>
-                        <div className='flex flex-row justify-center items-center gap-x-16'>
-                            <div className='flex flex-col'>
+<div className='flex flex-row justify-center items-center gap-x-16 h-[70%]'>                            <div className='flex flex-col'>
                                 <button className='game-button' onClick={handleClickQuiz}>
                                     <div className='modal-image-container'>
                                         <Image

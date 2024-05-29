@@ -28,10 +28,14 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 
+
 const auth = getAuth(app);
 
 // This component requires to be rendered on the client side
 export default function AuthenticationForm() {
+
+  const api = process.env.NEXT_API_URL;
+
   // State variables to save username, password and password visibility
   const [username, setUsername] = React.useState("");
   const [usernameError, setUsernameError] = React.useState(false);
