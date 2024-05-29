@@ -31,6 +31,7 @@ const auth = getAuth(app);
 
 // This component requires to be rendered on the client side
 export default function RegistrationForm() {
+  const api = process.env.NEXT_PUBLIC_API_URL;
   // State variables for user data
   const [dbUsername, setDbUsername] = React.useState("");
   const [trueName, setTrueName] = React.useState("");
@@ -67,7 +68,7 @@ export default function RegistrationForm() {
     };
 
     axios
-      .post(`http://localhost:2024/users/`, userData)
+      .post(api+`users/`, userData)
       .then((res) => {
         console.log("success");
         console.log(res);

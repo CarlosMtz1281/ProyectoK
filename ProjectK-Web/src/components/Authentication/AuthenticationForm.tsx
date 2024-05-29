@@ -34,7 +34,7 @@ const auth = getAuth(app);
 // This component requires to be rendered on the client side
 export default function AuthenticationForm() {
 
-  const api = process.env.NEXT_API_URL;
+  const api = process.env.NEXT_PUBLIC_API_URL;
 
   // State variables to save username, password and password visibility
   const [username, setUsername] = React.useState("");
@@ -58,16 +58,16 @@ export default function AuthenticationForm() {
   // CONECTION API
   async function userExists(email: string) {
     try {
-      const res = await axios.get(`http://localhost:2024/users/${email}`);
+      const res = await axios.get(api+`users/${email}`);
       console.log(res);
 
-      console.log(res.data[0].user_email);
-      localStorage.setItem("email", res.data[0].user_email);
-      localStorage.setItem("admin", res.data[0].is_admin);
-      localStorage.setItem("userData", res.data[0]);
-      localStorage.setItem("user_id", res.data[0].user_id);
-      localStorage.setItem("first_name", res.data[0].first_name)
-      localStorage.setItem("last_name", res.data[0].last_name)
+      console.log(res.data.user.user_email);
+      localStorage.setItem("email", res.data.user.user_email);
+      localStorage.setItem("admin", res.data.user.is_admin);
+      localStorage.setItem("userData", res.data.user);
+      localStorage.setItem("user_id", res.data.user.user_id);
+      localStorage.setItem("first_name", res.data.user.first_name)
+      localStorage.setItem("last_name", res.data.user.last_name)
 
       localStorage.setItem('Key', res.data.session_key);
 

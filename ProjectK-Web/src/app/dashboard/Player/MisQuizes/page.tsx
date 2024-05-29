@@ -34,8 +34,9 @@ export default function Explorar() {
 
     // Fetch de datos
     useEffect(() => {
+        console.log("Fetching data", api+`responses/user/${localStorage.getItem('user_id')}`);
         axios
-          .get(api+`quizes`)
+          .get(api+`responses/user/${localStorage.getItem('user_id')}`)
           .then((res) => {
             console.log(res);
             setCardData(res.data);
