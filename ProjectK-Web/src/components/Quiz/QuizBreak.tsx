@@ -59,7 +59,7 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
     }
 
   return (
-    <div className= {`breakContainer ${isClosing ? "closing" : ""}`}>
+    <div className= {`breakContainer ${isClosing ? "closing" : ""} type-${type}`}>
       <div className="mainBody">
         <div className="statsBots">
           <PlayerStats
@@ -95,17 +95,17 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
           <div className="mainHeader">
             <h1 className="result">{type === 1 ? 'Correcto' : type === 2 ? 'Incorrecto' : ''}</h1>
             <div className="icon">
-              {type === 1 && <IoMdCheckmark className="checkmark" size={60} />}
-              {type === 2 && <IoIosClose className="cross" size={60} />}
+              {type === 1 && <IoMdCheckmark className="checkmark" size={150} />}
+              {type === 2 && <IoIosClose className="cross" size={150} />}
             </div>
           </div>
-          <h3>La pregunta era</h3>
+          <p>La pregunta era</p>
           <h1 className="question">{questionData.question}</h1>
-          <h3>La respuesta correcta era</h3>
-          <h1 className="question">{questionData.options[questionData.correct_answer-1] }</h1>
+          <p>La respuesta correcta era</p>
+          <h1 className="question-resp">{questionData.options[questionData.correct_answer-1] }</h1>
 
         <div className="nextQuestionWrap">
-            <div className="nextQuestionBtn" onClick={startClosing}>Siguiente </div>
+            <div className={`nextQuestionBtn type-${type}`} onClick={startClosing}>Siguiente </div>
             </div>
 
         </div>

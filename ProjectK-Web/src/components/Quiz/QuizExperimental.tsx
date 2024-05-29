@@ -180,14 +180,14 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       userId: 1,
       responses: userAnswers,
     };
-    axios
+    /*axios
       .post("http://localhost:2024/responses/", dataToSend)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
-      });
+      });*/
   }
 
   return (
@@ -218,14 +218,20 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
             </div>
 
             <div className="botIconsWrapper">
-              <div className="botIcon">
-                <Image src={profile} alt="profile" />
+              <div className="botIconContainer">
+                <div className="botIcon">
+                  <Image src={profile} alt="profile" />
+                </div>
               </div>
-              <div className="botIcon">
-                <Image src={profile} alt="profile" />
+              <div className="botIconContainer">
+                <div className="botIcon">
+                  <Image src={profile} alt="profile" />
+                </div>
               </div>
-              <div className="botIcon">
-                <Image src={profile} alt="profile" />
+              <div className="botIconContainer">
+                <div className="botIcon">
+                  <Image src={profile} alt="profile" />
+                </div>
               </div>
             </div>
           </div>
@@ -275,6 +281,9 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
               </div>
             </div>
             <div className="selectionContainer">
+              <div style={{fontSize: '1.5rem', padding: '1rem'}}>
+                <h3>Confianza de respuesta</h3>
+              </div>
               <div className="selectWrap">
                 <Slider
                   getAriaLabel={() => "Temperature"}
