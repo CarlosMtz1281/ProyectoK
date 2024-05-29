@@ -10,9 +10,9 @@ import { useEffect } from 'react';
 import QuizExperimental from '@/components/Quiz/QuizExperimental';
 
 
-
-
 export default function Explorar() {
+
+    const api = process.env.NEXT_PUBLIC_API_URL;
 
     const [query, setQuery] = useState('')
     const [selectedTema, setSelectedTema] = useState('Temas');
@@ -31,8 +31,9 @@ export default function Explorar() {
 
     // Fetch de datos
     useEffect(() => {
+        console.log('fetching data from: ', api+`quizes`)
         axios
-          .get(`http://localhost:2024/quizes`)
+          .get(api+`quizes`)
           .then((res) => {
             setCardData(res.data);
 

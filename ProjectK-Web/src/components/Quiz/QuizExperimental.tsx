@@ -1,3 +1,4 @@
+"use-client"
 import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Slider from "@mui/material/Slider";
@@ -67,6 +68,9 @@ const dummyData = {
 };
 
 export default function Quiz({ onClose, quizId }: QuizProps) {
+
+  const api = process.env.NEXT_PUBLIC_API_URL;
+
   const [isClosing, setIsClosing] = useState(false);
   const [optionSelected, setOptionSelected] = useState(0);
   const [sliderValue, setSliderValue] = useState(0);
@@ -82,8 +86,10 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   >([]);
 
   useEffect(() => {
+    console.log("api: ", api+`quizes/${quizId}`);
+
     axios
-      .get(`http://localhost:2024/quizes/${quizId}`)
+      .get( api+`quizes/${quizId}`)
       .then((res) => {
         console.log(res);
         setQuizData(res.data);
