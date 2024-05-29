@@ -11,7 +11,7 @@ public class TitleScreenUI : MonoBehaviour
 {
     [SerializeField] GameObject titleScreen, instructionsScreen, settingsScreen, selectLevelScreen, quizButtonPrefab;
     [SerializeField] Transform quizListHolder;
-    string endpoint = "http://ec2-52-15-179-17.us-east-2.compute.amazonaws.com:2024";
+    string endpoint = "http://ec2-3-139-55-76.us-east-2.compute.amazonaws.com:2024";
     JsonData data;
 
     public void StartGame()
