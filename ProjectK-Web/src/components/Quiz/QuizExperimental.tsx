@@ -181,7 +181,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       responses: userAnswers,
     };
     axios
-      .post("http://localhost:2024/responses/", dataToSend)
+      .post(api+"responses/", dataToSend)
       .then((res) => {
         console.log(res);
       })
