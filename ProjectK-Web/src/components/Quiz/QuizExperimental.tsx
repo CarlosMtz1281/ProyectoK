@@ -138,6 +138,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
         confidence: sliderValue,
       },
     ]);
+    console.log(userAnswers);
   }
 
   useEffect(() => {
@@ -177,7 +178,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
     console.log("Posting results");
     const dataToSend = {
       quizId: quizId,
-      userId: 1,
+      userId: localStorage.getItem("user_id"),
       responses: userAnswers,
     };
     axios
