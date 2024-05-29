@@ -9,11 +9,22 @@ import Select from 'react-select';
 import axios from 'axios';
 import { useEffect } from 'react';
 
+const adminID = Number(localStorage.getItem("user_id"));
+
+interface CardData {
+    quiz_id: number;
+    admin_id: number;
+    topic_id: number;
+    quiz_name: string;
+    topic_name: string;
+    author: string;
+}
+
 export default function Explorar() {
 
     const [query, setQuery] = useState('')
     const [selectedTema, setSelectedTema] = useState('Temas');
-    const [realData, setCardData] = useState([])
+    const [realData, setCardData] = useState<CardData[]>([])
     const [quizRuning, setQuizRuning] = useState(true);
     const[deleting, setDeleting] = useState(false);
     const removeQuiz = (ID: number) => {
@@ -66,7 +77,7 @@ export default function Explorar() {
         <div className="main-explora">
             <div className='title-container'>
                 <p className='title-explora'>
-                    Explorar Catalogo
+                    Mis Quizes
                 </p>
             </div>
             <div className='flex flex-row justify-between pb-8'>
@@ -93,17 +104,19 @@ export default function Explorar() {
                 </div>
             </div>
             <div className='cards-container'>
-            {realData.map((card: any, index: number) => {
-                if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
-                    if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
-                        return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} onDelete={()=> removeQuiz(card.quiz_id)}  openQuiz = {() => setQuizRuning(true)} mayDelete={deleting}/>;
+            {(realData) // Add type annotation
+                .filter(card => card.admin_id === adminID) // Add null check before converting to string
+                .map((card: any, index: number) => {
+                    if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
+                        if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
+                            return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} onDelete={()=> removeQuiz(card.quiz_id)}  openQuiz = {() => setQuizRuning(true)} mayDelete={deleting}/>;
+                        } else {
+                            return null; // Don't render the card if it doesn't match the search query
+                        }
                     } else {
-                        return null; // Don't render the card if it doesn't match the search query
+                        return null; // Don't render the card if it doesn't match the selected tema
                     }
-                } else {
-                    return null; // Don't render the card if it doesn't match the selected tema
-                }
-            })}
+                })}
             </div>
             <div className="card-buttons">
                 {deleting && <button id="readyButton" onClick={()=> setDeleting(false)}>Listo</button>}
