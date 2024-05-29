@@ -26,12 +26,12 @@
     color: "black"
 }
 
-.icon {
+.navIcon {
     color: "black";
     transition: ease-in-out 0.2s;
 }
 
-.icon-selected {
+.navIcon-selected {
     color: "black";
 }
 
