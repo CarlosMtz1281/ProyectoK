@@ -180,14 +180,14 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       userId: 1,
       responses: userAnswers,
     };
-    /*axios
+    axios
       .post("http://localhost:2024/responses/", dataToSend)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
-      });*/
+      });
   }
 
   return (
