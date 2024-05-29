@@ -15,6 +15,9 @@ import AIRecommendation from "@/components/MisQuizzes/Admin/EditorDeQuiz/AIRecom
 import EditorBanner from "@/components/MisQuizzes/Admin/EditorDeQuiz/EditorBanner";
 import QuizTitle from "@/components/MisQuizzes/Admin/EditorDeQuiz/QuizTitle";
 import QuestionPad from "@/components/MisQuizzes/Admin/EditorDeQuiz/QuestionPad";
+import axios from "axios";
+
+const apilink = "http://localhost:2024/quizes/1";
 
 export default function Editor() {
   // Form hook that manages the admin's selections.
@@ -22,10 +25,19 @@ export default function Editor() {
   const { register } = methods;
 
   // We add the admin's id
-  register("adminId", {value: localStorage.getItem('ID')});
+  register("adminId", { value: localStorage.getItem("ID") });
+  // getTopicID isn't working (local db errors probably), but let's try with
+  register("topicId", { value: 1 });
 
   // Submission handler for the form.
-  const onSubmit = (data: FieldValues) => console.log(data); // we just print it for now
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const response = await axios.post(apilink, data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     // Provides context to the form
