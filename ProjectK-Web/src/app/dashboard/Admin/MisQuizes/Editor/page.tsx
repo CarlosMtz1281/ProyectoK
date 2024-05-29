@@ -17,25 +17,60 @@ import QuizTitle from "@/components/MisQuizzes/Admin/EditorDeQuiz/QuizTitle";
 import QuestionPad from "@/components/MisQuizzes/Admin/EditorDeQuiz/QuestionPad";
 import axios from "axios";
 
-const apilink = "http://localhost:2024/quizes/1";
+const defaultThemes = [
+  {
+      "topic_id": 1,
+      "topic_name": "Matematicas"
+  },
+  {
+      "topic_id": 2,
+      "topic_name": "cienc"
+  },
+  {
+      "topic_id": 3,
+      "topic_name": "Historia"
+  }
+];
 
 export default function Editor() {
   // Form hook that manages the admin's selections.
   const methods = useForm();
   const { register } = methods;
+  
 
   // We add the admin's id
-  register("adminId", { value: localStorage.getItem("ID") });
+  register("adminId", { value: localStorage.getItem("user_id") });
+
+  // We save the topics into our website. 
+  const [topics, setTopics] = React.useState(defaultThemes);
+
+  const fetchTopics = async () => {
+    try {
+      const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/quizes/topics")
+      setTopics(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  // We should fetch on render
+  React.useEffect(() => {
+    fetchTopics();
+  }, [])
+
+
   // getTopicID isn't working (local db errors probably), but let's try with
   register("topicId", { value: 1 });
 
   // Submission handler for the form.
   const onSubmit = async (data: FieldValues) => {
     try {
-      const response = await axios.post(apilink, data);
+      const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/quizes", data);
       console.log(response.data);
+      alert("Quiz guardado en la DB!")
     } catch (error) {
       console.error(error);
+      alert("No se pudo guardar el quiz, intenta de nuevo.")
     }
   };
 
@@ -56,7 +91,7 @@ export default function Editor() {
             <Grid id="fcolumn" item xs={12} md={4}>
               <Grid container direction="column" className="h-full">
                 <FileUpload />
-                <ThemeSelection />
+                <ThemeSelection topics={topics} />
                 <AIRecommendation />
               </Grid>
             </Grid>

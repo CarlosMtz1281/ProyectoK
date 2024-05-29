@@ -67,7 +67,7 @@ export default function RegistrationForm() {
     };
 
     axios
-      .post(`http://localhost:2024/users/`, userData)
+      .post(process.env.NEXT_PUBLIC_API_URL + "/users", userData)
       .then((res) => {
         console.log("success");
         console.log(res);
