@@ -95,8 +95,8 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
           <div className="mainHeader">
             <h1 className="result">{type === 1 ? 'Correcto' : type === 2 ? 'Incorrecto' : ''}</h1>
             <div className="icon">
-              {type === 1 && <IoMdCheckmark className="checkmark" size={150} />}
-              {type === 2 && <IoIosClose className="cross" size={150} />}
+              {type === 1 && <IoMdCheckmark className="checkmark" size={120} />}
+              {type === 2 && <IoIosClose className="cross" size={120} />}
             </div>
           </div>
           <p>La pregunta era</p>
