@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 export default function Explorar() {
-
+    const api = process.env.NEXT_PUBLIC_API_URL ;
     const [query, setQuery] = useState('')
     const [selectedTema, setSelectedTema] = useState('Temas');
     const [realData, setCardData] = useState([])
@@ -32,7 +32,7 @@ export default function Explorar() {
     // Fetch de datos
     useEffect(() => {
         axios
-          .get(`http://localhost:2024/quizes`)
+          .get(api+`quizes`)
           .then((res) => {
             console.log(res);
             setCardData(res.data);
@@ -93,17 +93,17 @@ export default function Explorar() {
                 </div>
             </div>
             <div className='cards-container'>
-            {realData.map((card: any, index: number) => {
-                if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
-                    if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
-                        return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} onDelete={()=> removeQuiz(card.quiz_id)}  openQuiz = {() => setQuizRuning(true)} mayDelete={deleting}/>;
+                {realData.map((card: any, index: number) => {
+                    if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
+                        if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
+                            return <Card key={index} ID={card.quiz_id} reporteId={card.reporte_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} onDelete={()=> removeQuiz(card.quiz_id)}  openQuiz = {() => setQuizRuning(true)} mayDelete={deleting}/>;
+                        } else {
+                            return null; // Don't render the card if it doesn't match the search query
+                        }
                     } else {
-                        return null; // Don't render the card if it doesn't match the search query
+                        return null; // Don't render the card if it doesn't match the selected tema
                     }
-                } else {
-                    return null; // Don't render the card if it doesn't match the selected tema
-                }
-            })}
+                })}
             </div>
             <div className="card-buttons">
                 {deleting && <button id="readyButton" onClick={()=> setDeleting(false)}>Listo</button>}

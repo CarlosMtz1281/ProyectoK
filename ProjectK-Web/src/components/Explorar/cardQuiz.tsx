@@ -12,7 +12,7 @@ interface CardProps {
   autor: string;
   nombre: string;
   tema: string;
-  fecha: string;
+  fecha?: string;
   openQuiz?: () => void
   onDelete?: () => void;
   mayDelete?: boolean;
@@ -38,14 +38,16 @@ export default function Card({ID, autor, nombre, tema, fecha, reporteId, openQui
     }
   };
 
-  const date = new Date(fecha);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const amOrPm = hours >= 12 ? "pm" : "am";
-  const formattedHours = hours % 12 || 12;
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const formattedDate = `${formattedHours}:${formattedMinutes} ${amOrPm}, ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-
+  let formattedDate = "";
+  if (fecha) {
+    const date = new Date(fecha);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const amOrPm = hours >= 12 ? "pm" : "am";
+    const formattedHours = hours % 12 || 12;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    formattedDate = `${formattedHours}:${formattedMinutes} ${amOrPm}, ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+  }
 
   return (
     <a>
