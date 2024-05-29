@@ -11,6 +11,7 @@ public class PlayerMobile : MonoBehaviour
     [SerializeField] Sprite full, empty;
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] GameManagerMobile gameManager;
+    [SerializeField] ButtonHold buttonHold;
     AudioSource audioSource;
     bool canShoot = true;
     void Start()
@@ -78,14 +79,15 @@ public class PlayerMobile : MonoBehaviour
 
     void FixedUpdate()
     {
-        //float horizontal = Input.GetKey(KeyCode.RightArrow) ? 1 : Input.GetKey(KeyCode.LeftArrow) ? -1 : 0;
+        // float horizontal = Input.GetKey(KeyCode.RightArrow) ? 1 : Input.GetKey(KeyCode.LeftArrow) ? -1 : 0;
         // verify if it´s touching a button
         
 
         float horizontal = 0;
-        if(Input.touchCount > 0)
+        if(Input.touchCount > 0 && !buttonHold.isHolding)
         {
             Touch touch = Input.GetTouch(0);
+            Debug.Log(touch.position.y);
             horizontal = touch.position.x < Screen.width / 2 ? -1 : 1;
         }
 
