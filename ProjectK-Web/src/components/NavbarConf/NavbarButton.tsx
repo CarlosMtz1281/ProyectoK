@@ -28,7 +28,7 @@ export default function NavbarButton({
   return (
     <button className={"button"} onClick={OnClick}>
       <div className={`container ${active ? "container-selected" : ""}`}>
-        <div className={`icon ${active ? "icon-selected" : ""}`}>
+        <div className={`navIcon ${active ? "icon-selected" : ""}`}>
           {icon === 1 ? (
             <MdExplore size={30} />
           ) : icon === 2 ? (
