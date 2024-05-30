@@ -18,6 +18,8 @@ interface CardProps {
   mayDelete?: boolean;
 }
 
+const isAdmin = localStorage.getItem("admin");
+
 export default function Card({ID, autor, nombre, tema, fecha, reporteId, openQuiz, onDelete, mayDelete = false}: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
@@ -33,8 +35,14 @@ export default function Card({ID, autor, nombre, tema, fecha, reporteId, openQui
   const onClick = () => {
     if(mayDelete === false){
       console.log("ID", ID);
+      localStorage.setItem("ID", ID.toString());
+      if(isAdmin === "false"){
+        appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
+      } else if(isAdmin === "true"){
+        appRouter.replace("/dashboard/Admin/MisQuizes/Reporte");
+      }
+
       localStorage.setItem("report_Id", reporteId);
-      appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
     }
   };
 
