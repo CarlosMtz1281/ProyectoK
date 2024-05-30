@@ -56,7 +56,7 @@ export default function AuthenticationForm() {
   // CONECTION API
   async function userExists(email: string) {
     try {
-      const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/users/" + email);
+      const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + "users/" + email);
       localStorage.setItem("email", res.data.user.user_email);
       localStorage.setItem("admin", res.data.user.is_admin.toString());
       localStorage.setItem("userData", JSON.stringify(res.data.user));

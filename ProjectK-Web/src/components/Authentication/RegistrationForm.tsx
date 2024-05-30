@@ -138,7 +138,7 @@ export default function RegistrationForm() {
         }
 
         alert("Signed in!");
-        router.replace("/dashboard");
+        router.replace("dashboard");
       })
       .catch((error) => {
         const errorCode = error.code;

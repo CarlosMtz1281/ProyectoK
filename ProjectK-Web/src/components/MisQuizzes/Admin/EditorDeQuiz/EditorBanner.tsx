@@ -11,7 +11,7 @@ export default function EditorBanner({}: EditorBannerProps) {
   return (
     <div className=" w-full h-32 flex gap-8 justify-between items-center mb-6">
       <div className="flex items-center gap-10">
-        <Link href = '/dashboard/Admin/MisQuizes'>
+        <Link href = 'dashboard/Admin/MisQuizes'>
         <Tooltip title="Go back" placement="top">
           <Fab color="default">
             <ArrowBack />

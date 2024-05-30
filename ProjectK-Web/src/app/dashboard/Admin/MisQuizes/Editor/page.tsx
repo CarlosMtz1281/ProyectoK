@@ -46,7 +46,7 @@ export default function Editor() {
 
   const fetchTopics = async () => {
     try {
-      const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/quizes/topics")
+      const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + "quizes/topics")
       setTopics(res.data);
     } catch (error) {
       console.log(error);
@@ -65,7 +65,7 @@ export default function Editor() {
   // Submission handler for the form.
   const onSubmit = async (data: FieldValues) => {
     try {
-      const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/quizes", data);
+      const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "quizes", data);
       console.log(response.data);
       alert("Quiz guardado en la DB!")
     } catch (error) {
