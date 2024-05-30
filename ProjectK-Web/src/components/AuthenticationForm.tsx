@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Paper,
   Typography,
@@ -48,6 +48,8 @@ export default function AuthenticationForm({
   const [passwordError, setPasswordError] = React.useState(false);
   const [transparentPass, setTransparentPass] = React.useState(false); // This helps toggle visibility on password
 
+  const api = process.env.NEXT_PUBLIC_API_URL;
+
   // Our router
   const router = useRouter();
 
@@ -58,20 +60,33 @@ export default function AuthenticationForm({
   // We read the size of the media to readjust if necessary
   const isMobile = useMediaQuery("(max-width:600px)");
 
+  const [emailCheck, setEmailCheck] = useState(false);
+  const [emailLocal, setEmailLocal] = useState('');
+
+  useEffect(() => {
+    setEmailLocal(localStorage.getItem('email') ?? '');
+    setEmailCheck(true);
+  }, []);
+
+
   // CONECTION API
   function userExists(email: string) {
     axios
-      .get(`http://localhost:2024/users/${email}`)
+      .get(api + `/users/${email}`)
       .then((res) => {
         console.log(res);
         console.log(res.data[0].email);
-        localStorage.setItem('email', res.data.user.email);
+        if(emailCheck){
+          localStorage.setItem('email', email);
+        }
 
 
       })
       .catch((err) => {
         console.log(err);
-        localStorage.setItem('email', 'NOT FOUND');
+        if(emailCheck){
+          localStorage.setItem('email', 'NOT FOUND');
+        }
 
 
       });
@@ -80,16 +95,20 @@ export default function AuthenticationForm({
 
   function createUser(email: string) {
     axios
-      .post(`http://localhost:2024/users/`)
+      .post(api + `/users/`)
       .then((res) => {
         console.log(res);
-        localStorage.setItem('email', res.data.user.email);
+        if(emailCheck){
+          localStorage.setItem('email', res.data.user.email);
+        }
 
       }
       )
       .catch((err) => {
         console.log(err);
-        localStorage.setItem('email', 'NOT FOUND');
+        if(emailCheck){
+          localStorage.setItem('email', 'NOT FOUND');
+        }
 
       });
 
@@ -170,7 +189,7 @@ export default function AuthenticationForm({
 
         if (user.email) {
           userExists(user.email);
-          if(localStorage.getItem('email') === user.email){
+          if(emailLocal === user.email){
             alert("Bienvenido! ");
 
           } else {

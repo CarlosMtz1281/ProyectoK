@@ -23,10 +23,13 @@ export default function Home() {
     appRouter.replace("/gates/register");
   };
 
+  const [checkEmailLocal, setCheckEmailLocal] = useState('');
+
   // We move into the dashboard if the user was already in
   useEffect(() => {
+    setCheckEmailLocal(localStorage.getItem("email") ?? '');
     const timer = setTimeout(() => {
-      if (localStorage.getItem("email") !== null) {
+      if (checkEmailLocal !== null) {
         appRouter.replace("/dashboard");
       }
       setIsLoading(false);

@@ -14,10 +14,20 @@ export default function NavbarConf() {
     appRouter.replace(nav);
   };
   const [admin, setAdmin] = useState(false);
+  const [user, setUser] = useState('');
   const [path, setPath] = useState("Player");
 
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [initials, setInitials] = useState("");
+  const [flag, setFlag] = useState(false);
+
   useEffect(() => {
-    const user = localStorage.getItem("admin");
+    setUser(localStorage.getItem("admin") ?? '');
+    setName(localStorage.getItem("first_name") ?? "");
+    setLastName(localStorage.getItem("last_name") ?? "");
+    setInitials(name.charAt(0) + lastName.charAt(0));
+    setFlag(true);
     console.log(user);
     if (user === "true") {
       setAdmin(true);
@@ -26,16 +36,15 @@ export default function NavbarConf() {
   }, []);
 
   function signOut() {
-    localStorage.removeItem("admin");
-    localStorage.removeItem("email");
+    if(flag){
+      localStorage.removeItem("first_name");
+      localStorage.removeItem("last_name");
+    }
     appRouter.replace("/");
   }
 
   const pathname = usePathname();
 
-  const name = localStorage.getItem("first_name") ?? "";
-  const lastName = localStorage.getItem("last_name") ?? "";
-  const initials = name.charAt(0) + lastName.charAt(0);
 
   return (
     <div className="navbar">

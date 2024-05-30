@@ -1,9 +1,10 @@
 "use-client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/QuizConf/QuizConf.css";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { MdDelete } from "react-icons/md";
+import { set } from "firebase/database";
 
 
 interface CardProps {
@@ -18,12 +19,20 @@ interface CardProps {
   mayDelete?: boolean;
 }
 
-const isAdmin = localStorage.getItem("admin");
 
 export default function Card({ID, autor, nombre, tema, fecha, reporteId, openQuiz, onDelete, mayDelete = false}: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
+  const [isAdmin, setIsAdmin] = useState<string>("false");
+  const [checkIDLocal, setCheckIDLocal] = useState(false);
+  const [checkReportLocal, setCheckReportLocal] = useState(false);
 
+
+  useEffect(() => {
+    setIsAdmin(localStorage.getItem("admin") || "");
+    setCheckIDLocal(true);
+    setCheckReportLocal(true);
+  } ,[]);
 
   function handleDelete (){
     console.log(ID);
@@ -35,14 +44,18 @@ export default function Card({ID, autor, nombre, tema, fecha, reporteId, openQui
   const onClick = () => {
     if(mayDelete === false){
       console.log("ID", ID);
-      localStorage.setItem("ID", ID.toString());
+      if(checkIDLocal){
+        localStorage.setItem("ID", ID.toString());
+      }
       if(isAdmin === "false"){
         appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
       } else if(isAdmin === "true"){
         appRouter.replace("/dashboard/Admin/MisQuizes/Reporte");
       }
 
-      localStorage.setItem("report_Id", reporteId);
+      if(checkReportLocal){
+        localStorage.setItem("report_Id", reporteId);
+      }
     }
   };
 
