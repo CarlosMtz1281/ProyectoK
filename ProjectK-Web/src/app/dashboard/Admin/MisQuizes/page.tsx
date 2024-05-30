@@ -10,7 +10,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { Fab, Tooltip } from "@mui/material";
 import { Add } from "@mui/icons-material";
-
+import Link from "next/link";
 
 export default function Explorar() {
   const [query, setQuery] = useState("");
@@ -94,11 +94,13 @@ export default function Explorar() {
           </select>
         </div>
         <div id="crearquiz" className="ml-4">
-          <Tooltip title = "Crear quiz" placement="top">
-            <Fab color="info">
-              <Add />
-            </Fab>
-          </Tooltip>
+          <Link href = '/dashboard/Admin/MisQuizes/Editor'>
+            <Tooltip title="Crear quiz" placement="top">
+              <Fab color="info">
+                <Add />
+              </Fab>
+            </Tooltip>
+          </Link>
         </div>
       </div>
       <div className="cards-container">
