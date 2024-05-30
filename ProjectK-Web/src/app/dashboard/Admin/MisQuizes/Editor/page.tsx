@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
 import {
   useForm,
@@ -36,10 +36,14 @@ export default function Editor() {
   // Form hook that manages the admin's selections.
   const methods = useForm();
   const { register } = methods;
+  const [userIdLocal, setUserIdLocal] = useState(0);
   
+  useEffect(() => {
+    setUserIdLocal(Number(localStorage.getItem("user_id")));
+  }, []);
 
   // We add the admin's id
-  register("adminId", { value: localStorage.getItem("user_id") });
+  register("adminId", { value: userIdLocal });
 
   // We save the topics into our website. 
   const [topics, setTopics] = React.useState(defaultThemes);

@@ -1,5 +1,5 @@
 "use client";
-import React, {use, useEffect}from 'react';
+import React, {useState, useEffect}from 'react';
 import { useRouter, usePathname } from "next/navigation";
 
 // For some reason, when the user tries to go back through the browser
@@ -10,9 +10,12 @@ import { useRouter, usePathname } from "next/navigation";
 
 export default function ExplorarFix() {
     const appRouter = useRouter();
+    const [checkAdminLocal, setCheckAdminLocal] = useState<string>("");
 
     useEffect(() => {
-        if (localStorage.getItem('admin') === 'true') {
+        setCheckAdminLocal(localStorage.getItem("admin") || "");
+
+        if (checkAdminLocal === 'true') {
             appRouter.replace("/dashboard/Admin/Explorar");
         } else {
             appRouter.replace("/dashboard/Player/Explorar");

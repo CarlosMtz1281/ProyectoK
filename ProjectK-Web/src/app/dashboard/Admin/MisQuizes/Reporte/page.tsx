@@ -140,7 +140,7 @@ export default function ReporteAdmin() {
                         {dummyStudents.map((student) => {
                             if (student.name?.toLowerCase().includes(query.toLowerCase())) {
                                 return (
-                                    <div className='studentCard'>
+                                    <div className='studentCard' key={student.id}>
                                         <p className='studentName'>{student.name}</p>
                                         <ReportAdminModal name={student.name} contentAI={defaultContent}/>
                                     </div>

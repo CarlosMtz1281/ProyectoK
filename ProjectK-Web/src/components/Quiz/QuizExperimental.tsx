@@ -85,8 +85,11 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
     Array<{ questionId: number; answer: number; confidence: number }>
   >([]);
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     console.log("api: ", api+`quizes/${quizId}`);
+    setIsLoaded(true);
 
     axios
       .get( api+`quizes/${quizId}`)
@@ -97,7 +100,9 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       })
       .catch((err) => {
         console.log(err);
-        localStorage.setItem("email", "NOT FOUND");
+        if (isLoaded){
+          localStorage.setItem("email", "NOT FOUND");
+        }
       });
   }, []); // Runs only once after the initial render
 
@@ -170,15 +175,18 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
     }
   };
 
+  const [user_id, setUser_id] = useState(0);
+
   useEffect(() => {
     console.log(currentQuestion);
+    setUser_id(Number(localStorage.getItem("user_id")));
   }, [currentQuestion]);
 
   async function postResults() {
     console.log("Posting results");
     const dataToSend = {
       quizId: quizId,
-      userId: localStorage.getItem("user_id"),
+      userId: user_id,
       responses: userAnswers,
     };
     axios
