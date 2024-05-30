@@ -39,38 +39,38 @@ interface ReportData {
   responses: Response[];
 }
 
-const [name, setName] = useState('');
-const [lastName, setLastName] = useState('');
+export default function Reporte() {
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
 
 const Radar = dynamic(
   () => import("react-chartjs-2").then((mod) => mod.Radar),
   { ssr: false }
 );
 
-const data = {
-  labels: [
-    "Correctas",
-    "Incorrectas",
-    "Calificacion",
-    "Confianza",
-    "Desempeño",
-  ],
-  datasets: [
-    {
-      label: `${name} ${lastName}`,
-      data: [28, 48, 40, 96, 19],
-      fill: true,
-      backgroundColor: "rgba(92, 93, 94, 0.25)",
-      borderColor: "rgb(92, 93, 94)",
-      pointBackgroundColor: "rgb(92, 93, 94)",
-      pointBorderColor: "#fff",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgb(92, 93, 94)",
-    },
-  ],
-};
+  const data = {
+    labels: [
+      "Correctas",
+      "Incorrectas",
+      "Calificacion",
+      "Confianza",
+      "Desempeño",
+    ],
+    datasets: [
+      {
+        label: name + " " + lastName,
+        data: [28, 48, 40, 96, 19],
+        fill: true,
+        backgroundColor: "rgba(92, 93, 94, 0.25)",
+        borderColor: "rgb(92, 93, 94)",
+        pointBackgroundColor: "rgb(92, 93, 94)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgb(92, 93, 94)",
+      },
+    ],
+  };
 
-export default function Reporte() {
   const api = process.env.NEXT_PUBLIC_API_URL;
 
   const [reportData, setReportData] = useState({} as any);
