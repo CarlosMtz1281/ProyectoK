@@ -1,13 +1,16 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import Card from "@/components/Explorar/cardQuiz"
-import '@/styles/MisQuizesAdmin.css'
+import React, { useState } from "react";
+import Card from "@/components/Explorar/cardQuiz";
+import "@/styles/MisQuizesAdmin.css";
 import { FaSearch } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
-import Select from 'react-select';
-import axios from 'axios';
-import { useEffect } from 'react';
+import Select from "react-select";
+import axios from "axios";
+import { useEffect } from "react";
+import { Fab, Tooltip } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import Link from "next/link";
 
 const adminID = Number(localStorage.getItem("user_id"));
 
@@ -58,10 +61,21 @@ export default function Explorar() {
 
           });
 
-      },
-        []
-        );
-/*
+  // Fetch de datos
+  useEffect(() => {
+    axios
+      .get(`http://localhost:2025/quizes`)
+      .then((res) => {
+        console.log(res);
+        setCardData(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        localStorage.setItem("email", "NOT FOUND");
+      });
+  }, []);
+  /*
     const handleDelete = (id: number) => {
         axios
           .delete(`http://localhost:2024/quizes/${id}`)
@@ -124,5 +138,51 @@ export default function Explorar() {
                 <button id="deleteButton" onClick={()=> setDeleting(true)}>Eliminar</button>
             </div>
         </div>
-    );
+        <div id="crearquiz" className="ml-4">
+          <Link href = '/dashboard/Admin/MisQuizes/Editor'>
+            <Tooltip title="Crear quiz" placement="top">
+              <Fab color="info">
+                <Add />
+              </Fab>
+            </Tooltip>
+          </Link>
+        </div>
+      </div>
+      <div className="cards-container">
+        {realData.map((card: any, index: number) => {
+          if (selectedTema === "Temas" || card.topic_name === selectedTema) {
+            if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
+              return (
+                <Card
+                  key={index}
+                  ID={card.quiz_id}
+                  autor={card.author}
+                  nombre={card.quiz_name}
+                  tema={card.topic_name}
+                  onDelete={() => removeQuiz(card.quiz_id)}
+                  openQuiz={() => setQuizRuning(true)}
+                  mayDelete={deleting}
+                />
+              );
+            } else {
+              return null; // Don't render the card if it doesn't match the search query
+            }
+          } else {
+            return null; // Don't render the card if it doesn't match the selected tema
+          }
+        })}
+      </div>
+      <div className="card-buttons">
+        {deleting && (
+          <button id="readyButton" onClick={() => setDeleting(false)}>
+            Listo
+          </button>
+        )}
+
+        <button id="deleteButton" onClick={() => setDeleting(true)}>
+          Eliminar
+        </button>
+      </div>
+    </div>
+  );
 }
