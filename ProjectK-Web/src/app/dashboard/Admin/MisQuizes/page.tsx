@@ -21,7 +21,7 @@ interface CardData {
 }
 
 export default function Explorar() {
-
+    const api = process.env.NEXT_PUBLIC_API_URL ;
     const [query, setQuery] = useState('')
     const [selectedTema, setSelectedTema] = useState('Temas');
     const [realData, setCardData] = useState<CardData[]>([])
@@ -43,7 +43,7 @@ export default function Explorar() {
     // Fetch de datos
     useEffect(() => {
         axios
-          .get(`http://localhost:2024/quizes`)
+          .get(api+`quizes`)
           .then((res) => {
             console.log(res);
             setCardData(res.data);
@@ -109,7 +109,7 @@ export default function Explorar() {
                 .map((card: any, index: number) => {
                     if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
                         if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
-                            return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} onDelete={()=> removeQuiz(card.quiz_id)}  openQuiz = {() => setQuizRuning(true)} mayDelete={deleting}/>;
+                            return <Card key={index} reporteId={card.report_Id} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} onDelete={()=> removeQuiz(card.quiz_id)}  openQuiz = {() => setQuizRuning(true)} mayDelete={deleting}/>;
                         } else {
                             return null; // Don't render the card if it doesn't match the search query
                         }

@@ -83,7 +83,7 @@
     grid-gap: 0rem;
     overflow-x: hidden;
     overflow-y: scroll;
-    height: 70vh;
+    height: 65vh;
     background-color: var(--primaryBG-200);
     border-radius: 0.4rem;
 }
@@ -112,13 +112,13 @@
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  
+
   #readyButton:hover{
     background-color: black;
     color: white;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
   }
-  
+
   #readyButton:active {
     background-color: gray;
     color: white;
@@ -138,17 +138,16 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-left: 10px; /* Separation between buttons */
   }
-  
+
   #deleteButton:hover {
     background-color: white;
     color: black;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
   }
-  
+
   #deleteButton:active {
     background-color: gray;
     color: black;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
-  
-  
+

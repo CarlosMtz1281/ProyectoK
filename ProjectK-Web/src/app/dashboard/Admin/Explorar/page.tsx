@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 export default function Explorar() {
+    const api = process.env.NEXT_PUBLIC_API_URL ;
 
     const [query, setQuery] = useState('')
     const [selectedTema, setSelectedTema] = useState('Temas');
@@ -26,7 +27,7 @@ export default function Explorar() {
     // Fetch de datos
     useEffect(() => {
         axios
-          .get(`http://localhost:2024/quizes`)
+          .get(api+`quizes`)
           .then((res) => {
             console.log(res);
             setCardData(res.data);
@@ -58,10 +59,10 @@ export default function Explorar() {
                     <div className='icon-container'>
                         <IoIosSearch size={40}/>
                     </div>
-                    <input className='searchBar' 
-                        type='text' 
-                        placeholder={'Busqueda por titulo de quiz ej. Calculo diferencial'} 
-                        value={query} 
+                    <input className='searchBar'
+                        type='text'
+                        placeholder={'Busqueda por titulo de quiz ej. Calculo diferencial'}
+                        value={query}
                         onChange={handleChange}/>
                 </div>
                 <div className='temas-button-container'>

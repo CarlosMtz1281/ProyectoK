@@ -8,9 +8,11 @@ import { MdDelete } from "react-icons/md";
 
 interface CardProps {
   ID: number;
+  reporteId: string;
   autor: string;
   nombre: string;
   tema: string;
+  fecha?: string;
   openQuiz?: () => void
   onDelete?: () => void;
   mayDelete?: boolean;
@@ -18,7 +20,7 @@ interface CardProps {
 
 const isAdmin = localStorage.getItem("admin");
 
-export default function Card({ID, autor, nombre, tema, openQuiz, onDelete, mayDelete = false}: CardProps) {
+export default function Card({ID, autor, nombre, tema, fecha, reporteId, openQuiz, onDelete, mayDelete = false}: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
 
@@ -40,8 +42,20 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete, mayDe
         appRouter.replace("/dashboard/Admin/MisQuizes/Reporte");
       }
 
+      localStorage.setItem("report_Id", reporteId);
     }
   };
+
+  let formattedDate = "";
+  if (fecha) {
+    const date = new Date(fecha);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const amOrPm = hours >= 12 ? "pm" : "am";
+    const formattedHours = hours % 12 || 12;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    formattedDate = `${formattedHours}:${formattedMinutes} ${amOrPm}, ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+  }
 
   return (
     <a>
@@ -78,11 +92,13 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete, mayDe
         </div>
         <div className="description-container">
           <p className="card-text">{nombre}</p>
-          <p className="card-autor">{tema}</p>
+          <p className="card-autor2">{autor}</p>
+          <p className="card-autor2">{formattedDate}</p>
+
 
 
           <div className="autor-container">
-            <p className="card-autor">{autor}</p>
+            <p className="card-autor">{tema}</p>
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@
     box-shadow: 0 0.2rem 0.3rem gray;
     cursor: pointer;
     width: 22rem;
-    height: 16rem;
+    height: 18rem;
 }
 
 .card-content:hover{
@@ -21,7 +21,7 @@
 }
 
 .card-text{
-    font-size: 24px;
+    font-size: 22px;
     text-align: left;
     margin-left: 10px;
     white-space: nowrap; /* Prevent text from wrapping */
@@ -35,6 +35,15 @@
 }
 
 .card-autor{
+    font-size: 15px;
+    text-align: left;
+    margin-left: 10px;
+    color: rgb(99, 99, 99);
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+}
+.card-autor2{
     font-size: 15px;
     text-align: left;
     margin-left: 10px;
@@ -99,6 +108,7 @@
     padding-right:1.5rem;
     padding-top: 1rem;
 }
+
 
 .onDelete {
     display: flex;
