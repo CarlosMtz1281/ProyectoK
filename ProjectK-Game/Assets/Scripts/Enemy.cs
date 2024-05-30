@@ -23,13 +23,18 @@ public class Enemy : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<Player>().Damage();
+            collision.GetComponent<PlayerMobile>().Damage();
             Destroy(gameObject);
         }
 
         if (collision.CompareTag("Border"))
         {
-            collision.GetComponent<Border>().player.Damage();
+            if(collision.GetComponent<Border>().player != null){
+                collision.GetComponent<Border>().player.Damage();
+            } else {
+                collision.GetComponent<Border>().playerMobile.Damage();
+            }
+            
             Destroy(gameObject);
         }
     }

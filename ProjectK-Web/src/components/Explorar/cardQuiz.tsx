@@ -12,11 +12,13 @@ interface CardProps {
   autor: string;
   nombre: string;
   tema: string;
-  fecha: string;
+  fecha?: string;
   openQuiz?: () => void
   onDelete?: () => void;
   mayDelete?: boolean;
 }
+
+const isAdmin = localStorage.getItem("admin");
 
 export default function Card({ID, autor, nombre, tema, fecha, reporteId, openQuiz, onDelete, mayDelete = false}: CardProps) {
   const appRouter = useRouter();
@@ -33,19 +35,27 @@ export default function Card({ID, autor, nombre, tema, fecha, reporteId, openQui
   const onClick = () => {
     if(mayDelete === false){
       console.log("ID", ID);
+      localStorage.setItem("ID", ID.toString());
+      if(isAdmin === "false"){
+        appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
+      } else if(isAdmin === "true"){
+        appRouter.replace("/dashboard/Admin/MisQuizes/Reporte");
+      }
+
       localStorage.setItem("report_Id", reporteId);
-      appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
     }
   };
 
-  const date = new Date(fecha);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const amOrPm = hours >= 12 ? "pm" : "am";
-  const formattedHours = hours % 12 || 12;
-  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const formattedDate = `${formattedHours}:${formattedMinutes} ${amOrPm}, ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-
+  let formattedDate = "";
+  if (fecha) {
+    const date = new Date(fecha);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const amOrPm = hours >= 12 ? "pm" : "am";
+    const formattedHours = hours % 12 || 12;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    formattedDate = `${formattedHours}:${formattedMinutes} ${amOrPm}, ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+  }
 
   return (
     <a>

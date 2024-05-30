@@ -1,0 +1,167 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 2rem 1rem 1rem 1rem;
+}
+
+.headerContainer{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    font-size: 2.5rem;
+    margin-left: 3rem;
+}
+
+.returnButton{
+    padding: 0rem 0.5rem;
+    background-color: var(--neutral-300);
+    border-radius: 10%;
+}
+
+.headerText {
+    margin-left: 3rem;
+}
+
+.editButton {
+    padding: 1rem 0rem;
+    background-color: var(--white);
+    width: 100%;
+    border-radius: 1rem;
+
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0rem 1rem 0rem 1rem;
+}
+
+.generalStatsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: var(--white);
+    border-radius: 1rem;
+}
+
+.statContainer1{
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    color: #76B459;
+}
+
+.statContainer2{
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    color: #3A98DB;
+}
+
+.statContainer3{
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    color: #D952CB;
+}
+
+.statNumber {
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.statPercent {
+    font-size: 1.5rem;
+}
+
+.statDescription {
+    font-size: 1.1rem;
+}
+
+.questionsAccordionContainer {
+    display: flex;
+    flex-direction: column;
+    height: 61vh;
+    width: 90%;
+    padding: 1rem 1rem 1rem 1rem;
+    background-color: var(--white);
+    border-radius: 1rem;
+    margin-top: 2rem;
+    overflow-y: scroll;
+    justify-content: flex-start;
+}
+
+.filterContainer {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 20%;
+    background-color: var(--white);
+    border-radius: 1rem;
+    overflow-y: scroll;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.studentSearch {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    background-color: var(--primaryBG-200);
+    border-radius: 3rem;
+    height: 5%;
+    margin-top: 1rem;
+}
+
+.iconSearch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+}
+
+.searchBarStudent {
+    width: 70%;
+    border: none;
+    outline: none;
+    background-color: var(--primaryBG-200);
+}
+
+.searchBarStudent::placeholder {
+    color: var(--search);
+    font-family: var(--primaryFont);
+}
+
+.studentList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 95%;
+    border-radius: 0 0 1rem 1rem;
+    margin-top: 1rem;
+}
+
+.studentCard {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 5vh;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--primaryBG-200);
+    padding: 0rem 1rem;
+}
