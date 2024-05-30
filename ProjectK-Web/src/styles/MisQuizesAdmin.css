@@ -1,0 +1,153 @@
+.main-explora {
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    padding-right: 1rem;
+}
+
+.title-container {
+    padding: 0rem 0rem 1rem 0rem;
+}
+
+.title-explora {
+    font: var(--primaryFont);
+    font-size: 2.5rem;
+}
+
+.icon-container {
+    background-color: var(--white);
+    color: var(--accent-400);
+    justify-content: center;
+    align-items: center;
+}
+
+.filter-container {
+    display: flex;
+    flex-direction: row;
+    width: 77%;
+    height: 6vh;
+    align-items: center;
+    background-color: var(--white);
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 1.1rem;
+    transition: transform 0.3s ease; /* Add this line */
+}
+
+.filter-container:focus-within {
+    transform: scale(1.02); /* Add this line */
+}
+
+.searchBar {
+    width: 100%;
+    font-family: var(--primaryFont);
+    padding-left: 1rem;
+    border-radius: 0 0.4rem 0.4rem 0;
+    border: none;
+    outline: none;
+}
+
+.searchBar::placeholder {
+    color: var(--search);
+    font-size: 1.25rem;
+}
+
+.temas-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}
+
+.temas-button {
+    display: flex;
+    background-color: var(--white);
+    width: 100%;
+    height: 100%;
+    border-radius: 1.1rem;
+    color: var(--search);
+    font-size: 1.25rem;
+    font-family: var(--primaryFont);
+    padding-left: 1.5rem;
+}
+
+.temas-button:hover {
+    box-shadow: 0 0 0.75rem var(--primaryBG-200);
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 0rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 65vh;
+    background-color: var(--primaryBG-200);
+    border-radius: 0.4rem;
+}
+
+@media (max-width: 600px) {
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card-buttons{
+    display: flex;
+    justify-content: right;
+    bottom: 20px;
+    right: 20px;
+}
+
+#readyButton {
+    background-color: white;
+    color: black;
+    width: 12rem;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  #readyButton:hover{
+    background-color: black;
+    color: white;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  #readyButton:active {
+    background-color: gray;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  #deleteButton {
+    background-color: black;
+    color: white;
+    width: 12rem;
+    border: 2px solid white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 10px; /* Separation between buttons */
+  }
+
+  #deleteButton:hover {
+    background-color: white;
+    color: black;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  #deleteButton:active {
+    background-color: gray;
+    color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+

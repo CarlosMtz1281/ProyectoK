@@ -1,0 +1,83 @@
+
+.questionContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 40vh;
+    gap: 1rem;
+}
+
+.feedbackContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 35%;
+    padding: 1rem 1rem;
+    overflow-y: scroll;
+    gap: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.3rem lightgray;
+}
+
+.feedbackAI {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 65%;
+}
+
+.questionStatsContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+}
+
+.preconfContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50%;
+    gap: 1rem;
+    padding: 0.5rem 0rem;
+}
+
+.pcStatContainer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    align-content: center;
+    border-radius: 1rem;
+    box-shadow: 0 0 0.3rem lightgray;
+    overflow-y: hidden;
+    padding: 0.5rem 0 0 0;
+}
+
+.respuestasContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50%;
+    text-align: center;
+    align-content: center;
+    justify-content: flex-start;
+    border-radius: 1rem;
+    box-shadow: 0 0 0.3rem lightgray;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    padding: 1rem 0 0 0;
+    
+}
+
+.barContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+}

@@ -5,11 +5,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     float speed = 2f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -20,7 +15,6 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Enemy collided with " + collision.name);
         if (collision.CompareTag("Projectile"))
         {
             Destroy(collision.gameObject);
@@ -29,13 +23,18 @@ public class Enemy : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<Player>().Damage();
+            collision.GetComponent<PlayerMobile>().Damage();
             Destroy(gameObject);
         }
 
         if (collision.CompareTag("Border"))
         {
-            collision.GetComponent<Border>().player.Damage();
+            if(collision.GetComponent<Border>().player != null){
+                collision.GetComponent<Border>().player.Damage();
+            } else {
+                collision.GetComponent<Border>().playerMobile.Damage();
+            }
+            
             Destroy(gameObject);
         }
     }

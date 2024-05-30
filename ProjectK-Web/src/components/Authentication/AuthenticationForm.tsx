@@ -28,10 +28,14 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 
+
 const auth = getAuth(app);
 
 // This component requires to be rendered on the client side
 export default function AuthenticationForm() {
+
+  const api = process.env.NEXT_PUBLIC_API_URL;
+
   // State variables to save username, password and password visibility
   const [username, setUsername] = React.useState("");
   const [usernameError, setUsernameError] = React.useState(false);
@@ -50,25 +54,19 @@ export default function AuthenticationForm() {
   const isMobile = useMediaQuery("(max-width:600px)");
 
   // CONECTION API
-
-  // CONECTION API
   async function userExists(email: string) {
     try {
-      const res = await axios.get(`http://localhost:2024/users/${email}`);
-      console.log(res);
-
-      console.log(res.data[0].user_email);
-      localStorage.setItem("email", res.data[0].user_email);
-      localStorage.setItem("admin", res.data[0].is_admin);
-      localStorage.setItem("userData", res.data[0]);
-      localStorage.setItem("user_id", res.data[0].user_id);
-      localStorage.setItem("first_name", res.data[0].first_name)
-      localStorage.setItem("last_name", res.data[0].last_name)
+      const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + "users/" + email);
+      localStorage.setItem("email", res.data.user.user_email);
+      localStorage.setItem("admin", res.data.user.is_admin.toString());
+      localStorage.setItem("userData", JSON.stringify(res.data.user));
+      localStorage.setItem("user_id", res.data.user.user_id.toString());
+      localStorage.setItem("first_name", res.data.user.first_name);
+      localStorage.setItem("last_name", res.data.user.last_name);
 
       console.log(localStorage.getItem("email"));
     } catch (err) {
       console.log(err);
-      localStorage.setItem("email", "NOT FOUND");
     }
   }
 
@@ -126,6 +124,7 @@ export default function AuthenticationForm() {
       if (user.email) {
         await userExists(user.email); // userExists is an asynchronous function, it should be completely finished to proceed
         console.log(localStorage.getItem("email"));
+
         console.log(user.email);
         if (localStorage.getItem("email") === user.email) {
           alert("Bienvenido! ");

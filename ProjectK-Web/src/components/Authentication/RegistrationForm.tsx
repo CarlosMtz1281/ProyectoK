@@ -31,6 +31,7 @@ const auth = getAuth(app);
 
 // This component requires to be rendered on the client side
 export default function RegistrationForm() {
+  const api = process.env.NEXT_PUBLIC_API_URL;
   // State variables for user data
   const [dbUsername, setDbUsername] = React.useState("");
   const [trueName, setTrueName] = React.useState("");
@@ -67,10 +68,11 @@ export default function RegistrationForm() {
     };
 
     axios
-      .post(`http://localhost:2024/users/`, userData)
+      .post(api+`users/`, userData)
       .then((res) => {
         console.log("success");
         console.log(res);
+        localStorage.setItem('Key', res.data.session_key);
         localStorage.setItem('email', email);
         localStorage.setItem('admin', String(admin)); // localStorage ONLY accepts strings
       })
@@ -136,7 +138,7 @@ export default function RegistrationForm() {
         }
 
         alert("Signed in!");
-        router.replace("/dashboard");
+        router.replace("dashboard");
       })
       .catch((error) => {
         const errorCode = error.code;

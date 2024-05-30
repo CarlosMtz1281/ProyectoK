@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import Card from "@/components/Explorar/card"
+import Card from "@/components/Explorar/cardExplorar"
 import '@/styles/Explora.css'
 import { FaSearch } from "react-icons/fa";
 import axios from 'axios';
@@ -10,15 +10,15 @@ import { useEffect } from 'react';
 import QuizExperimental from '@/components/Quiz/QuizExperimental';
 
 
-
-
 export default function Explorar() {
+
+    const api = process.env.NEXT_PUBLIC_API_URL;
 
     const [query, setQuery] = useState('')
     const [selectedTema, setSelectedTema] = useState('Temas');
     const [realData, setCardData] = useState([])
-
-    const [quizRuning, setQuizRuning] = useState(true);
+    const [quizRuning, setQuizRuning] = useState(false);
+    const [selectedQuiz, setSelectedQuiz] = useState(0);
 
 
     const handleChangeTema = (e : any) => {
@@ -31,12 +31,11 @@ export default function Explorar() {
 
     // Fetch de datos
     useEffect(() => {
+        console.log('fetching data from: ', api+`quizes`)
         axios
-          .get(`http://localhost:2024/quizes`)
+          .get(api+`quizes`)
           .then((res) => {
-            console.log(res);
             setCardData(res.data);
-            console.log(res.data);
 
 
           })
@@ -83,16 +82,16 @@ export default function Explorar() {
             {realData.map((card: any, index: number) => {
                 if (selectedTema === 'Temas' || card.topic_name === selectedTema) {
                     if (card.quiz_name.toLowerCase().includes(query.toLowerCase())) {
-                        return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} openQuiz={() => setQuizRuning(true)}/>;
+                        return <Card key={index} ID={card.quiz_id} autor={card.author} nombre={card.quiz_name} tema={card.topic_name} openQuiz={() => {setQuizRuning(true); setSelectedQuiz(card.quiz_id)}}/>;
                     } else {
-                        return null; // Don't render the card if it doesn't match the search query
+                        return null;
                     }
                 } else {
-                    return null; // Don't render the card if it doesn't match the selected tema
+                    return null;
                 }
             })}
             </div>
-            {quizRuning && <QuizExperimental onClose={() => setQuizRuning(false)}/>}
+            {quizRuning && <QuizExperimental onClose={() => setQuizRuning(false)} quizId={selectedQuiz}/>}
         </div>
     );
 }
