@@ -29,14 +29,20 @@ export default function Explorar() {
     setQuery(e.target.value);
   };
 
+  const [userIdLocal, setUserIdLocal] = useState(0);
+  const [checkEmailLocal, setCheckEmailLocal] = useState(false);
+
   // Fetch de datos
   useEffect(() => {
+    setUserIdLocal(Number(localStorage.getItem("user_id")));
+    setCheckEmailLocal(true);
+
     console.log(
       "Fetching data",
-      api + `responses/user/${localStorage.getItem("user_id")}`
+      api + `responses/user/${userIdLocal}`
     );
     axios
-      .get(api + `responses/user/${localStorage.getItem("user_id")}`)
+      .get(api + `responses/user/${userIdLocal}`)
       .then((res) => {
         console.log(res);
         setCardData(res.data);
@@ -44,7 +50,9 @@ export default function Explorar() {
       })
       .catch((err) => {
         console.log(err);
-        localStorage.setItem("email", "NOT FOUND");
+        if (checkEmailLocal){
+          localStorage.setItem("email", "NOT FOUND");
+        }
       });
   }, []);
   /*

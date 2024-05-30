@@ -12,7 +12,6 @@ import { Fab, Tooltip } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import Link from "next/link";
 
-const adminID = Number(localStorage.getItem("user_id"));
 
 interface CardData {
   quiz_id: number;
@@ -42,8 +41,14 @@ export default function Explorar() {
     setQuery(e.target.value);
   };
 
+  const [adminIDLocal, setAdminIDLocal] = useState(0);
+  const [checkEmailLocal, setCheckEmailLocal] = useState(false);
+
   // Fetch de datos
   useEffect(() => {
+    setAdminIDLocal(Number(localStorage.getItem("user_id")));
+    setCheckEmailLocal(true);
+
     axios
       .get(api + `quizes`)
       .then((res) => {
@@ -53,7 +58,9 @@ export default function Explorar() {
       })
       .catch((err) => {
         console.log(err);
-        localStorage.setItem("email", "NOT FOUND");
+        if(checkEmailLocal){
+          localStorage.setItem("email", "NOT FOUND");
+        }
       });
   }, []);
   /*
@@ -117,7 +124,7 @@ export default function Explorar() {
       </div>
       <div className="cards-container">
         {realData // Add type annotation
-          .filter((card) => card.admin_id === adminID) // Add null check before converting to string
+          .filter((card) => card.admin_id === adminIDLocal) // Add null check before converting to string
           .map((card: any, index: number) => {
             if (selectedTema === "Temas" || card.topic_name === selectedTema) {
               if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {

@@ -24,8 +24,12 @@ export default function Explorar() {
         setQuery(e.target.value)
     }
 
+    const [checkEmailLocal, setCheckEmailLocal] = useState(false);
+
     // Fetch de datos
     useEffect(() => {
+        setCheckEmailLocal(true);
+
         axios
           .get(api+`quizes`)
           .then((res) => {
@@ -37,7 +41,9 @@ export default function Explorar() {
           })
           .catch((err) => {
             console.log(err);
-            localStorage.setItem('email', 'NOT FOUND');
+            if(checkEmailLocal){
+                localStorage.setItem('email', 'NOT FOUND');
+            }
 
 
           });

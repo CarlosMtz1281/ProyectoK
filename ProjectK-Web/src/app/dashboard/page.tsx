@@ -1,13 +1,16 @@
 "use client";
-import React, {use, useEffect}from 'react';
+import React, {useState, useEffect}from 'react';
 import { useRouter, usePathname } from "next/navigation";
 
 
 export default function Dashboard() {
     const appRouter = useRouter();
 
+    const [isAdminLocal, setIsAdminLocal] = useState<string>("");
+
     useEffect(() => {
-        if (localStorage.getItem('admin') === 'true') {
+        setIsAdminLocal(localStorage.getItem("admin") || "");
+        if (isAdminLocal === 'true') {
             appRouter.replace("/dashboard/Admin/Explorar");
         } else {
             appRouter.replace("/dashboard/Player/Explorar");
