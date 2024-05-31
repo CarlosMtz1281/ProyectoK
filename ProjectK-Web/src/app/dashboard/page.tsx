@@ -1,7 +1,6 @@
 "use client";
 import React, {useState, useEffect}from 'react';
 import { useRouter, usePathname } from "next/navigation";
-import { getCookie } from "@/app/utils/getcookie";
 
 
 export default function Dashboard() {
@@ -9,12 +8,12 @@ export default function Dashboard() {
     const [isAdminLocal, setIsAdminLocal] = useState<string>("");
 
     useEffect(() => {
-        setIsAdminLocal(getCookie("admin") || "");
-        if (isAdminLocal === 'true') {
-            appRouter.replace("/dashboard/Admin/Explorar");
-        } else {
-            appRouter.replace("/dashboard/Player/Explorar");
-        }
+        // setIsAdminLocal(getCookie("admin") || "");
+        // if (isAdminLocal === 'true') {
+        //     appRouter.replace("/dashboard/Admin/Explorar");
+        // } else {
+        //     appRouter.replace("/dashboard/Player/Explorar");
+        // }
 
     }, []);
 

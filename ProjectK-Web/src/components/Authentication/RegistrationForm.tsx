@@ -28,7 +28,6 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 // Cookies
 import { SetCookieAPI } from "@/app/utils/api";
-import { getCookie } from "@/app/utils/getcookie";
 
 const auth = getAuth(app);
 

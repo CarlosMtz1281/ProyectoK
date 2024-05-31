@@ -8,17 +8,30 @@ interface CookieOptions {
   path?: string;
 }
 
+// options
+const options = {
+    httpOnly: true,
+    secure: true,
+    maxAge: 7200, // 2 hours
+    sameSite: 'lax',
+}
+
 // For simpler syntax on the code, we make a function
 export async function SetCookieAPI(
   name: string,
   value: string,
-  options: CookieOptions = {}
 ): Promise<void> {
   try {
-    const response = await axios.post('/api/setCookie', {
-      name,
-      value,
-      options,
+    console.log("nameinapicall: ", name);
+    const response = await axios.post('/api/cookies', {
+      name: name,
+      value: value,
+      options: {
+        httpOnly: true,
+        secure: true,
+        maxAge: 7200, // 2 hours
+        sameSite: 'lax',
+    },
     });
     console.log(response.data);
   } catch (error) {

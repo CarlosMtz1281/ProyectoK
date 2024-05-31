@@ -76,9 +76,6 @@ export default function AuthenticationForm() {
       await SetCookieAPI("user_id", res.data.user.user_id.toString());
       await SetCookieAPI("first_name", res.data.user.first_name);
       await SetCookieAPI("last_name", res.data.user.last_name);
-
-
-      console.log(getCookie("email"));
     } catch (err) {
       console.log(err);
     }
@@ -137,7 +134,7 @@ export default function AuthenticationForm() {
 
       if (user.email) {
         await userExists(user.email); // userExists is an asynchronous function, it should be completely finished to proceed
-        const userEmail = await getCookie("email");
+        const userEmail = await getCookie('email');
         console.log("cookie useremail: ", userEmail);
         if (userEmail === user.email) {
           alert("Bienvenido! ");

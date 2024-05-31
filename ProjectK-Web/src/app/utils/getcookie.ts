@@ -1,12 +1,38 @@
-import cookie from 'cookie';
+import axios from 'axios';
 
-// Cookie parsing
-export function parseCookies(): Record<string, string> {
-  return cookie.parse(document.cookie);
+interface CookieOptions {
+  httpOnly?: boolean;
+  secure?: boolean;
+  maxAge?: number;
+  sameSite?: 'strict' | 'lax' | 'none';
+  path?: string;
 }
 
-// We get cookies for the client
-export function getCookie(name: string): string | undefined {
-  const cookies = parseCookies();
-  return cookies[name];
+// options
+const options = {
+    httpOnly: true,
+    secure: true,
+    maxAge: 7200, // 2 hours
+    sameSite: 'lax',
+}
+
+// For simpler syntax on the code, we make a function
+export async function getCookies(): Promise<any> {
+  try {
+    const response = await axios.get('/api/cookies');
+    return response.data;
+  } catch (error) {
+    console.error('Error setting cookie:', error);
+  }
+}
+
+// We get the specific cookie
+export async function getCookie(name: string): Promise<any> {
+    const res = await getCookies();
+    console.log("res", res.cookies);
+    const cookie = res.cookies.find((element: any) => element.name === name);
+    if (cookie) {
+        console.log(cookie.value);
+        return cookie.value;
+    }
 }
