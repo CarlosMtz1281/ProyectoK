@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const appRouter = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendToLogin = () => {
     appRouter.replace("/gates/login");
@@ -26,16 +26,16 @@ export default function Home() {
   const [checkEmailLocal, setCheckEmailLocal] = useState('');
 
   // We move into the dashboard if the user was already in
-  useEffect(() => {
-    setCheckEmailLocal(localStorage.getItem("email") ?? '');
-    const timer = setTimeout(() => {
-      if (checkEmailLocal !== null) {
-        appRouter.replace("/dashboard");
-      }
-      setIsLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   setCheckEmailLocal(localStorage.getItem("email") ?? '');
+  //   const timer = setTimeout(() => {
+  //     if (checkEmailLocal !== null) {
+  //       appRouter.replace("/dashboard");
+  //     }
+  //     setIsLoading(false);
+  //   }, 2000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   return (
     <div className="MainHTMLBody">

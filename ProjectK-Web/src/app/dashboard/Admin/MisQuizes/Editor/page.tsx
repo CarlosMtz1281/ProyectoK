@@ -16,6 +16,7 @@ import EditorBanner from "@/components/MisQuizzes/Admin/EditorDeQuiz/EditorBanne
 import QuizTitle from "@/components/MisQuizzes/Admin/EditorDeQuiz/QuizTitle";
 import QuestionPad from "@/components/MisQuizzes/Admin/EditorDeQuiz/QuestionPad";
 import axios from "axios";
+import { getCookie } from "@/app/utils/getcookie";
 
 const defaultThemes = [
   {
@@ -39,7 +40,7 @@ export default function Editor() {
   const [userIdLocal, setUserIdLocal] = useState(0);
   
   useEffect(() => {
-    setUserIdLocal(Number(localStorage.getItem("user_id")));
+    setUserIdLocal(Number(getCookie("user_id")));
   }, []);
 
   // We add the admin's id

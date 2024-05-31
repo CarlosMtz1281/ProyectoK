@@ -1,14 +1,12 @@
 "use client";
 
 import React from "react";
+// Icons
 import {
   Paper,
   Typography,
-  Button,
-  Grid,
   Box,
   useMediaQuery,
-  TextField,
   Fab,
   InputAdornment,
   Input,
@@ -17,9 +15,12 @@ import {
   IconButton,
   FormHelperText,
 } from "@mui/material";
+// Icons
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+// Navigation
 import { useRouter } from "next/navigation";
+// Auth
 import app from "@/app/firebase";
 import {
   getAuth,
@@ -27,7 +28,9 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import axios from "axios";
-
+// Cookies
+import { SetCookieAPI } from "@/app/utils/api";
+import { getCookie } from "@/app/utils/getcookie";
 
 const auth = getAuth(app);
 
@@ -57,14 +60,25 @@ export default function AuthenticationForm() {
   async function userExists(email: string) {
     try {
       const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + "users/" + email);
-      localStorage.setItem("email", res.data.user.user_email);
-      localStorage.setItem("admin", res.data.user.is_admin.toString());
-      localStorage.setItem("userData", JSON.stringify(res.data.user));
-      localStorage.setItem("user_id", res.data.user.user_id.toString());
-      localStorage.setItem("first_name", res.data.user.first_name);
-      localStorage.setItem("last_name", res.data.user.last_name);
 
-      console.log(localStorage.getItem("email"));
+      // We set the cookies
+
+      // localStorage.setItem("email", res.data.user.user_email);
+      // localStorage.setItem("admin", res.data.user.is_admin.toString());
+      // localStorage.setItem("userData", JSON.stringify(res.data.user));
+      // localStorage.setItem("user_id", res.data.user.user_id.toString());
+      // localStorage.setItem("first_name", res.data.user.first_name);
+      // localStorage.setItem("last_name", res.data.user.last_name);
+
+      await SetCookieAPI("email", res.data.user.user_email);
+      await SetCookieAPI("admin", res.data.user.is_admin.toString());
+      await SetCookieAPI("userData", JSON.stringify(res.data.user));
+      await SetCookieAPI("user_id", res.data.user.user_id.toString());
+      await SetCookieAPI("first_name", res.data.user.first_name);
+      await SetCookieAPI("last_name", res.data.user.last_name);
+
+
+      console.log(getCookie("email"));
     } catch (err) {
       console.log(err);
     }
@@ -123,10 +137,9 @@ export default function AuthenticationForm() {
 
       if (user.email) {
         await userExists(user.email); // userExists is an asynchronous function, it should be completely finished to proceed
-        console.log(localStorage.getItem("email"));
-
-        console.log(user.email);
-        if (localStorage.getItem("email") === user.email) {
+        const userEmail = await getCookie("email");
+        console.log("cookie useremail: ", userEmail);
+        if (userEmail === user.email) {
           alert("Bienvenido! ");
         } else {
           alert("Usuario no registrado. Por favor, regístrese");

@@ -1,6 +1,7 @@
 "use client";
 import React, {useState, useEffect}from 'react';
 import { useRouter, usePathname } from "next/navigation";
+import { getCookie } from "@/app/utils/getcookie";
 
 // For some reason, when the user tries to go back through the browser
 // It goes into dashboard/Explorar, when it shouldn't.
@@ -13,7 +14,7 @@ export default function ExplorarFix() {
     const [checkAdminLocal, setCheckAdminLocal] = useState<string>("");
 
     useEffect(() => {
-        setCheckAdminLocal(localStorage.getItem("admin") || "");
+        setCheckAdminLocal(getCookie("admin") || "");
 
         if (checkAdminLocal === 'true') {
             appRouter.replace("/dashboard/Admin/Explorar");

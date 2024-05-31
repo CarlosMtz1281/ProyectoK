@@ -1,15 +1,15 @@
 "use client";
 import React, {useState, useEffect}from 'react';
 import { useRouter, usePathname } from "next/navigation";
+import { getCookie } from "@/app/utils/getcookie";
 
 
 export default function Dashboard() {
     const appRouter = useRouter();
-
     const [isAdminLocal, setIsAdminLocal] = useState<string>("");
 
     useEffect(() => {
-        setIsAdminLocal(localStorage.getItem("admin") || "");
+        setIsAdminLocal(getCookie("admin") || "");
         if (isAdminLocal === 'true') {
             appRouter.replace("/dashboard/Admin/Explorar");
         } else {

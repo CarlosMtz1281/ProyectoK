@@ -14,6 +14,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { getCookie } from "@/app/utils/getcookie";
 
 
 interface Response {
@@ -87,9 +88,9 @@ const Radar = dynamic(
   useEffect(() => {
     console.log("Fetching data");
 
-    setName(localStorage.getItem("first_name") ?? "No");
-    setLastName(localStorage.getItem("last_name") ?? "Name");
-    setReportId(Number(localStorage.getItem("report_Id")));
+    setName(getCookie("first_name") ?? "No");
+    setLastName(getCookie("last_name") ?? "Name");
+    setReportId(Number(getCookie("report_Id")));
 
     axios
       .get(api + `responses/${reportId}`)

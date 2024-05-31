@@ -8,6 +8,8 @@ import { IoIosSearch } from "react-icons/io";
 import Select from "react-select";
 import axios from "axios";
 import { useEffect } from "react";
+import { getCookie } from "@/app/utils/getcookie";
+
 
 export default function Explorar() {
   const api = process.env.NEXT_PUBLIC_API_URL;
@@ -34,7 +36,7 @@ export default function Explorar() {
 
   // Fetch de datos
   useEffect(() => {
-    setUserIdLocal(Number(localStorage.getItem("user_id")));
+    setUserIdLocal(Number(getCookie("user_id")));
     setCheckEmailLocal(true);
 
     console.log(
@@ -50,9 +52,6 @@ export default function Explorar() {
       })
       .catch((err) => {
         console.log(err);
-        if (checkEmailLocal){
-          localStorage.setItem("email", "NOT FOUND");
-        }
       });
   }, []);
   /*
