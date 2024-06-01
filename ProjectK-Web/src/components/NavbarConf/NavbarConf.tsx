@@ -28,15 +28,13 @@ export default function NavbarConf() {
   const fetchData = async () => {
     const userCookie = await getCookie("admin");
     const firstName = await getCookie("first_name");
-    const lastName = (await getCookie("last_name")) ?? "";
+    const lastName = (await getCookie("last_name"));
 
     setUser(userCookie);
     setName(firstName);
     setLastName(lastName);
     setInitials(firstName.charAt(0) + lastName.charAt(0));
     setFlag(true);
-
-    console.log(userCookie);
     if (userCookie === "true") {
       setAdmin(true);
       setPath("Admin");

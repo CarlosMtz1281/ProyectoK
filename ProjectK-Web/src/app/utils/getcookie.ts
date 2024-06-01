@@ -15,7 +15,6 @@ export async function getCookie(name: string): Promise<string> {
     const res = await getCookies();
     const cookie = res.cookies.find((element: any) => element.name === name);
     if (cookie) {
-        console.log(typeof(cookie.value));
         return cookie.value;
     } else {
       return "not found";

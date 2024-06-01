@@ -37,13 +37,17 @@ export default function Card({
   const [checkIDLocal, setCheckIDLocal] = useState(false);
   const [checkReportLocal, setCheckReportLocal] = useState(false);
 
-  useEffect(() => {
-    async function setAdmin(name: string) {
-      setIsAdmin((await getCookie(name)) || "");
-    }
-    setAdmin("admin");
+  async function setAdmin() {
+    const adminname = await getCookie("admin");
+    setIsAdmin(adminname);
     setCheckIDLocal(true);
     setCheckReportLocal(true);
+  }
+
+  // we fix some async issues
+
+  useEffect(() => {
+    setAdmin();
   }, []);
 
   function handleDelete() {
@@ -59,15 +63,16 @@ export default function Card({
       if (checkIDLocal) {
         await SetCookieAPI("ID", ID.toString());
       }
+      if (checkReportLocal) {
+        console.log("this should be reporteid", reporteId);
+        await SetCookieAPI("reporte_Id", reporteId);
+      }
       if (isAdmin === "false") {
         appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
       } else if (isAdmin === "true") {
         appRouter.replace("/dashboard/Admin/MisQuizes/Reporte");
       }
 
-      if (checkReportLocal) {
-        await SetCookieAPI("reporte_Id", reporteId);
-      }
     }
   };
 

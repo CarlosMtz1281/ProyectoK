@@ -13,9 +13,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getCookie } from "@/app/utils/getcookie";
-
 
 interface Response {
   response_id: number;
@@ -41,13 +40,13 @@ interface ReportData {
 }
 
 export default function Reporte() {
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-const Radar = dynamic(
-  () => import("react-chartjs-2").then((mod) => mod.Radar),
-  { ssr: false }
-);
+  const Radar = dynamic(
+    () => import("react-chartjs-2").then((mod) => mod.Radar),
+    { ssr: false }
+  );
 
   const data = {
     labels: [
@@ -89,19 +88,14 @@ const Radar = dynamic(
   const cookieGetter = async () => {
     const firstname = await getCookie("first_name");
     const secondname = await getCookie("last_name");
-    const cookiereportid = await getCookie("report_Id");
+    const cookiereportid = await getCookie("reporte_Id");
 
     setName(firstname);
     setLastName(secondname);
     setReportId(Number(cookiereportid));
-  }
 
-  useEffect(() => {
-    console.log("Fetching data");
-
-    cookieGetter();
     axios
-      .get(api + `responses/${reportId}`)
+      .get(api + `responses/${cookiereportid}`)
       .then(async (response) => {
         await setReportData(response.data);
         console.log(response.data);
@@ -111,6 +105,12 @@ const Radar = dynamic(
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  useEffect(() => {
+    console.log("Fetching data");
+
+    cookieGetter();
   }, []);
 
   useEffect(() => {
@@ -146,8 +146,9 @@ const Radar = dynamic(
       totalConfidence += response.confidence;
     });
 
-    const averageConfidence =
-    Math.round((totalConfidence * 10) / reportData.responses.length);
+    const averageConfidence = Math.round(
+      (totalConfidence * 10) / reportData.responses.length
+    );
     const averageScore = Math.round(
       (100 / reportData.responses.length) * reportData.report.score
     );
@@ -157,88 +158,90 @@ const Radar = dynamic(
     setPreformance(Math.round((averageScore + averageConfidence) / 2));
   }
 
-return (
+  return (
     <div className="flex flex-row w-full">
-        {reportData.report && (
-            <div className="stats-half">
-                <div>
-                    <p className="report-title">Resultados del Quiz</p>
-                    <p className="report-date">
-                        {name} {lastName} contestó a las {exactDate}
-                    </p>
-                </div>
-                <div className="flex h-full w-full">
-                    <div className="graph-container">
-                        <Radar data={data} />
-                    </div>
-                </div>
+      {reportData.report && (
+        <div className="stats-half">
+          <div>
+            <p className="report-title">Resultados del Quiz</p>
+            <p className="report-date">
+              {name} {lastName} contestó a las {exactDate}
+            </p>
+          </div>
+          <div className="flex h-full w-full">
+            <div className="graph-container">
+              <Radar data={data} />
             </div>
-        )}
-        {reportData.responses && (
-            <div className="feedback-half">
-                <div className="general-stats">
-                    <div className="stat-container1">
-                        <div className="flex flex-row justify-center items-baseline">
-                            <p className="stat-number">{preformance}</p>
-                            <p className="stat-percent">%</p>
-                        </div>
-                        <div className="flex justify-center items-center -mt-2 text-center">
-                            <p className="stat-description">Desempeño General</p>
-                        </div>
-                    </div>
-
-                    <div className="stat-container2">
-                        <div className="flex flex-row justify-center items-baseline">
-                            <p className="stat-number">{confianzaPromedio}</p>
-                            <p className="stat-percent">%</p>
-                        </div>
-                        <div className="flex justify-center items-center -mt-2 text-center">
-                            <p className="stat-description">Confianza Promedio</p>
-                        </div>
-                    </div>
-
-                    <div className="stat-container3">
-                        <div className="flex flex-row justify-center items-baseline">
-                            <p className="stat-number">{calificacionObtenida}</p>
-                            <p className="stat-percent">%</p>
-                        </div>
-                        <div className="flex justify-center items-center -mt-2 text-center">
-                            <p className="stat-description">Calificación Obtenida</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="title-analysis">
-                    <p>Análisis supercargado por Gemini &#x2728;</p>
-                </div>
-
-                <div className="analysis-container">
-                    <ReactMarkdown>{analysis}</ReactMarkdown>
-                    <div className="acordeonContainer">
-                        <br/>
-                        <p><strong>Resumen de preguntas</strong></p>
-                        {reportData.responses.map((response:any, index:any) => (
-                            <Accordion key={index}>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls={`panel${index}a-content`}
-                                    id={`panel${index}a-header`}
-                                >
-                                    <Typography>{response.question}</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <Typography>
-                                        Your answer: {response.answer} <br />
-                                        Correct answer: {response.correct_answer} <br />
-                                        Confidence: {response.confidence}
-                                    </Typography>
-                                </AccordionDetails>
-                            </Accordion>
-                        ))}
-                    </div>
-                </div>
+          </div>
+        </div>
+      )}
+      {reportData.responses && (
+        <div className="feedback-half">
+          <div className="general-stats">
+            <div className="stat-container1">
+              <div className="flex flex-row justify-center items-baseline">
+                <p className="stat-number">{preformance}</p>
+                <p className="stat-percent">%</p>
+              </div>
+              <div className="flex justify-center items-center -mt-2 text-center">
+                <p className="stat-description">Desempeño General</p>
+              </div>
             </div>
-        )}
+
+            <div className="stat-container2">
+              <div className="flex flex-row justify-center items-baseline">
+                <p className="stat-number">{confianzaPromedio}</p>
+                <p className="stat-percent">%</p>
+              </div>
+              <div className="flex justify-center items-center -mt-2 text-center">
+                <p className="stat-description">Confianza Promedio</p>
+              </div>
+            </div>
+
+            <div className="stat-container3">
+              <div className="flex flex-row justify-center items-baseline">
+                <p className="stat-number">{calificacionObtenida}</p>
+                <p className="stat-percent">%</p>
+              </div>
+              <div className="flex justify-center items-center -mt-2 text-center">
+                <p className="stat-description">Calificación Obtenida</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="title-analysis">
+            <p>Análisis supercargado por Gemini &#x2728;</p>
+          </div>
+
+          <div className="analysis-container">
+            <ReactMarkdown>{analysis}</ReactMarkdown>
+            <div className="acordeonContainer">
+              <br />
+              <p>
+                <strong>Resumen de preguntas</strong>
+              </p>
+              {reportData.responses.map((response: any, index: any) => (
+                <Accordion key={index}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls={`panel${index}a-content`}
+                    id={`panel${index}a-header`}
+                  >
+                    <Typography>{response.question}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      Your answer: {response.answer} <br />
+                      Correct answer: {response.correct_answer} <br />
+                      Confidence: {response.confidence}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-);
+  );
 }
