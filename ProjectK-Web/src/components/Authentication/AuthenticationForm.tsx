@@ -14,6 +14,7 @@ import {
   InputLabel,
   IconButton,
   FormHelperText,
+  Backdrop,
 } from "@mui/material";
 // Icons
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
@@ -31,6 +32,7 @@ import axios from "axios";
 // Cookies
 import { SetCookieAPI } from "@/app/utils/setcookie";
 import { getCookie } from "@/app/utils/getcookie";
+import { hatch } from "ldrs";
 
 const auth = getAuth(app);
 
@@ -44,6 +46,7 @@ export default function AuthenticationForm() {
   const [password, setPassword] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [transparentPass, setTransparentPass] = React.useState(false); // This helps toggle visibility on password
+  const [isLoginLoading, setIsLoginLoading] = React.useState(false);
 
   // Our router
   const router = useRouter();
@@ -115,6 +118,7 @@ export default function AuthenticationForm() {
   // Handle user login
   const handleLogin = async (email: string, password: string) => {
     try {
+      setIsLoginLoading(true);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -127,17 +131,22 @@ export default function AuthenticationForm() {
         await userExists(user.email); // userExists is an asynchronous function, it should be completely finished to proceed
         const userEmail = await getCookie("email");
         if (userEmail === user.email) {
-          alert("Bienvenido! ");
+          console.log("verification succesful")
         } else {
           alert("Usuario no registrado. Por favor, regístrese");
+          setIsLoginLoading(false);
           return;
         }
       }
+      setIsLoginLoading(false);
       router.replace("/dashboard");
     } catch (error) {
       alert(error);
     }
   };
+
+  // registering hatch
+  hatch.register();
 
   return (
     <Paper
@@ -148,6 +157,13 @@ export default function AuthenticationForm() {
         height: isMobile ? "50%" : "500px",
       }}
     >
+      {/* I'm going to add the backdrop right here .. */}
+      <Backdrop
+        open={isLoginLoading}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
+      >
+        <l-hatch size="52" stroke="10" speed="3.5" color="white"></l-hatch>
+      </Backdrop>
       <Box
         id="insideboxonpaper"
         sx={{

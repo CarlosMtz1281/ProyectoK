@@ -19,6 +19,7 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Backdrop
 } from "@mui/material";
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -28,6 +29,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 // Cookies
 import { SetCookieAPI } from "@/app/utils/setcookie";
+import { hatch } from "ldrs";
 
 const auth = getAuth(app);
 
@@ -46,6 +48,10 @@ export default function RegistrationForm() {
   const [password, setPassword] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [transparentPass, setTransparentPass] = React.useState(false); // This helps toggle visibility on password
+  const [isLoginLoading, setIsLoginLoading] = React.useState(false);
+
+  // registering hatch
+  hatch.register();
 
   // Our router
   const router = useRouter();
@@ -127,8 +133,10 @@ export default function RegistrationForm() {
 
   // Handle user registration to the application
   const handleRegistration = (email: string, password: string) => {
+    setIsLoginLoading(true);
     if (usernameError || passwordError) {
       alert("Correo o contraseña inválidos. Escríbalos correctamente");
+      setIsLoginLoading(false);
       return;
     }
     createUserWithEmailAndPassword(auth, email, password)
@@ -138,11 +146,11 @@ export default function RegistrationForm() {
         if (user.email) {
           createUser(user.email);
         }
-
-        alert("Signed in!");
+        setIsLoginLoading(false);
         router.replace("dashboard");
       })
       .catch((error) => {
+        setIsLoginLoading(false);
         const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage);
@@ -163,6 +171,13 @@ export default function RegistrationForm() {
         height: isMobile ? "70%" : "640px",
       }}
     >
+      {/* I'm going to add the backdrop right here .. */}
+      <Backdrop
+        open={isLoginLoading}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
+      >
+        <l-hatch size="52" stroke="10" speed="3.5" color="white"></l-hatch>
+      </Backdrop>
       <Box
         id="insideboxonpaper"
         sx={{

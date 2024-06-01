@@ -15,7 +15,7 @@ export default function Profile() {
 
     setFirstName(firstname);
     setLastName(lastname);
-    setIsAdmin(isAdmin);
+    setIsAdmin(isadmin);
   };
 
   React.useEffect(() => {
@@ -33,7 +33,7 @@ export default function Profile() {
         {lastName} , {firstName}
         </Typography>
         <Typography variant = 'h5'>
-            Rol: {isAdmin ? "Administrador" : "Estudiante"}
+            Rol: {isAdmin === 'true' ? "Administrador" : "Estudiante"}
         </Typography>
       </Paper>
     </div>

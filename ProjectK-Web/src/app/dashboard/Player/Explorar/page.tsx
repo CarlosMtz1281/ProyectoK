@@ -6,7 +6,8 @@ import "@/styles/Explora.css";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 import { useEffect } from "react";
-
+import { hatch } from "ldrs";
+import { Backdrop } from "@mui/material";
 import QuizExperimental from "@/components/Quiz/QuizExperimental";
 
 export default function Explorar() {
@@ -17,6 +18,7 @@ export default function Explorar() {
   const [realData, setCardData] = useState([]);
   const [quizRuning, setQuizRuning] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleChangeTema = (e: any) => {
     setSelectedTema(e);
@@ -37,14 +39,24 @@ export default function Explorar() {
       .get(api + `quizes`)
       .then((res) => {
         setCardData(res.data);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
       });
   }, []);
 
+  hatch.register();
+
   return (
     <div className="main-explora">
+      <Backdrop
+        open={isLoading}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
+      >
+        <l-hatch size="52" stroke="10" speed="3.5" color="white"></l-hatch>
+      </Backdrop>
       <div className="title-container">
         <p className="title-explora">Explorar</p>
       </div>

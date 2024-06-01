@@ -8,6 +8,8 @@ import { IoIosSearch } from "react-icons/io";
 import Select from "react-select";
 import axios from "axios";
 import { useEffect } from "react";
+import { hatch } from "ldrs";
+import { Backdrop } from "@mui/material";
 
 export default function Explorar() {
   const api = process.env.NEXT_PUBLIC_API_URL;
@@ -15,6 +17,7 @@ export default function Explorar() {
   const [query, setQuery] = useState("");
   const [selectedTema, setSelectedTema] = useState("Temas");
   const [realData, setCardData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleChangeTema = (e: any) => {
     setSelectedTema(e);
@@ -35,15 +38,27 @@ export default function Explorar() {
       .then((res) => {
         console.log(res);
         setCardData(res.data);
+        setIsLoading(false);
         console.log(res.data);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
       });
   }, []);
 
+  // Animation registrations
+  hatch.register();
+
   return (
     <div className="main-explora">
+      {/* I'm going to add the backdrop right here .. */}
+      <Backdrop
+        open={isLoading}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
+      >
+        <l-hatch size="52" stroke="10" speed="3.5" color="white"></l-hatch>
+      </Backdrop>
       <div className="title-container">
         <p className="title-explora">Explorar Catalogo</p>
       </div>
