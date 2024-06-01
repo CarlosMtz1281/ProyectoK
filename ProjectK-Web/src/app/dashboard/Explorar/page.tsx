@@ -11,18 +11,17 @@ import { getCookie } from "@/app/utils/getcookie";
 
 export default function ExplorarFix() {
     const appRouter = useRouter();
-    const [checkAdminLocal, setCheckAdminLocal] = useState<string>("");
-
-    useEffect(() => {
-        setCheckAdminLocal(getCookie("admin") || "");
-
-        if (checkAdminLocal === 'true') {
-            appRouter.replace("/dashboard/Admin/Explorar");
-        } else {
-            appRouter.replace("/dashboard/Player/Explorar");
-        }
-
-    }, []);
+  async function checkAdmin() {
+    const isAdminLocal = await getCookie("admin");
+    if (isAdminLocal === "true") {
+      appRouter.replace("/dashboard/Admin/Explorar");
+    } else {
+      appRouter.replace("/dashboard/Player/Explorar");
+    }
+  }
+  useEffect(() => {
+    checkAdmin();
+  }, []);
 
     return (
         <div className="flex flex-row p-11">

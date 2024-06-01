@@ -1,21 +1,5 @@
 import axios from 'axios';
 
-interface CookieOptions {
-  httpOnly?: boolean;
-  secure?: boolean;
-  maxAge?: number;
-  sameSite?: 'strict' | 'lax' | 'none';
-  path?: string;
-}
-
-// options
-const options = {
-    httpOnly: true,
-    secure: true,
-    maxAge: 7200, // 2 hours
-    sameSite: 'lax',
-}
-
 // For simpler syntax on the code, we make a function
 export async function getCookies(): Promise<any> {
   try {
@@ -27,12 +11,13 @@ export async function getCookies(): Promise<any> {
 }
 
 // We get the specific cookie
-export async function getCookie(name: string): Promise<any> {
+export async function getCookie(name: string): Promise<string> {
     const res = await getCookies();
-    console.log("res", res.cookies);
     const cookie = res.cookies.find((element: any) => element.name === name);
     if (cookie) {
-        console.log(cookie.value);
+        console.log(typeof(cookie.value));
         return cookie.value;
+    } else {
+      return "not found";
     }
 }

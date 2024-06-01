@@ -27,7 +27,7 @@ import app from "@/app/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 // Cookies
-import { SetCookieAPI } from "@/app/utils/api";
+import { SetCookieAPI } from "@/app/utils/setcookie";
 
 const auth = getAuth(app);
 
@@ -73,11 +73,6 @@ export default function RegistrationForm() {
       .then(async (res) => {
         console.log("success");
         console.log(res);
-
-        // localStorage.setItem('Key', res.data.session_key);
-        // localStorage.setItem('email', email);
-        // localStorage.setItem('admin', String(admin)); // localStorage ONLY accepts strings
-
         await SetCookieAPI("email", res.data.user.user_email);
         await SetCookieAPI("admin", res.data.user.is_admin.toString());
         await SetCookieAPI("userData", JSON.stringify(res.data.user));

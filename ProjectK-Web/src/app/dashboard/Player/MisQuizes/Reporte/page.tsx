@@ -85,13 +85,21 @@ const Radar = dynamic(
   const [preformance, setPreformance] = useState(0);
   const [reportId, setReportId] = useState(0);
 
+  // Cookies must be fetched like this
+  const cookieGetter = async () => {
+    const firstname = await getCookie("first_name");
+    const secondname = await getCookie("last_name");
+    const cookiereportid = await getCookie("report_Id");
+
+    setName(firstname);
+    setLastName(secondname);
+    setReportId(Number(cookiereportid));
+  }
+
   useEffect(() => {
     console.log("Fetching data");
 
-    setName(getCookie("first_name") ?? "No");
-    setLastName(getCookie("last_name") ?? "Name");
-    setReportId(Number(getCookie("report_Id")));
-
+    cookieGetter();
     axios
       .get(api + `responses/${reportId}`)
       .then(async (response) => {

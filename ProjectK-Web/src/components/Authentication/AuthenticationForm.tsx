@@ -29,14 +29,13 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 // Cookies
-import { SetCookieAPI } from "@/app/utils/api";
+import { SetCookieAPI } from "@/app/utils/setcookie";
 import { getCookie } from "@/app/utils/getcookie";
 
 const auth = getAuth(app);
 
 // This component requires to be rendered on the client side
 export default function AuthenticationForm() {
-
   const api = process.env.NEXT_PUBLIC_API_URL;
 
   // State variables to save username, password and password visibility
@@ -59,17 +58,9 @@ export default function AuthenticationForm() {
   // CONECTION API
   async function userExists(email: string) {
     try {
-      const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + "users/" + email);
-
-      // We set the cookies
-
-      // localStorage.setItem("email", res.data.user.user_email);
-      // localStorage.setItem("admin", res.data.user.is_admin.toString());
-      // localStorage.setItem("userData", JSON.stringify(res.data.user));
-      // localStorage.setItem("user_id", res.data.user.user_id.toString());
-      // localStorage.setItem("first_name", res.data.user.first_name);
-      // localStorage.setItem("last_name", res.data.user.last_name);
-
+      const res = await axios.get(
+        process.env.NEXT_PUBLIC_API_URL + "users/" + email
+      );
       await SetCookieAPI("email", res.data.user.user_email);
       await SetCookieAPI("admin", res.data.user.is_admin.toString());
       await SetCookieAPI("userData", JSON.stringify(res.data.user));
@@ -134,8 +125,7 @@ export default function AuthenticationForm() {
 
       if (user.email) {
         await userExists(user.email); // userExists is an asynchronous function, it should be completely finished to proceed
-        const userEmail = await getCookie('email');
-        console.log("cookie useremail: ", userEmail);
+        const userEmail = await getCookie("email");
         if (userEmail === user.email) {
           alert("Bienvenido! ");
         } else {
@@ -143,9 +133,7 @@ export default function AuthenticationForm() {
           return;
         }
       }
-
       router.replace("/dashboard");
-      console.log(user.email);
     } catch (error) {
       alert(error);
     }

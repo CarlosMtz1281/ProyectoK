@@ -22,7 +22,6 @@ export async function SetCookieAPI(
   value: string,
 ): Promise<void> {
   try {
-    console.log("nameinapicall: ", name);
     const response = await axios.post('/api/cookies', {
       name: name,
       value: value,
@@ -33,7 +32,6 @@ export async function SetCookieAPI(
         sameSite: 'lax',
     },
     });
-    console.log(response.data);
   } catch (error) {
     console.error('Error setting cookie:', error);
   }

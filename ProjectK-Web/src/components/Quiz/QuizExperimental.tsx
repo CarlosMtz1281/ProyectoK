@@ -1,4 +1,4 @@
-"use-client"
+"use-client";
 import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Slider from "@mui/material/Slider";
@@ -9,6 +9,7 @@ import profile from "@/../public/profileIcon.svg";
 import QuizBreak from "./QuizBreak";
 import { set } from "firebase/database";
 import axios from "axios";
+import { getCookie } from "@/app/utils/getcookie";
 
 interface QuizProps {
   // Define the props for your component here
@@ -68,7 +69,6 @@ const dummyData = {
 };
 
 export default function Quiz({ onClose, quizId }: QuizProps) {
-
   const api = process.env.NEXT_PUBLIC_API_URL;
 
   const [isClosing, setIsClosing] = useState(false);
@@ -88,11 +88,11 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    console.log("api: ", api+`quizes/${quizId}`);
+    console.log("api: ", api + `quizes/${quizId}`);
     setIsLoaded(true);
 
     axios
-      .get( api+`quizes/${quizId}`)
+      .get(api + `quizes/${quizId}`)
       .then((res) => {
         console.log(res);
         setQuizData(res.data);
@@ -100,9 +100,6 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       })
       .catch((err) => {
         console.log(err);
-        if (isLoaded){
-          localStorage.setItem("email", "NOT FOUND");
-        }
       });
   }, []); // Runs only once after the initial render
 
@@ -178,8 +175,12 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   const [user_id, setUser_id] = useState(0);
 
   useEffect(() => {
+    async function setUserId() {
+      setUser_id(Number(await getCookie("user_id")));
+    }
+
     console.log(currentQuestion);
-    setUser_id(Number(localStorage.getItem("user_id")));
+    setUserId();
   }, [currentQuestion]);
 
   async function postResults() {
@@ -190,7 +191,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       responses: userAnswers,
     };
     axios
-      .post(api+"responses/", dataToSend)
+      .post(api + "responses/", dataToSend)
       .then((res) => {
         console.log(res);
       })
@@ -290,7 +291,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
               </div>
             </div>
             <div className="selectionContainer">
-              <div style={{fontSize: '1.5rem', padding: '1rem'}}>
+              <div style={{ fontSize: "1.5rem", padding: "1rem" }}>
                 <h3>Confianza de respuesta</h3>
               </div>
               <div className="selectWrap">

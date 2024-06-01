@@ -6,6 +6,8 @@ import NavbarButton from "./NavbarButton";
 import { CiLogout } from "react-icons/ci";
 import { LuBrain } from "react-icons/lu";
 import "../../styles/NavbarConf/NavbarConf.css";
+import { getCookie } from "@/app/utils/getcookie";
+import { deleteCookie } from "@/app/utils/deletecookie";
 
 export default function NavbarConf() {
   const appRouter = useRouter();
@@ -14,7 +16,7 @@ export default function NavbarConf() {
     appRouter.replace(nav);
   };
   const [admin, setAdmin] = useState(false);
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
   const [path, setPath] = useState("Player");
 
   const [name, setName] = useState("");
@@ -22,38 +24,51 @@ export default function NavbarConf() {
   const [initials, setInitials] = useState("");
   const [flag, setFlag] = useState(false);
 
-  useEffect(() => {
-    setUser(localStorage.getItem("admin") ?? '');
-    setName(localStorage.getItem("first_name") ?? "");
-    setLastName(localStorage.getItem("last_name") ?? "");
-    setInitials(name.charAt(0) + lastName.charAt(0));
+  // We fetch cookies asynchronously
+  const fetchData = async () => {
+    const userCookie = await getCookie("admin");
+    const firstName = await getCookie("first_name");
+    const lastName = (await getCookie("last_name")) ?? "";
+
+    setUser(userCookie);
+    setName(firstName);
+    setLastName(lastName);
+    setInitials(firstName.charAt(0) + lastName.charAt(0));
     setFlag(true);
-    console.log(user);
-    if (user === "true") {
+
+    console.log(userCookie);
+    if (userCookie === "true") {
       setAdmin(true);
       setPath("Admin");
     }
+  };
+
+  useEffect(() => {
+    fetchData().catch(console.error);
   }, []);
 
-  function signOut() {
-    if(flag){
-      localStorage.removeItem("first_name");
-      localStorage.removeItem("last_name");
+  async function signOut() {
+    if (flag) {
+      await deleteCookie("first_name");
+      await deleteCookie("last_name");
+      await deleteCookie("admin");
+      await deleteCookie("email");
+      await deleteCookie("userData");
+      await deleteCookie("user_id");
     }
     appRouter.replace("/");
   }
 
   const pathname = usePathname();
 
-
   return (
     <div className="navbar">
       <div className="header">
         <div className="topHeader">
           <div className="Topic">
-            <LuBrain size={40}/>
+            <LuBrain size={40} />
 
-            <div >
+            <div>
               <h1 className="mainText">Ixpolin</h1>
             </div>
           </div>

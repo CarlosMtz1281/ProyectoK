@@ -46,11 +46,16 @@ export default function Explorar() {
   const [adminIDLocal, setAdminIDLocal] = useState(0);
   const [checkEmailLocal, setCheckEmailLocal] = useState(false);
 
+  // We set cookies appropiately
+  const fetchCookies = async () => {
+    const userid = await getCookie("user_id");
+    setAdminIDLocal(Number(userid));
+    setCheckEmailLocal(true);
+  }
+
   // Fetch de datos
   useEffect(() => {
-    setAdminIDLocal(Number(getCookie("user_id")));
-    setCheckEmailLocal(true);
-
+    fetchCookies();
     axios
       .get(api + `quizes`)
       .then((res) => {
