@@ -32,7 +32,6 @@ export async function POST(req: Request, res: NextApiResponse): Promise<any> {
     setCookie(name, value, options);
     return NextResponse.json({ message: "exito jiji" }, { status: 200 });
   } else {
-    console.log("this is reqmethod", req.method);
     return NextResponse.json({ message: "is joever" }, { status: 404 });
   }
 }

@@ -33,10 +33,8 @@ export default function Explorar() {
     axios
       .get(api + `quizes`)
       .then((res) => {
-        console.log(res);
         setCardData(res.data);
         setIsLoading(false);
-        console.log(res.data);
       })
       .catch((err) => {
         setIsLoading(false);
