@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-// Icons
+import React, { useState } from "react";
 import {
   Paper,
   Typography,
@@ -16,54 +15,39 @@ import {
   FormHelperText,
   Backdrop,
 } from "@mui/material";
-// Icons
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// Navigation
 import { useRouter } from "next/navigation";
-// Auth
 import app from "@/app/firebase";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import axios from "axios";
-// Cookies
 import { SetCookieAPI } from "@/app/utils/setcookie";
 import { getCookie } from "@/app/utils/getcookie";
-import { hatch } from "ldrs";
 
 const auth = getAuth(app);
 
-// This component requires to be rendered on the client side
 export default function AuthenticationForm() {
   const api = process.env.NEXT_PUBLIC_API_URL;
 
-  // State variables to save username, password and password visibility
-  const [username, setUsername] = React.useState("");
-  const [usernameError, setUsernameError] = React.useState(false);
-  const [password, setPassword] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [transparentPass, setTransparentPass] = React.useState(false); // This helps toggle visibility on password
-  const [isLoginLoading, setIsLoginLoading] = React.useState(false);
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [transparentPass, setTransparentPass] = useState(false);
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
 
-  // Our router
   const router = useRouter();
+  const isMobile = useMediaQuery("(max-width:600px)");
 
-  // Based on props, we customize the text
   const ModalTitle = "Iniciar sesión";
   const ActionButton = "Ingresar";
 
-  // We read the size of the media to readjust if necessary
-  const isMobile = useMediaQuery("(max-width:600px)");
-
-  // CONECTION API
   async function userExists(email: string) {
     try {
-      const res = await axios.get(
-        process.env.NEXT_PUBLIC_API_URL + "users/" + email
-      );
+      const res = await axios.get(`${api}users/${email}`);
       await SetCookieAPI("email", res.data.user.user_email);
       await SetCookieAPI("admin", res.data.user.is_admin.toString());
       await SetCookieAPI("userData", JSON.stringify(res.data.user));
@@ -71,67 +55,48 @@ export default function AuthenticationForm() {
       await SetCookieAPI("first_name", res.data.user.first_name);
       await SetCookieAPI("last_name", res.data.user.last_name);
     } catch (err) {
-      console.log(err);
+      console.error("Error fetching user data:", err);
     }
   }
 
-  // Method to check if the email is valid
   const isValidEmail = (email: string) => {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   };
 
-  // Handle username change
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (isValidEmail(event.target.value)) {
-      setUsername(event.target.value);
-      setUsernameError(false);
-      return;
-    }
-    setUsernameError(true);
+    const email = event.target.value;
+    setUsername(email);
+    setUsernameError(!isValidEmail(email));
   };
 
-  // Handle password change
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value.length > 5) {
-      setPassword(event.target.value);
-      setPasswordError(false);
-      return;
-    }
-    setPasswordError(true);
+    const password = event.target.value;
+    setPassword(password);
+    setPasswordError(password.length <= 5);
   };
 
-  // Handle visibility
-  const handleClickShowPassword = () => setTransparentPass((show) => !show);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleClickShowPassword = () => setTransparentPass(!transparentPass);
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
 
-  // Handle back to landing page
   const handleToHome = () => {
     router.replace("/");
   };
 
-  // Handle user login
   const handleLogin = async (email: string, password: string) => {
     try {
       setIsLoginLoading(true);
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      // Signed in
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       if (user.email) {
-        await userExists(user.email); // userExists is an asynchronous function, it should be completely finished to proceed
+        await userExists(user.email);
         const userEmail = await getCookie("email");
         if (userEmail === user.email) {
-          console.log("verification succesful")
+          console.log("Verification successful");
         } else {
           alert("Usuario no registrado. Por favor, regístrese");
           setIsLoginLoading(false);
@@ -141,12 +106,11 @@ export default function AuthenticationForm() {
       setIsLoginLoading(false);
       router.replace("/dashboard");
     } catch (error) {
-      alert(error);
+      console.error("Error during login:", error);
+      alert("Error during login. Please try again.");
+      setIsLoginLoading(false);
     }
   };
-
-  // registering hatch
-  hatch.register();
 
   return (
     <Paper
@@ -157,20 +121,15 @@ export default function AuthenticationForm() {
         height: isMobile ? "50%" : "500px",
       }}
     >
-      {/* I'm going to add the backdrop right here .. */}
       <Backdrop
         open={isLoginLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
       >
-        <l-hatch size="52" stroke="10" speed="3.5" color="white"></l-hatch>
       </Backdrop>
       <Box
         id="insideboxonpaper"
         sx={{
-          marginLeft: 5,
-          marginRight: 5,
-          marginTop: 1,
-          marginBotton: 5,
+          margin: 5,
           display: "flex",
           flexFlow: "column nowrap",
           alignItems: "center",
@@ -182,8 +141,6 @@ export default function AuthenticationForm() {
           sx={{
             display: "flex",
             alignItems: "center",
-            marginLeft: 0,
-            marginTop: 5,
             width: "100%",
           }}
         >
@@ -204,7 +161,7 @@ export default function AuthenticationForm() {
               marginRight: 6,
             }}
           >
-            Iniciar sesión
+            {ModalTitle}
           </Typography>
         </Box>
         <Box
@@ -216,13 +173,14 @@ export default function AuthenticationForm() {
           }}
         >
           <FormControl error={usernameError} variant="standard">
-            <InputLabel htmlFor="standard-adornment-password">
+            <InputLabel htmlFor="standard-adornment-email">
               Correo eléctronico
             </InputLabel>
             <Input
-              id="standard-userinput"
+              id="standard-adornment-email"
               type="email"
               placeholder="username@somewhere.xyz"
+              value={username}
               onChange={handleUsernameChange}
               endAdornment={
                 <InputAdornment position="end" sx={{ mr: 1 }}>
@@ -245,6 +203,7 @@ export default function AuthenticationForm() {
               id="standard-adornment-password"
               type={transparentPass ? "text" : "password"}
               placeholder="type something better than 123.."
+              value={password}
               onChange={handlePasswordChange}
               endAdornment={
                 <InputAdornment position="end">
@@ -260,7 +219,7 @@ export default function AuthenticationForm() {
             />
             {passwordError && (
               <FormHelperText id="component-error-text">
-                Contraseña inválida. Debe tener al menos 6 carácteres
+                Contraseña inválida. Debe tener al menos 6 caracteres
               </FormHelperText>
             )}
           </FormControl>
@@ -279,7 +238,7 @@ export default function AuthenticationForm() {
             color="info"
             variant="extended"
             size="large"
-            onClick={(event) => handleLogin(username, password)}
+            onClick={() => handleLogin(username, password)}
           >
             {ActionButton}
           </Fab>
@@ -288,5 +247,3 @@ export default function AuthenticationForm() {
     </Paper>
   );
 }
-
-// <TextField variant = "standard" onChange = {handlePasswordChange} size = "medium" label = "Contraseña" type = "password" />

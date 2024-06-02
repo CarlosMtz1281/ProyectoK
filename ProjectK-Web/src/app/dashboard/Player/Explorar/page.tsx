@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@/components/Explorar/cardExplorar";
 import "@/styles/Explora.css";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
-import { useEffect } from "react";
-import { hatch } from "ldrs";
 import { Backdrop } from "@mui/material";
 import QuizExperimental from "@/components/Quiz/QuizExperimental";
 
@@ -16,38 +14,44 @@ export default function Explorar() {
   const [query, setQuery] = useState("");
   const [selectedTema, setSelectedTema] = useState("Temas");
   const [realData, setCardData] = useState([]);
-  const [quizRuning, setQuizRuning] = useState(false);
+  const [quizRunning, setQuizRunning] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [checkEmailLocal, setCheckEmailLocal] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
-  const handleChangeTema = (e: any) => {
-    setSelectedTema(e);
+  const handleChangeTema = (value: string) => {
+    setSelectedTema(value);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  const [checkEmailLocal, setCheckEmailLocal] = useState(false);
 
-  // Fetch de datos
   useEffect(() => {
     setCheckEmailLocal(true);
+    setIsClient(true);
 
-    console.log("fetching data from: ", api + `quizes`);
-    axios
-      .get(api + `quizes`)
-      .then((res) => {
+    const fetchQuizes = async () => {
+      try {
+        console.log("fetching data from: ", api + `quizes`);
+        const res = await axios.get(`${api}quizes`);
         setCardData(res.data);
+      } catch (err) {
+        console.error("Error fetching quizes:", err);
+      } finally {
         setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-      });
-  }, []);
+      }
+    };
 
-  hatch.register();
+    fetchQuizes();
+  }, [api]);
+
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="main-explora">
@@ -55,7 +59,6 @@ export default function Explorar() {
         open={isLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
       >
-        <l-hatch size="52" stroke="10" speed="3.5" color="white"></l-hatch>
       </Backdrop>
       <div className="title-container">
         <p className="title-explora">Explorar</p>
@@ -80,15 +83,14 @@ export default function Explorar() {
             onChange={(e) => handleChangeTema(e.target.value)}
           >
             <option value={"Temas"}>Temas</option>
-            {
-              (realData as { topic_name: string }[]) // Add type annotation
-                .map((card) => card.topic_name) // Get all topic_names
-                .filter((value, index, self) => self.indexOf(value) === index) // Filter out duplicates
-                .map((topic, index) => (
-                  <option key={index} value={topic}>
-                    {topic}
-                  </option>
-                )) // Map to option elements
+            {(realData as { topic_name: string }[]) // Add type annotation
+              .map((card) => card.topic_name) // Get all topic_names
+              .filter((value, index, self) => self.indexOf(value) === index) // Filter out duplicates
+              .map((topic, index) => (
+                <option key={index} value={topic}>
+                  {topic}
+                </option>
+              )) // Map to option elements
             }
           </select>
         </div>
@@ -105,7 +107,7 @@ export default function Explorar() {
                   nombre={card.quiz_name}
                   tema={card.topic_name}
                   openQuiz={() => {
-                    setQuizRuning(true);
+                    setQuizRunning(true);
                     setSelectedQuiz(card.quiz_id);
                   }}
                 />
@@ -118,9 +120,9 @@ export default function Explorar() {
           }
         })}
       </div>
-      {quizRuning && (
+      {quizRunning && (
         <QuizExperimental
-          onClose={() => setQuizRuning(false)}
+          onClose={() => setQuizRunning(false)}
           quizId={selectedQuiz}
         />
       )}

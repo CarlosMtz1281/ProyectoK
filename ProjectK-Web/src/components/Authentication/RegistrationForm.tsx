@@ -29,7 +29,6 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
 // Cookies
 import { SetCookieAPI } from "@/app/utils/setcookie";
-import { hatch } from "ldrs";
 
 const auth = getAuth(app);
 
@@ -49,9 +48,6 @@ export default function RegistrationForm() {
   const [passwordError, setPasswordError] = React.useState(false);
   const [transparentPass, setTransparentPass] = React.useState(false); // This helps toggle visibility on password
   const [isLoginLoading, setIsLoginLoading] = React.useState(false);
-
-  // registering hatch
-  hatch.register();
 
   // Our router
   const router = useRouter();
@@ -176,7 +172,6 @@ export default function RegistrationForm() {
         open={isLoginLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
       >
-        <l-hatch size="52" stroke="10" speed="3.5" color="white"></l-hatch>
       </Backdrop>
       <Box
         id="insideboxonpaper"

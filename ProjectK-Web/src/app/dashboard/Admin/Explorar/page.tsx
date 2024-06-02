@@ -1,13 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@/components/Explorar/cardExplorar";
 import "@/styles/Explora.css";
-import { FaSearch } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
-import Select from "react-select";
 import axios from "axios";
-import { useEffect } from "react";
 import { hatch } from "ldrs";
 import { Backdrop } from "@mui/material";
 
@@ -47,12 +44,13 @@ export default function Explorar() {
       });
   }, []);
 
-  // Animation registrations
-  hatch.register();
+  // Register hatch animation
+  useEffect(() => {
+    hatch.register();
+  }, []);
 
   return (
     <div className="main-explora">
-      {/* I'm going to add the backdrop right here .. */}
       <Backdrop
         open={isLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}

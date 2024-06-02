@@ -22,5 +22,9 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/authenticate.js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "lib": [
+    "es2016",
+    "dom"
+  ]
 }

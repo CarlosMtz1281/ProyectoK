@@ -1,10 +1,12 @@
+"use client"
+
 import React from "react";
 import { Grid, Typography, Button, Fab } from "@mui/material";
 import { ArrowBack, SaveAlt, DeleteOutline } from "@mui/icons-material";
 import { FieldValues } from "react-hook-form";
 import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export type EditorBannerProps = {};
 
