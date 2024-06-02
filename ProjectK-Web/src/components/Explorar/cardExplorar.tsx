@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import GameModal from "./gameModal";
 import { MdDelete } from "react-icons/md";
+import { SetCookieAPI } from "@/app/utils/setcookie";
 
 
 interface CardProps {
@@ -24,9 +25,9 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: Card
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const onClick = () => {
+  const onClick = async () => {
     console.log("ID", ID);
-    localStorage.setItem("ID", ID.toString());
+    await SetCookieAPI("ID", ID.toString())
     if(pathName === "/dashboard/Player/Explorar" || pathName === "/dashboard/Admin/Explorar"){
       handleOpen();
     }

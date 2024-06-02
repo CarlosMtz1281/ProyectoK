@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { Fab, Tooltip } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import Link from "next/link";
+import { getCookie } from "@/app/utils/getcookie";
+
 
 
 interface CardData {
@@ -44,11 +46,16 @@ export default function Explorar() {
   const [adminIDLocal, setAdminIDLocal] = useState(0);
   const [checkEmailLocal, setCheckEmailLocal] = useState(false);
 
+  // We set cookies appropiately
+  const fetchCookies = async () => {
+    const userid = await getCookie("user_id");
+    setAdminIDLocal(Number(userid));
+    setCheckEmailLocal(true);
+  }
+
   // Fetch de datos
   useEffect(() => {
-    setAdminIDLocal(Number(localStorage.getItem("user_id")));
-    setCheckEmailLocal(true);
-
+    fetchCookies();
     axios
       .get(api + `quizes`)
       .then((res) => {
@@ -58,9 +65,6 @@ export default function Explorar() {
       })
       .catch((err) => {
         console.log(err);
-        if(checkEmailLocal){
-          localStorage.setItem("email", "NOT FOUND");
-        }
       });
   }, []);
   /*

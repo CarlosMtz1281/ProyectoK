@@ -19,6 +19,7 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Backdrop
 } from "@mui/material";
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -26,6 +27,8 @@ import { useRouter } from "next/navigation";
 import app from "@/app/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import axios from "axios";
+// Cookies
+import { SetCookieAPI } from "@/app/utils/setcookie";
 
 const auth = getAuth(app);
 
@@ -44,6 +47,7 @@ export default function RegistrationForm() {
   const [password, setPassword] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [transparentPass, setTransparentPass] = React.useState(false); // This helps toggle visibility on password
+  const [isLoginLoading, setIsLoginLoading] = React.useState(false);
 
   // Our router
   const router = useRouter();
@@ -51,9 +55,8 @@ export default function RegistrationForm() {
   // We read the size of the media to readjust if necessary
   const isMobile = useMediaQuery("(max-width:600px)");
 
-
   //register User on DB
-  function createUser(email: string) {
+  async function createUser(email: string) {
     console.log("Creating user on DB");
     let admin = false;
     if (role === "Administrador") {
@@ -67,18 +70,20 @@ export default function RegistrationForm() {
       isAdmin: admin,
     };
 
-    axios
-      .post(api+`users/`, userData)
-      .then((res) => {
+    await axios
+      .post(api + `users/`, userData)
+      .then(async (res) => {
         console.log("success");
         console.log(res);
-        localStorage.setItem('Key', res.data.session_key);
-        localStorage.setItem('email', email);
-        localStorage.setItem('admin', String(admin)); // localStorage ONLY accepts strings
+        await SetCookieAPI("email", res.data.user.user_email);
+        await SetCookieAPI("admin", res.data.user.is_admin.toString());
+        await SetCookieAPI("userData", JSON.stringify(res.data.user));
+        await SetCookieAPI("user_id", res.data.user.user_id.toString());
+        await SetCookieAPI("first_name", res.data.user.first_name);
+        await SetCookieAPI("last_name", res.data.user.last_name);
       })
       .catch((err) => {
         console.log(err);
-        localStorage.setItem('email', 'NOT FOUND');
       });
   }
 
@@ -124,23 +129,24 @@ export default function RegistrationForm() {
 
   // Handle user registration to the application
   const handleRegistration = (email: string, password: string) => {
+    setIsLoginLoading(true);
     if (usernameError || passwordError) {
       alert("Correo o contraseña inválidos. Escríbalos correctamente");
+      setIsLoginLoading(false);
       return;
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        if(user.email){
+        if (user.email) {
           createUser(user.email);
-
         }
-
-        alert("Signed in!");
+        setIsLoginLoading(false);
         router.replace("dashboard");
       })
       .catch((error) => {
+        setIsLoginLoading(false);
         const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage);
@@ -161,6 +167,12 @@ export default function RegistrationForm() {
         height: isMobile ? "70%" : "640px",
       }}
     >
+      {/* I'm going to add the backdrop right here .. */}
+      <Backdrop
+        open={isLoginLoading}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
+      >
+      </Backdrop>
       <Box
         id="insideboxonpaper"
         sx={{
@@ -236,12 +248,11 @@ export default function RegistrationForm() {
           </Box>
           <Box>
             <TextField
-             sx={{ width: "100%" }}
-             variant="standard"
-             label="Nombre de usuario"
-             placeholder="JuanGonzalez123"
-             onChange={(e) => setDbUsername(e.target.value)}
-
+              sx={{ width: "100%" }}
+              variant="standard"
+              label="Nombre de usuario"
+              placeholder="JuanGonzalez123"
+              onChange={(e) => setDbUsername(e.target.value)}
             />
           </Box>
 
@@ -296,8 +307,17 @@ export default function RegistrationForm() {
           </FormControl>
         </Box>
 
-        <Box style={{ display: "flex", width: "100%", flexDirection: "row", gap: 5 }}>
-          <Typography variant = "subtitle1" sx = {{marginRight: 2}}>Selecciona un rol</Typography>
+        <Box
+          style={{
+            display: "flex",
+            width: "100%",
+            flexDirection: "row",
+            gap: 5,
+          }}
+        >
+          <Typography variant="subtitle1" sx={{ marginRight: 2 }}>
+            Selecciona un rol
+          </Typography>
           <FormControl fullWidth>
             <InputLabel id="selecta role">Rol</InputLabel>
             <Select
@@ -337,4 +357,3 @@ export default function RegistrationForm() {
     </Paper>
   );
 }
-

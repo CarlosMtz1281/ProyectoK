@@ -1,28 +1,35 @@
 "use client";
-import React, {useState, useEffect}from 'react';
-import { useRouter, usePathname } from "next/navigation";
-
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getCookie } from "../utils/getcookie";
+import { Backdrop } from "@mui/material";
 
 export default function Dashboard() {
-    const appRouter = useRouter();
+  const appRouter = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
 
-    const [isAdminLocal, setIsAdminLocal] = useState<string>("");
+  async function checkAdmin() {
+    const isAdminLocal = await getCookie("admin");
+    if (isAdminLocal === "true") {
+      setIsLoading(false);
+      appRouter.replace("/dashboard/Admin/Explorar");
+    } else {
+      setIsLoading(false);
+      appRouter.replace("/dashboard/Player/Explorar");
+    }
+  }
 
-    useEffect(() => {
-        setIsAdminLocal(localStorage.getItem("admin") || "");
-        if (isAdminLocal === 'true') {
-            appRouter.replace("/dashboard/Admin/Explorar");
-        } else {
-            appRouter.replace("/dashboard/Player/Explorar");
-        }
+  useEffect(() => {
+    checkAdmin();
+  }, []);
 
-    }, []);
-
-    return (
-        <div className="flex flex-row p-11">
-            <div>
-                <h1>Loading</h1>
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex">
+      <Backdrop
+        open={isLoading}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
+      >
+      </Backdrop>
+    </div>
+  );
 }

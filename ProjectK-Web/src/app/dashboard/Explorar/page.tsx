@@ -1,6 +1,7 @@
 "use client";
 import React, {useState, useEffect}from 'react';
 import { useRouter, usePathname } from "next/navigation";
+import { getCookie } from "@/app/utils/getcookie";
 
 // For some reason, when the user tries to go back through the browser
 // It goes into dashboard/Explorar, when it shouldn't.
@@ -10,18 +11,17 @@ import { useRouter, usePathname } from "next/navigation";
 
 export default function ExplorarFix() {
     const appRouter = useRouter();
-    const [checkAdminLocal, setCheckAdminLocal] = useState<string>("");
-
-    useEffect(() => {
-        setCheckAdminLocal(localStorage.getItem("admin") || "");
-
-        if (checkAdminLocal === 'true') {
-            appRouter.replace("/dashboard/Admin/Explorar");
-        } else {
-            appRouter.replace("/dashboard/Player/Explorar");
-        }
-
-    }, []);
+  async function checkAdmin() {
+    const isAdminLocal = await getCookie("admin");
+    if (isAdminLocal === "true") {
+      appRouter.replace("/dashboard/Admin/Explorar");
+    } else {
+      appRouter.replace("/dashboard/Player/Explorar");
+    }
+  }
+  useEffect(() => {
+    checkAdmin();
+  }, []);
 
     return (
         <div className="flex flex-row p-11">

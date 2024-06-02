@@ -8,6 +8,7 @@ import { IoIosSearch } from "react-icons/io";
 import Select from "react-select";
 import axios from "axios";
 import { useEffect } from "react";
+import { getCookie } from "@/app/utils/getcookie";
 
 export default function Explorar() {
   const api = process.env.NEXT_PUBLIC_API_URL;
@@ -29,31 +30,22 @@ export default function Explorar() {
     setQuery(e.target.value);
   };
 
-  const [userIdLocal, setUserIdLocal] = useState(0);
-  const [checkEmailLocal, setCheckEmailLocal] = useState(false);
-
-  // Fetch de datos
-  useEffect(() => {
-    setUserIdLocal(Number(localStorage.getItem("user_id")));
-    setCheckEmailLocal(true);
-
-    console.log(
-      "Fetching data",
-      api + `responses/user/${userIdLocal}`
-    );
+  // We set cookies
+  const fetchCookies = async () => {
+    const userid = await getCookie("user_id");
     axios
-      .get(api + `responses/user/${userIdLocal}`)
+      .get(api + `responses/user/${Number(userid)}`)
       .then((res) => {
-        console.log(res);
         setCardData(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
-        if (checkEmailLocal){
-          localStorage.setItem("email", "NOT FOUND");
-        }
       });
+  };
+
+  // Fetch the data
+  useEffect(() => {
+    fetchCookies();
   }, []);
   /*
     const handleDelete = (id: number) => {
