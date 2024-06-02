@@ -75,12 +75,12 @@ export default function RegistrationForm() {
       .then(async (res) => {
         console.log("success");
         console.log(res);
-        await SetCookieAPI("email", res.data.user.user_email);
-        await SetCookieAPI("admin", res.data.user.is_admin.toString());
-        await SetCookieAPI("userData", JSON.stringify(res.data.user));
+        await SetCookieAPI("email", email);
+        await SetCookieAPI("admin", admin.toString());
+        await SetCookieAPI("userData", JSON.stringify(userData));
         await SetCookieAPI("user_id", res.data.user.user_id.toString());
-        await SetCookieAPI("first_name", res.data.user.first_name);
-        await SetCookieAPI("last_name", res.data.user.last_name);
+        await SetCookieAPI("first_name", trueName);
+        await SetCookieAPI("last_name", lastName);
       })
       .catch((err) => {
         console.log(err);
@@ -143,7 +143,7 @@ export default function RegistrationForm() {
           createUser(user.email);
         }
         setIsLoginLoading(false);
-        router.replace("dashboard");
+        router.replace("/dashboard");
       })
       .catch((error) => {
         setIsLoginLoading(false);
