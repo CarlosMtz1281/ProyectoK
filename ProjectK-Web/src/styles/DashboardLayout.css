@@ -3,5 +3,5 @@
     background-color: var(--primaryBG-200);
     padding: 1.25rem;
     overflow: hidden;
-    border-radius: 2.5rem 0 0 2.5rem;
+    border-radius: 0 0 0 0;
 }

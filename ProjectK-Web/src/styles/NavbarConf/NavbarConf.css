@@ -3,17 +3,15 @@
     flex-direction: column;
     width: 18vw;
     height: 100vh;
-    background-color: " #E3E3E3  ";
+    background-color: white;
 }
 
 .header {
-    padding: 2rem 0rem 1rem 1rem;
     color: "black";
     background-color: " #E3E3E3  ";
     align-items: center;
     gap: 1rem;
     text-align: center;
-    margin-right: 30%;
 }
 .topHeader{
     display: flex;
@@ -21,7 +19,6 @@
     align-items: center;
     gap: 1rem;
     font-size: 1.5rem;
-    margin-left: 20%;
 }
 .Topic {
     display: flex;
@@ -41,7 +38,6 @@
     align-items: center;
     gap: 1rem;
     color: "black";
-    margin-left: 20%
 }
 .logo {
     display: flex;

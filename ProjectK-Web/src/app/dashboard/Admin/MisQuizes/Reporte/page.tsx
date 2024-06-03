@@ -8,6 +8,7 @@ import { IoIosSearch } from "react-icons/io";
 import QuestionStats from "@/components/QuestionStats";
 import { useRouter } from 'next/navigation';
 import ReportAdminModal from "@/components/ReportAdminModal";
+import Link from 'next/link';
 
 const dummyStudents = [
     {
@@ -73,7 +74,9 @@ export default function ReporteAdmin() {
         <div className='mainContainer'>
             <div className='header'>
                 <div className='headerContainer'>
-                    <button className='returnButton' onClick={handleButtonBack}> <IoIosArrowBack size={40}/> </button>
+                    <Link href="/dashboard/Admin/MisQuizes">
+                        <button className='returnButton'> <IoIosArrowBack size={40}/> </button>
+                    </Link>
                     <h1 className='headerText'>Reporte</h1>
                 </div>
                 <div className='flex items-center justify-center w-1/5'>
