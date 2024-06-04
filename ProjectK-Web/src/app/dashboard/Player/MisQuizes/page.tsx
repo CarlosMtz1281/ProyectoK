@@ -32,16 +32,17 @@ export default function Explorar() {
 
   // We set cookies
   const fetchCookies = async () => {
-    const userid = await getCookie("user_id");
-    axios
-      .get(api + `responses/user/${Number(userid)}`)
-      .then((res) => {
-        setCardData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  const userid = await getCookie("user_id");
+  const sessionKey = await getCookie("sessionKey");
+  axios
+    .get(api + `responses/user/${Number(userid)}`, { headers: { 'sessionKey': sessionKey } })
+    .then((res) => {
+      setCardData(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
   // Fetch the data
   useEffect(() => {

@@ -47,6 +47,7 @@ export default function AuthenticationForm() {
 
   async function userExists(email: string) {
     try {
+      console.log(`${api}users/${email}`)
       const res = await axios.get(`${api}users/${email}`);
       await SetCookieAPI("email", res.data.user.user_email);
       await SetCookieAPI("admin", res.data.user.is_admin.toString());
@@ -54,6 +55,8 @@ export default function AuthenticationForm() {
       await SetCookieAPI("user_id", res.data.user.user_id.toString());
       await SetCookieAPI("first_name", res.data.user.first_name);
       await SetCookieAPI("last_name", res.data.user.last_name);
+      await SetCookieAPI("sessionKey", res.data.session.session_key);
+
     } catch (err) {
       console.error("Error fetching user data:", err);
     }

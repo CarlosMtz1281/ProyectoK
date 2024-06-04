@@ -89,13 +89,14 @@ export default function Reporte() {
     const firstname = await getCookie("first_name");
     const secondname = await getCookie("last_name");
     const cookiereportid = await getCookie("reporte_Id");
+    const session = await getCookie("sessionKey");
 
     setName(firstname);
     setLastName(secondname);
     setReportId(Number(cookiereportid));
 
     axios
-      .get(api + `responses/${cookiereportid}`)
+      .get(api + `responses/${cookiereportid}`, {headers: {sessionKey: session}})
       .then(async (response) => {
         await setReportData(response.data);
         console.log(response.data);

@@ -81,6 +81,7 @@ export default function RegistrationForm() {
         await SetCookieAPI("user_id", res.data.user.user_id.toString());
         await SetCookieAPI("first_name", trueName);
         await SetCookieAPI("last_name", lastName);
+        await SetCookieAPI("sessionKey", res.data.session.session_key);
       })
       .catch((err) => {
         console.log(err);

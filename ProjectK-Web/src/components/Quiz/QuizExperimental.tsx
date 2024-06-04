@@ -87,12 +87,13 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
+  async function fetchData() {
     console.log("api: ", api + `quizes/${quizId}`);
     setIsLoaded(true);
+    const sessionKey = await getCookie("sessionKey");
 
     axios
-      .get(api + `quizes/${quizId}`)
+      .get(api + `quizes/quizId/${quizId}`,{ headers: { 'sessionKey': sessionKey }})
       .then((res) => {
         console.log(res);
         setQuizData(res.data);
@@ -101,6 +102,10 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  useEffect(() => {
+      fetchData();
   }, []); // Runs only once after the initial render
 
   function closeQuiz() {
@@ -184,6 +189,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   }, [currentQuestion]);
 
   async function postResults() {
+    const session = await getCookie("sessionKey");
     console.log("Posting results");
     const dataToSend = {
       quizId: quizId,
@@ -191,7 +197,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       responses: userAnswers,
     };
     axios
-      .post(api + "responses/", dataToSend)
+      .post(api + `responses/${session}`, dataToSend)
       .then((res) => {
         console.log(res);
       })
