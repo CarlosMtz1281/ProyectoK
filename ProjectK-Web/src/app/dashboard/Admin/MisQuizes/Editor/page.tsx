@@ -83,15 +83,14 @@ export default function Editor() {
               <Grid container direction="column" className="h-full">
                 <FileUpload />
                 <ThemeSelection topics={topics} />
-                <AIRecommendation />
+                <Grid item xs = {3} md={3}>
+                  <QuizTitle />
+                </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12} md={8}>
-              <Grid container direction="column" className="h-full w-full">
-                <Grid item xs={12} md={2}>
-                  <QuizTitle />
-                </Grid>
-                <Grid item xs={12} md={9}>
+              <Grid container direction="column" className="h-5/6 w-full">
+                <Grid item xs={12} md={12}>
                   <QuestionPad />
                 </Grid>
               </Grid>

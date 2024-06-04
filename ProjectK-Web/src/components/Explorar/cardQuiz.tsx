@@ -65,7 +65,7 @@ export default function Card({
       }
       if (checkReportLocal) {
         console.log("this should be reporteid", reporteId);
-        await SetCookieAPI("reporte_Id", reporteId);
+        await SetCookieAPI("reporte_Id", ID.toString());
       }
       if (isAdmin === "false") {
         appRouter.replace("/dashboard/Player/MisQuizes/Reporte");

@@ -63,16 +63,14 @@ export default function Editor() {
       setReportId(report_id);
 
       try {
-
-        // If we don't have anything saved in the state, we fetch the quiz
-        if (Object.keys(quizData).length === 0) {
-        const res = await axios.get(apiURL + `quizes/${report_id}`).then((res) => {
-          setQuizData(res.data);
-          reset(res.data);
-          console.log(res.data);
-
-        });
-      }
+        const res = await axios
+          .get(apiURL + `quizes/${report_id}`)
+          .then((res) => {
+            setQuizData(res.data);
+            reset(res.data);
+            console.log(res.data);
+            console.log(getValues());
+          });
       } catch (error) {
         console.log(error);
       }
@@ -106,12 +104,6 @@ export default function Editor() {
     }
   };
 
-  // We'll pass a single method that checks the form for a value and saves it into 
-  function checkForValueInForm(name: string) {
-    const formValue = getValues(name);
-    return formValue;
-  }
-
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -122,7 +114,7 @@ export default function Editor() {
               <Grid container direction="column" className="h-full">
                 <FileUpload />
                 <ThemeSelection topics={topics} />
-                <Grid item xs={12} md={3}>
+                <Grid item md={3}>
                   <QuizTitle />
                 </Grid>
               </Grid>
