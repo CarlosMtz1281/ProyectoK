@@ -3,11 +3,7 @@ import { Grid, Typography, TextField, Paper } from "@mui/material";
 import { FaPencil } from "react-icons/fa6";
 import TextFieldComponent from "./TextFieldController";
 
-type ComponentProps = {
-  checkForValueInForm: (name: string) => string | string[];
-};
-
-export default function QuizTitle({ checkForValueInForm }: ComponentProps) {
+export default function QuizTitle() {
   return (
     <div className="flex flex-col h-full w-full gap-6">
       <Paper

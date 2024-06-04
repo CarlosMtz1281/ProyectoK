@@ -123,7 +123,7 @@ export default function Editor() {
                 <FileUpload />
                 <ThemeSelection topics={topics} />
                 <Grid item xs={12} md={3}>
-                  <QuizTitle checkForValueInForm={checkForValueInForm} />
+                  <QuizTitle />
                 </Grid>
               </Grid>
             </Grid>
