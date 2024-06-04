@@ -8,25 +8,26 @@ import { CgProfile } from "react-icons/cg";
 import { IoPersonSharp } from "react-icons/io5";
 import { SiStarship } from "react-icons/si";
 
-
-
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function NavbarButton({
   title,
   nav,
+  href,
   active,
   OnClick,
   icon,
 }: {
   title: string;
   nav: string;
+  href: string;
   active: boolean;
   icon: number;
-  OnClick: () => void;
+  OnClick?: () => void;
 }) {
   return (
-    <button className={"button"} onClick={OnClick}>
+    <Link href={href} className={"button"}>
       <div className={`container ${active ? "container-selected" : ""}`}>
         <div className={`navIcon ${active ? "icon-selected" : ""}`}>
           {icon === 1 ? (
@@ -42,6 +43,6 @@ export default function NavbarButton({
         </div>
         <div className={`text ${active ? "text-selected" : ""}`}>{title}</div>
       </div>
-    </button>
+    </Link>
   );
 }
