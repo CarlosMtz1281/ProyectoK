@@ -127,7 +127,7 @@ export default function AuthenticationForm() {
         open={isLoginLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
       >
-        <CircularProgress color = "info"/>
+        <CircularProgress sx = {{color: "#fff"}} size = {75} />
       </Backdrop>
       <Box
         id="insideboxonpaper"

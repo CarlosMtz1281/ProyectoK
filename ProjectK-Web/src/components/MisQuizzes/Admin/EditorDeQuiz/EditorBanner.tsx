@@ -8,9 +8,11 @@ import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export type EditorBannerProps = {};
+export type EditorBannerProps = {
+  isLoading: boolean
+};
 
-export default function EditorBanner({}: EditorBannerProps) {
+export default function EditorBanner({isLoading}: EditorBannerProps) {
 
   const router = useRouter();
 
@@ -37,7 +39,7 @@ export default function EditorBanner({}: EditorBannerProps) {
           </Fab>
         </Tooltip>
         <Tooltip title="Delete Quiz" placement="top">
-          <Fab type="submit" color="error" className="flex ml-auto">
+          <Fab color="error" className="flex ml-auto">
             <DeleteOutline />
           </Fab>
         </Tooltip>
