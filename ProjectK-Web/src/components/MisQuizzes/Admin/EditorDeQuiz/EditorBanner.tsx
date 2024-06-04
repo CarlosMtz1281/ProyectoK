@@ -9,10 +9,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export type EditorBannerProps = {
-  isLoading: boolean
 };
 
-export default function EditorBanner({isLoading}: EditorBannerProps) {
+export default function EditorBanner({}: EditorBannerProps) {
 
   const router = useRouter();
 
