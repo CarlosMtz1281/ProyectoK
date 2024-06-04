@@ -9,7 +9,7 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import {useForm, useFormContext } from "react-hook-form";
+import { useForm, useFormContext } from "react-hook-form";
 
 export type Topic = {
   topic_id: number;
@@ -20,17 +20,25 @@ export type ThemeSelectionProps = {
   topics: Topic[];
 };
 
-export default function ThemeSelection({topics} : ThemeSelectionProps ) {
-  const [theme, setTheme] = React.useState(String(topics[0].topic_id));
-  const { register, setValue } = useFormContext();
+export default function ThemeSelection({ topics }: ThemeSelectionProps) {
+  const { register, setValue, getValues } = useFormContext();
+  const topicIdForm = getValues("topic_id") ?? 1;
+  console.log("topicid", topicIdForm);
+
+  const [theme, setTheme] = React.useState(String(topicIdForm));
 
   // We register the default topic name
-  register("topicId", {value: topics[0].topic_id, required: true})
+  register("topicId", { value: topicIdForm, required: true });
 
   const handleChange = (event: SelectChangeEvent) => {
     setTheme(event.target.value);
     setValue("topicId", theme);
   };
+
+  // Rerender whenever topicIdForm changes
+  React.useEffect(() => {
+    setTheme(String(topicIdForm))
+  }, [topicIdForm])
 
   return (
     <Grid item xs={2}>
@@ -45,7 +53,7 @@ export default function ThemeSelection({topics} : ThemeSelectionProps ) {
             label="seleccione un tema"
             onChange={handleChange}
             sx={{ width: "100%" }}
-            defaultValue={String(topics[0].topic_id)}
+            defaultValue={String(topicIdForm)}
           >
             {topics.map((topic) => (
               <MenuItem key={topic.topic_id} value={topic.topic_id}>
