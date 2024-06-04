@@ -32,8 +32,10 @@ export default function Explorar() {
 
   // We set cookies
   const fetchCookies = async () => {
-  const userid = await getCookie("user_id");
-  const sessionKey = await getCookie("sessionKey");
+    const userCookies = await getCookie("userCookies");
+    const userCookiesObj = JSON.parse(userCookies);
+    const userid = userCookiesObj.user_id;
+    const sessionKey = userCookiesObj.sessionKey;
   axios
     .get(api + `responses/user/${Number(userid)}`, { headers: { 'sessionKey': sessionKey } })
     .then((res) => {

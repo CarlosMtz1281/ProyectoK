@@ -49,13 +49,18 @@ export default function AuthenticationForm() {
     try {
       console.log(`${api}users/${email}`)
       const res = await axios.get(`${api}users/${email}`);
-      await SetCookieAPI("email", res.data.user.user_email);
-      await SetCookieAPI("admin", res.data.user.is_admin.toString());
-      await SetCookieAPI("userData", JSON.stringify(res.data.user));
-      await SetCookieAPI("user_id", res.data.user.user_id.toString());
-      await SetCookieAPI("first_name", res.data.user.first_name);
-      await SetCookieAPI("last_name", res.data.user.last_name);
-      await SetCookieAPI("sessionKey", res.data.session.session_key);
+      // set the data in an object
+      const userCookies = {
+        email: res.data.user.user_email,
+        admin: res.data.user.is_admin,
+        userData: res.data.user,
+        user_id: res.data.user.user_id,
+        first_name: res.data.user.first_name,
+        last_name: res.data.user.last_name,
+        sessionKey: res.data.session.session_key,
+      };
+      // set just one cookie with all the data
+      await SetCookieAPI("userCookies", JSON.stringify(userCookies));
 
     } catch (err) {
       console.error("Error fetching user data:", err);
@@ -97,7 +102,9 @@ export default function AuthenticationForm() {
 
       if (user.email) {
         await userExists(user.email);
-        const userEmail = await getCookie("email");
+        const userCookies = await getCookie("userCookies");
+        const userCookiesObj = JSON.parse(userCookies);
+        const userEmail = userCookiesObj.email;
         if (userEmail === user.email) {
           console.log("Verification successful");
         } else {

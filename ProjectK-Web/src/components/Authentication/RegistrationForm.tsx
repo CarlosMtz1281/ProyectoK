@@ -75,13 +75,18 @@ export default function RegistrationForm() {
       .then(async (res) => {
         console.log("success");
         console.log(res);
-        await SetCookieAPI("email", email);
-        await SetCookieAPI("admin", admin.toString());
-        await SetCookieAPI("userData", JSON.stringify(userData));
-        await SetCookieAPI("user_id", res.data.user.user_id.toString());
-        await SetCookieAPI("first_name", trueName);
-        await SetCookieAPI("last_name", lastName);
-        await SetCookieAPI("sessionKey", res.data.session.session_key);
+        // set the data in an object
+        const userCookies = {
+          email: res.data.user.user_email,
+          admin: res.data.user.is_admin,
+          userData: res.data.user,
+          user_id: res.data.user.user_id,
+          first_name: res.data.user.first_name,
+          last_name: res.data.user.last_name,
+          sessionKey: res.data.session.session_key,
+        };
+        // set just one cookie with all the data
+        await SetCookieAPI("userCookies", JSON.stringify(userCookies));
       })
       .catch((err) => {
         console.log(err);

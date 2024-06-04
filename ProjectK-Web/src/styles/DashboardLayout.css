@@ -1,7 +1,27 @@
+@media screen and (min-width: 1000px) {
+    .general-layout {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .general-layout {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .layout-content {
-    flex: 1 1 0%;
     background-color: var(--primaryBG-200);
+    width: 100%;
+    height: 100%;
     padding: 1.25rem;
     overflow: hidden;
     border-radius: 0 0 0 0;
 }
+

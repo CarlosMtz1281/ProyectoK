@@ -9,8 +9,10 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   async function checkAdmin() {
-    const isAdminLocal = await getCookie("admin");
-    if (isAdminLocal === "true") {
+    const userCookies = await getCookie("userCookies");
+    const userCookiesObj = JSON.parse(userCookies);
+    const isAdminLocal = userCookiesObj.admin;
+    if (isAdminLocal) {
       setIsLoading(false);
       appRouter.replace("/dashboard/Admin/MisQuizes");
     } else {

@@ -33,12 +33,14 @@ export default function Card({
 }: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
-  const [isAdmin, setIsAdmin] = useState<string>("false");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [checkIDLocal, setCheckIDLocal] = useState(false);
   const [checkReportLocal, setCheckReportLocal] = useState(false);
 
   async function setAdmin() {
-    const adminname = await getCookie("admin");
+    const userCookies = await getCookie("userCookies");
+    const userCookiesObj = JSON.parse(userCookies);
+    const adminname = userCookiesObj.admin;
     setIsAdmin(adminname);
     setCheckIDLocal(true);
     setCheckReportLocal(true);
@@ -67,9 +69,9 @@ export default function Card({
         console.log("this should be reporteid", reporteId);
         await SetCookieAPI("reporte_Id", reporteId);
       }
-      if (isAdmin === "false") {
+      if (isAdmin === false) {
         appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
-      } else if (isAdmin === "true") {
+      } else if (isAdmin) {
         appRouter.replace("/dashboard/Admin/MisQuizes/Reporte");
       }
 

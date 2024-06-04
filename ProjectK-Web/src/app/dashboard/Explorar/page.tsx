@@ -12,8 +12,10 @@ import { getCookie } from "@/app/utils/getcookie";
 export default function ExplorarFix() {
     const appRouter = useRouter();
   async function checkAdmin() {
-    const isAdminLocal = await getCookie("admin");
-    if (isAdminLocal === "true") {
+    const userCookies = await getCookie("userCookies");
+    const userCookiesObj = JSON.parse(userCookies);
+    const isAdminLocal = userCookiesObj.admin;
+    if (isAdminLocal) {
       appRouter.replace("/dashboard/Admin/Explorar");
     } else {
       appRouter.replace("/dashboard/Player/Explorar");

@@ -13,8 +13,6 @@ import { Add } from "@mui/icons-material";
 import Link from "next/link";
 import { getCookie } from "@/app/utils/getcookie";
 
-
-
 interface CardData {
   quiz_id: number;
   admin_id: number;
@@ -48,7 +46,9 @@ export default function Explorar() {
 
   // We set cookies appropiately
   const fetchCookies = async () => {
-    const userid = await getCookie("user_id");
+    const userCookies = await getCookie("userCookies");
+    const userCookiesObj = JSON.parse(userCookies);
+    const userid = userCookiesObj.user_id;
     setAdminIDLocal(Number(userid));
     setCheckEmailLocal(true);
   }
@@ -57,7 +57,9 @@ export default function Explorar() {
 
   const fetchdata = async () => {
     await fetchCookies();
-    const session = await getCookie("sessionKey");
+    const userCookies = await getCookie("userCookies");
+    const userCookiesObj = JSON.parse(userCookies);
+    const session = userCookiesObj.sessionKey;
     axios
       .get(api + `quizes/${session}`)
       .then((res) => {
