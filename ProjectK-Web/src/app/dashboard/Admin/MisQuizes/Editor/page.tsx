@@ -63,8 +63,9 @@ export default function Editor() {
   }, [setValue]);
 
   const onSubmit = async (data: FieldValues) => {
+    const session = await getCookie("sessionKey");
     try {
-      const response = await axios.post(`${apiURL}quizes`, data);
+      const response = await axios.post(`${apiURL}quizes/${session}`, data);
       console.log(response.data);
       alert("Quiz guardado en la DB!");
     } catch (error) {

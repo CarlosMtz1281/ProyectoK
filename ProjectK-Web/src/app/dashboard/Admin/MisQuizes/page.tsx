@@ -54,16 +54,22 @@ export default function Explorar() {
   }
 
   // Fetch de datos
-  useEffect(() => {
-    fetchCookies();
+
+  const fetchdata = async () => {
+    await fetchCookies();
+    const session = await getCookie("sessionKey");
     axios
-      .get(api + `quizes`)
+      .get(api + `quizes/${session}`)
       .then((res) => {
         setCardData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  useEffect(() => {
+    fetchdata();
   }, []);
   /*
     const handleDelete = (id: number) => {
