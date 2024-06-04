@@ -8,6 +8,7 @@ import { IoIosSearch } from "react-icons/io";
 import QuestionStats from "@/components/QuestionStats";
 import { useRouter } from 'next/navigation';
 import ReportAdminModal from "@/components/ReportAdminModal";
+import { SetCookieAPI } from '@/app/utils/setcookie';
 
 const dummyStudents = [
     {
@@ -64,8 +65,8 @@ export default function ReporteAdmin() {
         appRouter.replace("/dashboard/Admin/MisQuizes");
     }
 
-    const handleButtonEdit = () => {
-        //appRouter.replace("/dashboard/Admin/MisQuizes/Editar");
+    const handleButtonEdit = async () => {
+        appRouter.replace("/dashboard/Admin/MisQuizes/Reporte/Editor");
     }
 
 

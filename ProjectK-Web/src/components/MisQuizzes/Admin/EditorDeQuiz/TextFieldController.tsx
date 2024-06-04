@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 
@@ -8,8 +8,16 @@ export type TextFieldComponentProps = {
     rules: any
 }
 
+
 const TextFieldComponent = ({ name, label, rules }: TextFieldComponentProps) => {
   const { control, formState: { errors } } = useFormContext();
+  const [valueInTextField, setValueInTextField] = useState<string | string[]>("");
+
+  // We handle changes to the textfield component
+  const handleInput = (event: any) => {
+    const newValue = event.target.value;
+    setValueInTextField(newValue);
+  }
 
   return (
     <Controller
@@ -25,6 +33,8 @@ const TextFieldComponent = ({ name, label, rules }: TextFieldComponentProps) => 
           variant="standard"
           className = 'w-5/6'
           error={!!errors[name]}
+          value = {valueInTextField}
+          onChange={handleInput}
         />
       )}
       rules={rules}

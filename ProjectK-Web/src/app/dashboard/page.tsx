@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCookie } from "../utils/getcookie";
-import { Backdrop } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 export default function Dashboard() {
   const appRouter = useRouter();
@@ -29,6 +29,7 @@ export default function Dashboard() {
         open={isLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
       >
+        <CircularProgress />
       </Backdrop>
     </div>
   );

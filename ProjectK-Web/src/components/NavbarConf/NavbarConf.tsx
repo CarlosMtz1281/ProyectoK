@@ -28,13 +28,14 @@ export default function NavbarConf() {
   const fetchData = async () => {
     const userCookie = await getCookie("admin");
     const firstName = await getCookie("first_name");
-    const lastName = (await getCookie("last_name"));
+    const lastName = await getCookie("last_name");
 
     setUser(userCookie);
     setName(firstName);
     setLastName(lastName);
     setInitials(firstName.charAt(0) + lastName.charAt(0));
     setFlag(true);
+
     if (userCookie === "true") {
       setAdmin(true);
       setPath("Admin");
@@ -43,7 +44,7 @@ export default function NavbarConf() {
 
   useEffect(() => {
     fetchData().catch(console.error);
-  }, []);
+  }, [admin]);
 
   async function signOut() {
     if (flag) {
