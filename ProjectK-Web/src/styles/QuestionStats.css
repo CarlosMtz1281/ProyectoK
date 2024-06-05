@@ -81,3 +81,19 @@
     height: 100%;
     padding: 1rem;
 }
+
+.OptionContainer{
+    border-style: solid;
+    background-color: #F5F5F5;
+    border-width: 1px;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.CorrectOptionContainer{
+    border-style: solid;
+    background-color: rgb(97, 219, 97);
+    border-width: 1px;
+    padding: 8px;
+    border-radius: 10px;
+}

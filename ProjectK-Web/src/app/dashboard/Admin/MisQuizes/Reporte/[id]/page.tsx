@@ -32,31 +32,6 @@ const dummyStudents = [
     }
 ]
 
-const dummyBarData = {
-    labels: [''],
-    datasets: [
-        {
-            label: 'Pregunta 1',
-            data: [37],
-            backgroundColor: 'rgba(255, 99, 132)',
-        },
-        {
-            label: 'Pregunta 2',
-            data: [20],
-            backgroundColor: 'rgba(54, 162, 235)',
-        },
-        {
-            label: 'Pregunta 3',
-            data: [25],
-            backgroundColor: 'rgba(255, 206, 86)',
-        },
-        {
-            label: 'Pregunta 4',
-            data: [18],
-            backgroundColor: 'rgba(75, 192, 192)',
-        },
-    ]
-}
 
 const defaultContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
@@ -64,7 +39,8 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
     const appRouter = useRouter();
     const [query, setQuery] = useState('');
     const [quizReport, setQuizReport] = useState<quizReport | undefined>(undefined);
-    const [questions, setQuestions] = useState<Map<string, any>>(new Map());
+    const [isFetching, setIsFetching] = useState(false);
+    const [questions, setQuestions] = useState<any>([]);
 
     const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -77,6 +53,7 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
     }
 
     const fetchQuizReport = async () => {
+        setIsFetching(true);
         const userCookies = await getCookie("userCookies");
         const userCookiesObj = JSON.parse(userCookies.value);
         const session = userCookiesObj.sessionKey;
@@ -89,14 +66,16 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
             .then((res) => {
                 setQuizReport(res.data);
                 console.log(res.data);
+                setIsFetching(false);
               })
               .catch((err) => {
                 console.log(err);
+                setIsFetching(false);
               });
     }
 
     useEffect(() => {
-        if(quizReport === undefined) fetchQuizReport();
+        if(quizReport === undefined && !isFetching) fetchQuizReport();
     }, [])
 
     useEffect(() => {
@@ -122,7 +101,13 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
             })
             console.log("Question Map");
             console.log(questionMap);
-            setQuestions(questionMap);
+            // Convert the map to an array
+            let questionArray : any = [];
+            questionMap.forEach((value, key) => {
+                questionArray.push(value);
+            })
+            console.log(questionArray);
+            setQuestions(questionArray);
         }
     }, [quizReport])
 
@@ -150,7 +135,7 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
                     <div className='generalStatsContainer'>
                         <div className='statContainer1'>
                             <div className='flex flex-row justify-center items-baseline'>
-                                <p className='statNumber'>97</p>
+                                <p className='statNumber'>{quizReport?.QuizData.QuizStats.average_score}</p>
                                 <p className='statPercent'>%</p>
                             </div>
                             <div className='flex justify-center items-center -mt-2 text-center'>
@@ -160,7 +145,7 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
 
                         <div className='statContainer2'>
                             <div className='flex flex-row justify-center items-baseline'>
-                                <p className='statNumber'>89</p>
+                                <p className='statNumber'>{quizReport?.QuizData.QuizStats.average_confidence}</p>
                                 <p className='statPercent'>%</p>
                             </div>
                             <div className='flex justify-center items-center -mt-2 text-center'>
@@ -170,7 +155,7 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
 
                         <div className='statContainer3'>
                             <div className='flex flex-row justify-center items-baseline'>
-                                <p className='statNumber'>64</p>
+                                <p className='statNumber'>{quizReport?.QuizData.QuizStats.averagePerformance}</p>
                                 <p className='statPercent'>%</p>
                             </div>
                             <div className='flex justify-center items-center -mt-2 text-center'>
@@ -188,7 +173,13 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
                             })
                         */
                             // map over each value in the questions map
-                            <QuestionStats data={dummyBarData} contentAI={defaultContent} precisionV={97} confidenceV={89}/>
+                            questions.map((question : any, index : number) => {
+                                return (
+                                    question.question !== "" &&(
+                                        <QuestionStats questionData={question} index={index+1}/>
+                                    )
+                                )
+                            })
                         }
 
                     </div>
