@@ -6,11 +6,10 @@ import { getCookie } from "@/app/utils/getcookie";
 export default function Profile() {
   const [firstName, setFirstName] = React.useState("loading..");
   const [lastName, setLastName] = React.useState("loading...");
-  const [isAdmin, setIsAdmin] = React.useState("no creo ja");
+  const [isAdmin, setIsAdmin] = React.useState(false);
 
   const cookiegetter = async () => {
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const firstname = userCookiesObj.first_name;
     const lastname = userCookiesObj.last_name;
     const isadmin = userCookiesObj.admin;
@@ -35,7 +34,7 @@ export default function Profile() {
         {lastName} , {firstName}
         </Typography>
         <Typography variant = 'h5'>
-            Rol: {isAdmin === 'true' ? "Administrador" : "Estudiante"}
+            Rol: {isAdmin === true ? "Administrador" : "Estudiante"}
         </Typography>
       </Paper>
     </div>

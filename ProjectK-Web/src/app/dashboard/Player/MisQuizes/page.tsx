@@ -32,8 +32,7 @@ export default function Explorar() {
 
   // We set cookies
   const fetchCookies = async () => {
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const userid = userCookiesObj.user_id;
     const sessionKey = userCookiesObj.sessionKey;
   axios

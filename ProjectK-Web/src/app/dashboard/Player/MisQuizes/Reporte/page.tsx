@@ -86,8 +86,7 @@ export default function Reporte() {
 
   // Cookies must be fetched like this
   const cookieGetter = async () => {
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const firstname = userCookiesObj.first_name;
     const secondname = userCookiesObj.last_name;
     const cookiereportid = await getCookie("reporte_Id");

@@ -65,8 +65,8 @@ export default function Editor() {
   }, [setValue]);
 
   const onSubmit = async (data: FieldValues) => {
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    console.log(userCookiesObj);
     const session = userCookiesObj.sessionKey;
     try {
       const response = await axios.post(`${apiURL}quizes/${session}`, data);

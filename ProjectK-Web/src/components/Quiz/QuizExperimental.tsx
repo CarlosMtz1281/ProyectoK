@@ -90,8 +90,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   async function fetchData() {
     console.log("api: ", api + `quizes/${quizId}`);
     setIsLoaded(true);
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const sessionKey = userCookiesObj.sessionKey;
 
     axios
@@ -193,8 +192,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   }, [currentQuestion]);
 
   async function postResults() {
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const session = userCookiesObj.sessionKey;
     console.log("Posting results");
     const dataToSend = {

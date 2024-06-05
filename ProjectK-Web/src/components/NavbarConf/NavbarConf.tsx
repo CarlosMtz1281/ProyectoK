@@ -6,7 +6,7 @@ import NavbarButton from "./NavbarButton";
 import { CiLogout } from "react-icons/ci";
 import { LuBrain } from "react-icons/lu";
 import { IoIosMenu } from "react-icons/io";
-import styles from "../../styles/NavbarConf/NavbarConf.module.css";
+import styles from "@/styles/NavbarConf/NavbarConf.module.css";
 import { getCookie } from "@/app/utils/getcookie";
 import { deleteCookie } from "@/app/utils/deletecookie";
 
@@ -19,6 +19,7 @@ type UserCookies = {
   last_name: string;
   sessionKey: string;
 };
+
 export default function NavbarConf() {
   const appRouter = useRouter();
 

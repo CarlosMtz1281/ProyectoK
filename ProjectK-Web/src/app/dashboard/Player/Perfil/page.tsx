@@ -9,8 +9,7 @@ export default function Profile() {
   const [isAdmin, setIsAdmin] = React.useState("no creo ja");
 
   const cookiegetter = async () => {
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const firstname = userCookiesObj.first_name;
     const lastname = userCookiesObj.last_name;
     const isadmin = userCookiesObj.admin;

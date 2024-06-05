@@ -46,9 +46,10 @@ interface QuestionStatsProps {
     contentAI: string;
     precisionV: number;
     confidenceV: number;
+    info?: any;
 }
 
-export default function QuestionStats({data, contentAI, precisionV, confidenceV}: QuestionStatsProps) {
+export default function QuestionStats({data, contentAI, precisionV, confidenceV, info}: QuestionStatsProps) {
     return (
         <Accordion
             style={{

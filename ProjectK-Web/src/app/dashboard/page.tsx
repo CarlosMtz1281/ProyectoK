@@ -9,8 +9,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   async function checkAdmin() {
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const isAdminLocal = userCookiesObj.admin;
     if (isAdminLocal) {
       setIsLoading(false);

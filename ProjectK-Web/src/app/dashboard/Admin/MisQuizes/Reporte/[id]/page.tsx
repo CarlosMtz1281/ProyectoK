@@ -9,6 +9,13 @@ import QuestionStats from "@/components/QuestionStats";
 import { useRouter } from 'next/navigation';
 import ReportAdminModal from "@/components/ReportAdminModal";
 import Link from 'next/link';
+import { getCookie } from '@/app/api/cookies/cookie';
+import axios from 'axios';
+
+interface quizReport {
+    QuizData: any,
+    QuizSubmissions: any,
+}
 
 const dummyStudents = [
     {
@@ -53,21 +60,71 @@ const dummyBarData = {
 
 const defaultContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
 
-export default function ReporteAdmin() {
+export default function ReporteAdmin({params} : {params: {id: string}}) {
     const appRouter = useRouter();
-    const [query, setQuery] = useState('')
+    const [query, setQuery] = useState('');
+    const [quizReport, setQuizReport] = useState<quizReport | undefined>(undefined);
+    const [questions, setQuestions] = useState<Map<string, any>>(new Map());
+
+    const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
     const handleSearch = (e : any) => {
         setQuery(e.target.value)
     }
 
-    const handleButtonBack = () => {
-        appRouter.replace("/dashboard/Admin/MisQuizes");
-    }
-
     const handleButtonEdit = () => {
         //appRouter.replace("/dashboard/Admin/MisQuizes/Editar");
     }
+
+    const fetchQuizReport = async () => {
+        const userCookies = await getCookie("userCookies");
+        const userCookiesObj = JSON.parse(userCookies.value);
+        const session = userCookiesObj.sessionKey;
+        axios
+            .get(apiURL + `responses/quizResponses/${params.id}`, {
+                headers: {
+                    sessionKey: session
+                },
+            })
+            .then((res) => {
+                setQuizReport(res.data);
+                console.log(res.data);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+    }
+
+    useEffect(() => {
+        if(quizReport === undefined) fetchQuizReport();
+    }, [])
+
+    useEffect(() => {
+        if(quizReport !== undefined) {
+            let questionMap = new Map<string, any>();
+            quizReport.QuizData.questions.map((question : any, index : number) => {
+                const questionData = {
+                    question: question.question_text,
+                    ans1: question.question_ans1,
+                    ans2: question.question_ans2,
+                    ans3: question.question_ans3,
+                    ans4: question.question_ans4,
+                    correct: question.correct_answer,
+                    responses: []
+                }
+                questionMap.set(question.question_id, questionData);
+            })
+        
+            quizReport.QuizSubmissions.map((submission : any, index : number) => {
+                submission.responses.map((answer : any, index : number) => {
+                    questionMap.get(answer.question_id).responses.push(answer);
+                })
+            })
+            console.log("Question Map");
+            console.log(questionMap);
+            setQuestions(questionMap);
+        }
+    }, [quizReport])
 
 
     return (
@@ -77,7 +134,7 @@ export default function ReporteAdmin() {
                     <Link href="/dashboard/Admin/MisQuizes">
                         <button className='returnButton'> <IoIosArrowBack size={40}/> </button>
                     </Link>
-                    <h1 className='headerText'>Reporte</h1>
+                    <h1 className='headerText'>{quizReport?.QuizData.quiz_name}</h1>
                 </div>
                 <div className='flex items-center justify-center w-1/5'>
                     <button className='editButton' onClick={handleButtonEdit}>
@@ -123,7 +180,17 @@ export default function ReporteAdmin() {
                     </div>
 
                     <div className='questionsAccordionContainer'>
-                        <QuestionStats data={dummyBarData} contentAI={defaultContent} precisionV={97} confidenceV={89}/>
+                        {/*
+                            quizReport?.QuizData.questions.map((question : any, index : number) => {
+                                return (
+                                    <QuestionStats data={dummyBarData} contentAI={defaultContent} precisionV={97} confidenceV={89}/>
+                                )
+                            })
+                        */
+                            // map over each value in the questions map
+                            <QuestionStats data={dummyBarData} contentAI={defaultContent} precisionV={97} confidenceV={89}/>
+                        }
+
                     </div>
                 </div>
                 <div className='filterContainer'>

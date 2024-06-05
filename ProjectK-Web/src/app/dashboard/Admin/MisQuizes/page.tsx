@@ -46,8 +46,7 @@ export default function Explorar() {
 
   // We set cookies appropiately
   const fetchCookies = async () => {
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const userid = userCookiesObj.user_id;
     setAdminIDLocal(Number(userid));
     setCheckEmailLocal(true);
@@ -57,8 +56,7 @@ export default function Explorar() {
 
   const fetchdata = async () => {
     await fetchCookies();
-    const userCookies = await getCookie("userCookies");
-    const userCookiesObj = JSON.parse(userCookies);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const session = userCookiesObj.sessionKey;
     axios
       .get(api + `quizes/${session}`)
