@@ -36,7 +36,9 @@ export default function Explorar() {
     setIsClient(true);
 
     const fetchQuizes = async () => {
-      const sessionKey = await getCookie("sessionKey");
+      const userCookies = await getCookie("userCookies");
+      const userCookiesObj = JSON.parse(userCookies);
+      const sessionKey = userCookiesObj.sessionKey;
 
       try {
         console.log("fetching data from: ", api + `quizes/` + sessionKey);
@@ -107,7 +109,7 @@ export default function Explorar() {
       <div className="cards-container">
         {realData.map((card: any, index: number) => {
           if (selectedTema === "Temas" || card.topic_name === selectedTema) {
-            if (card.quiz_name.toLowerCase().includes(query.toLowerCase())) {
+            if (card.quiz_name?.toLowerCase().includes(query.toLowerCase())) {
               return (
                 <Card
                   key={index}

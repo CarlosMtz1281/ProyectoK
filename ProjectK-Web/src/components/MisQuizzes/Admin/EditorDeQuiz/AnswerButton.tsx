@@ -17,7 +17,7 @@ export type AnswerButtonProps = {
 export default function AnswerButton({name, label, rules, idx, currentChecked, onCheck} : AnswerButtonProps) {
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked === true) {
+    if (event.target.checked) {
       onCheck(idx);
     }
   }
