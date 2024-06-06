@@ -2,11 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import {
-  useForm,
-  FormProvider,
-  FieldValues,
-} from "react-hook-form";
+import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import FileUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/FileUpload";
 import ThemeSelection from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeSelection";
 import AIRecommendation from "@/components/MisQuizzes/Admin/EditorDeQuiz/AIRecommendation";
@@ -88,7 +84,7 @@ export default function Editor() {
               <Grid container direction="column" className="h-full">
                 <FileUpload />
                 <ThemeSelection topics={topics} />
-                <Grid item xs = {3} md={3}>
+                <Grid item xs={3} md={3}>
                   <QuizTitle />
                 </Grid>
               </Grid>

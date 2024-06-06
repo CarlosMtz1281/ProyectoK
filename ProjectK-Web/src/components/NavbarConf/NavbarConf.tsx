@@ -41,7 +41,7 @@ export default function NavbarConf() {
 
   useEffect(() => {
     fetchData().catch(console.error);
-  }, [admin]);
+  }, []);
 
   async function signOut() {
     if (flag) {

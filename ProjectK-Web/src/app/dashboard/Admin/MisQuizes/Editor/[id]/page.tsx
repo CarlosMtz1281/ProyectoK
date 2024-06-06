@@ -44,27 +44,27 @@ interface QuizData {
   topic_name: string;
 }
 
-export default function Editor() {
+export default function Editor({params} : {params: {id: string}}) {
   const methods = useForm();
   const { register, setValue, reset, getValues } = methods;
   const [userIdLocal, setUserIdLocal] = useState<number | null>(null);
   const [topics, setTopics] = useState(defaultThemes);
-  const [reportId, setReportId] = useState(1);
   const [quizData, setQuizData] = useState({} as QuizData);
   const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const fetchUserId = async () => {
       const userId = Number(await getCookie("user_id"));
-      const report_id = Number(await getCookie("ID"));
+      const report_id = params.id;
 
       setUserIdLocal(userId);
       setValue("adminId", userId);
-      setReportId(report_id);
+      const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+      const session = userCookiesObj.sessionKey;
 
       try {
         const res = await axios
-          .get(apiURL + `quizes/${report_id}`)
+          .get(apiURL + `quizes/${report_id}`, { headers: { 'sessionKey': session } })
           .then((res) => {
             setQuizData(res.data);
             reset(res.data);

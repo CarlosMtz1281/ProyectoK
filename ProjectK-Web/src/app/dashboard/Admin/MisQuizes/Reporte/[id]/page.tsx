@@ -49,7 +49,7 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
     }
 
     const handleButtonEdit = () => {
-        //appRouter.replace("/dashboard/Admin/MisQuizes/Editar");
+        appRouter.replace("/dashboard/Admin/MisQuizes/Editor/"+ params.id);
     }
 
     const fetchQuizReport = async () => {
