@@ -17,24 +17,6 @@ interface quizReport {
     QuizSubmissions: any,
 }
 
-const dummyStudents = [
-    {
-        name: 'Juan Perez',
-        id: 1
-    },
-    {
-        name: 'Maria Lopez',
-        id: 2
-    },
-    {
-        name: 'Pedro Ramirez',
-        id: 3
-    }
-]
-
-
-const defaultContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
 export default function ReporteAdmin({params} : {params: {id: string}}) {
     const appRouter = useRouter();
     const [query, setQuery] = useState('');
@@ -195,24 +177,12 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
                             return (
                                 <div className='studentCard' key={index}>
                                     <p className='studentName'>{submission.user_name}</p>
-                                    <ReportAdminModal name={submission.user_name} precision={submission.precision} confianza={submission.confidence} desempeno={submission.performance} contentAI={submission.report_analysis}/>
+                                    <ReportAdminModal quizResponse={submission} quizData={quizReport.QuizData}/>
                                 </div>
                             );
                         })
 
                         }
-                        {dummyStudents.map((student) => {
-                            if (student.name?.toLowerCase().includes(query.toLowerCase())) {
-                                return (
-                                    <div className='studentCard' key={student.id}>
-                                        <p className='studentName'>{student.name}</p>
-                                        <ReportAdminModal name={student.name} contentAI={defaultContent}/>
-                                    </div>
-                                );
-                            } else {
-                                return null; // Don't render the card if it doesn't match the search query
-                            }
-                        })}
                     </div>
                 </div>
             </div>
