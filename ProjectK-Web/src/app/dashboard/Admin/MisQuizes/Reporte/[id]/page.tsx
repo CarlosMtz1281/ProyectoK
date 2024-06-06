@@ -58,7 +58,7 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
 
     useEffect(() => {
         if(quizReport === undefined && !isFetching) fetchQuizReport();
-    })
+    }, [])
 
     useEffect(() => {
         if(quizReport !== undefined) {

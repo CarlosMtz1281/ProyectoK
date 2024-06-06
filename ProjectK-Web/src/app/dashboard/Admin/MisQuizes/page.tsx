@@ -70,7 +70,7 @@ export default function Explorar() {
 
   useEffect(() => {
     fetchdata();
-  });
+  }, []);
   /*
     const handleDelete = (id: number) => {
         axios
