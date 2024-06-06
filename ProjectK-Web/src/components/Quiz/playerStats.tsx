@@ -21,12 +21,12 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ type, respuestas, correctas, 
                     <Image src={profile} alt="Profile" className="profileImg" />
                 </div>
                 <div className="stats">
-                    <p>Respuestas: {respuestas}</p>
-                    <p>Correctas: {correctas}</p>
-                    <p>Errores: {errores}</p>
-                    <p>Resultado Final: {resultadoFinal}</p>
-                    <p>Confianza Final: {confianzaFinal}</p>
-                    <p>Precisión: {precision}</p>
+                    <p>Respuestas: {Math.round(respuestas)}</p>
+                    <p>Correctas: {Math.round(correctas)}</p>
+                    <p>Errores: {Math.round(errores)}</p>
+                    <p>Resultado Final: {Math.round(resultadoFinal)}</p>
+                    <p>Confianza Final: {Math.round(confianzaFinal)}</p>
+                    <p>Desempeño: {Math.round(precision)}</p>
                 </div>
             </div>
         );
@@ -35,12 +35,12 @@ const PlayerStats: React.FC<PlayerStatsProps> = ({ type, respuestas, correctas, 
             <div className="playerStats">
 
                 <div className="stats">
-                    <p>Respuestas: {respuestas}</p>
-                    <p>Correctas: {correctas}</p>
-                    <p>Errores: {errores}</p>
-                    <p>Resultado Final: {resultadoFinal}</p>
-                    <p>Confianza Final: {confianzaFinal}</p>
-                    <p>Precisión: {precision}</p>
+                    <p>Respuestas: {Math.round(respuestas)}</p>
+                    <p>Correctas: {Math.round(correctas)}</p>
+                    <p>Errores: {Math.round(errores)}</p>
+                    <p>Resultado Final: {Math.round(resultadoFinal)}</p>
+                    <p>Confianza Final: {Math.round(confianzaFinal)}</p>
+                    <p>Desempeño: {Math.round(precision)}</p>
                 </div>
                 <div className="profileImgContainer2">
                     <Image src={profile} alt="Profile" className="profileImg" />

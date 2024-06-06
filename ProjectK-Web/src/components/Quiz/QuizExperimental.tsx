@@ -32,41 +32,80 @@ interface QuizData {
   topic_id: number;
   topic_name: string;
 }
+interface stats {
 
-const dummyData = {
-  bot1: {
-    respuestas: 10,
-    correctas: 7,
-    errores: 3,
-    resultadoFinal: 70,
-    confianzaFinal: 80,
-    precision: 70,
-  },
-  bot2: {
-    respuestas: 12,
-    correctas: 8,
-    errores: 4,
-    resultadoFinal: 66.67,
-    confianzaFinal: 75,
-    precision: 66.67,
-  },
-  bot3: {
-    respuestas: 15,
-    correctas: 10,
-    errores: 5,
-    resultadoFinal: 66.67,
-    confianzaFinal: 70,
-    precision: 66.67,
-  },
-  player: {
-    respuestas: 20,
-    correctas: 15,
-    errores: 5,
-    resultadoFinal: 75,
-    confianzaFinal: 85,
-    precision: 75,
-  },
+    bot1: {
+        respuestas: number;
+        correctas: number;
+        errores: number;
+        resultadoFinal: number;
+        confianzaFinal: number;
+        preformance: number;
+    };
+    bot2: {
+        respuestas: number;
+        correctas: number;
+        errores: number;
+        resultadoFinal: number;
+        confianzaFinal: number;
+        preformance: number;
+    };
+    bot3: {
+        respuestas: number;
+        correctas: number;
+        errores: number;
+        resultadoFinal: number;
+        confianzaFinal: number;
+        preformance: number;
+    };
+    player: {
+        respuestas: number;
+        correctas: number;
+        errores: number;
+        resultadoFinal: number;
+        confianzaFinal: number;
+        preformance: number;
+    };
+
+}
+
+const startingStats = {
+    bot1: {
+        respuestas: 0,
+        correctas: 0,
+        errores: 0,
+        resultadoFinal: 0,
+        confianzaFinal: 8,
+        preformance: 0,
+    },
+    bot2: {
+        respuestas: 0,
+        correctas: 0,
+        errores: 0,
+        resultadoFinal: 0,
+        confianzaFinal: 8,
+        preformance: 0,
+    },
+    bot3: {
+        respuestas: 0,
+        correctas: 0,
+        errores: 0,
+        resultadoFinal: 0,
+        confianzaFinal: 8,
+        preformance: 0,
+    },
+    player: {
+        respuestas: 0,
+        correctas: 0,
+        errores: 0,
+        resultadoFinal: 0,
+        confianzaFinal: 0,
+        preformance: 0,
+    },
 };
+
+
+
 
 export default function Quiz({ onClose, quizId }: QuizProps) {
   const api = process.env.NEXT_PUBLIC_API_URL;
@@ -79,11 +118,12 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   const [quizData, setQuizData] = useState({} as QuizData);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [typeOfBreak, setTypeOfBreak] = useState(0);
-  const [stats, setStats] = useState(dummyData);
+  const [stats, setStats] = useState(startingStats as stats);
   const [questionData, setQuestionData] = useState({} as any);
   const [userAnswers, setUserAnswers] = useState<
     Array<{ questionId: number; answer: number; confidence: number }>
   >([]);
+
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -129,10 +169,82 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   const handleSliderChange = (event: any, newValue: number | number[]) => {
     setSliderValue(newValue as number);
   };
+
+  async function updateStats() {
+    // Update the stats of player
+    let newStats = stats;
+    newStats.player.respuestas += 1;
+    if (optionSelected === quizData.questions[currentQuestion].correct_answer) {
+      newStats.player.correctas += 1;
+    } else {
+      newStats.player.errores += 1;
+    }
+    newStats.player.resultadoFinal =
+      (newStats.player.correctas / newStats.player.respuestas) * 100;
+    newStats.player.confianzaFinal = (newStats.player.respuestas === 0)
+      ? Math.max(sliderValue, 0)
+      : ((sliderValue + (newStats.player.respuestas - 1) * newStats.player.confianzaFinal) / stats.player.respuestas);
+    newStats.player.confianzaFinal = Math.max(newStats.player.confianzaFinal, 0);
+    newStats.player.preformance = (newStats.player.resultadoFinal * newStats.player.confianzaFinal) / 100;
+    // Update the stats of bots
+
+    newStats.bot1.respuestas += 1;
+    newStats.bot2.respuestas += 1;
+    newStats.bot3.respuestas += 1;
+
+    //if user answer is correct give bots 8/10 chance of getting it right else 5/10
+
+    let bot1Correct = false;
+    let bot2Correct = false;
+    let bot3Correct = false;
+    if(quizData.questions[currentQuestion].correct_answer === optionSelected){
+      //bots geting good ods
+       bot1Correct = Math.random() < 0.8;
+       bot2Correct = Math.random() < 0.8;
+       bot3Correct = Math.random() < 0.8;
+    } else {
+      //bots getting bad ods
+       bot1Correct = Math.random() < 0.5;
+       bot2Correct = Math.random() < 0.5;
+       bot3Correct = Math.random() < 0.5;
+    }
+      if(bot1Correct){
+        newStats.bot1.correctas += 1;
+      } else {
+        newStats.bot1.errores += 1;
+      }
+      if(bot2Correct){
+        newStats.bot2.correctas += 1;
+      } else {
+        newStats.bot2.errores += 1;
+      }
+      if(bot3Correct){
+        newStats.bot3.correctas += 1;
+      } else {
+        newStats.bot3.errores += 1;
+      }
+      newStats.bot1.resultadoFinal = (newStats.bot1.correctas / newStats.bot1.respuestas) * 100;
+      newStats.bot1.confianzaFinal = Math.random() < 0.5 ? newStats.bot1.confianzaFinal + 1 : newStats.bot1.confianzaFinal - 1;
+      newStats.bot1.confianzaFinal = Math.max(newStats.bot1.confianzaFinal, 0);
+      newStats.bot1.preformance = (newStats.bot1.resultadoFinal * newStats.bot1.confianzaFinal) / 100;
+      newStats.bot2.resultadoFinal = (newStats.bot2.correctas / newStats.bot2.respuestas) * 100;
+      newStats.bot2.confianzaFinal = Math.random() < 0.5 ? newStats.bot2.confianzaFinal + 1 : newStats.bot2.confianzaFinal - 1;
+      newStats.bot2.confianzaFinal = Math.max(newStats.bot2.confianzaFinal, 0);
+      newStats.bot2.preformance = (newStats.bot2.resultadoFinal * newStats.bot2.confianzaFinal) / 100;
+      newStats.bot3.resultadoFinal = (newStats.bot3.correctas / newStats.bot3.respuestas) * 100;
+      newStats.bot3.confianzaFinal = Math.random() < 0.5 ? newStats.bot3.confianzaFinal + 1 : newStats.bot3.confianzaFinal - 1;
+      newStats.bot3.confianzaFinal = Math.max(newStats.bot3.confianzaFinal, 0);
+      newStats.bot3.preformance = (newStats.bot3.resultadoFinal * newStats.bot3.confianzaFinal) / 100;
+
+
+      await setStats(newStats);
+  }
+
   async function handleSubmit() {
     console.log("Submitted");
     setQuestionData(quizData?.questions[currentQuestion]);
     await checkAnswer();
+    await updateStats();
     setOpenBreak(true);
     setOptionSelected(0);
     setSliderValue(0);
@@ -209,6 +321,8 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
         console.log(err);
       });
   }
+
+
 
   return (
     <div className="overlay">
