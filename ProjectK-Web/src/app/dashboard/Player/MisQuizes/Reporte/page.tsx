@@ -160,6 +160,18 @@ export default function Reporte() {
     setPreformance(Math.round((averageScore + averageConfidence) / 2));
   }
 
+  function getOptionTxt(option: number, response: any) {
+    if (option === 1) {
+      return response.question_ans1;
+    } else if (option === 2) {
+      return response.question_ans2;
+    } else if (option === 3) {
+      return response.question_ans3;
+    }
+    return response.question_ans4;
+
+  }
+
   return (
     <div className="flex flex-row w-full">
       {reportData.report && (
@@ -233,8 +245,8 @@ export default function Reporte() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Your answer: {response.answer} <br />
-                      Correct answer: {response.correct_answer} <br />
+                      Your answer: {getOptionTxt(response.answer, response)} <br />
+                      Correct answer: {getOptionTxt(response.correct_answer,response)} <br />
                       Confidence: {response.confidence}
                     </Typography>
                   </AccordionDetails>
