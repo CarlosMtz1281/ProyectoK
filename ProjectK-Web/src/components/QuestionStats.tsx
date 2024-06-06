@@ -48,7 +48,7 @@ interface QuestionStatsProps {
 }
 
 interface questionStatsData {
-    presicion: number;
+    precision: number;
     confianza: number;
     graphData: any;
 }
@@ -104,7 +104,7 @@ export default function QuestionStats({questionData, index}: QuestionStatsProps)
             datasets: responses
         }
         setQuestionStatsData({
-            presicion: precision,
+            precision: precision,
             confianza: confidence,
             graphData: responesFormatted
         });
@@ -156,7 +156,7 @@ export default function QuestionStats({questionData, index}: QuestionStatsProps)
                                 <p className='font-bold'>Precision</p>
                                 <div className='w-full h-full'>
                                     <Gauge
-                                        value={questionStatsData?.presicion}
+                                        value={questionStatsData?.precision}
                                         startAngle={-110}
                                         endAngle={110}
                                         sx={{
