@@ -19,7 +19,8 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
-  Backdrop
+  Backdrop,
+  CircularProgress
 } from "@mui/material";
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -70,7 +71,7 @@ export default function RegistrationForm() {
       isAdmin: admin,
     };
 
-    await axios
+    const res = await axios
       .post(api + `users/`, userData)
       .then(async (res) => {
         console.log("success");
@@ -178,6 +179,7 @@ export default function RegistrationForm() {
         open={isLoginLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
       >
+        <CircularProgress sx = {{color: "#fff"}} size = {75} />
       </Backdrop>
       <Box
         id="insideboxonpaper"

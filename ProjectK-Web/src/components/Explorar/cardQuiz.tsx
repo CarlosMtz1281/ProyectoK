@@ -53,7 +53,6 @@ export default function Card({
   }, []);
 
   function handleDelete() {
-    console.log(ID);
     if (onDelete) {
       onDelete();
     }
@@ -61,7 +60,6 @@ export default function Card({
 
   const onClick = async () => {
     if (mayDelete === false) {
-      console.log("ID", ID);
       if (checkIDLocal) {
         await SetCookieAPI("ID", ID.toString());
       }

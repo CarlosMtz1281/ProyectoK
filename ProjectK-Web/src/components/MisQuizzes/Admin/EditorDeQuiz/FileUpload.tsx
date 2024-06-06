@@ -5,12 +5,12 @@ import { FileUpload as UploadIcon } from "@mui/icons-material"; // fileupload is
 export default function FileUpload() {
   return (
     <Grid item xs={3}>
-      <Paper elevation={24} className="h-5/6 w-5/6 flex items-center p-6 gap-4">
-        <button className="bg-gray-400 h-32 w-32 rounded-md">
+      <Paper elevation={24} className="h-full w-full flex items-center p-6 gap-4">
+        <button className="bg-gray-400 h-16 w-16 rounded-md">
             <UploadIcon />
         </button>
         <Typography className = 'w-1/4 text-wrap'>
-            Coming soon!
+            Imagen: Coming soon!
         </Typography>
       </Paper>
     </Grid>

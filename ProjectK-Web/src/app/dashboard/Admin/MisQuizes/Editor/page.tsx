@@ -2,11 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import {
-  useForm,
-  FormProvider,
-  FieldValues,
-} from "react-hook-form";
+import { useForm, FormProvider, FieldValues } from "react-hook-form";
 import FileUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/FileUpload";
 import ThemeSelection from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeSelection";
 import AIRecommendation from "@/components/MisQuizzes/Admin/EditorDeQuiz/AIRecommendation";
@@ -78,9 +74,16 @@ export default function Editor() {
     }
   };
 
+  // Form error handler
+  const onError = (errors: any) => {
+    // Show an alert with the error messages
+    alert('Llena todos los espacios necesarios para continuar.');
+    console.log('Form Errors:', errors);
+  };
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
         <div className="h-screen m-2">
           <EditorBanner />
           <Grid container direction="row" className="h-full">
@@ -88,15 +91,14 @@ export default function Editor() {
               <Grid container direction="column" className="h-full">
                 <FileUpload />
                 <ThemeSelection topics={topics} />
-                <AIRecommendation />
+                <Grid item xs={3} md={3}>
+                  <QuizTitle />
+                </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12} md={8}>
-              <Grid container direction="column" className="h-full w-full">
-                <Grid item xs={12} md={2}>
-                  <QuizTitle />
-                </Grid>
-                <Grid item xs={12} md={9}>
+              <Grid container direction="column" className="h-5/6 w-full">
+                <Grid item xs={12} md={12}>
                   <QuestionPad />
                 </Grid>
               </Grid>

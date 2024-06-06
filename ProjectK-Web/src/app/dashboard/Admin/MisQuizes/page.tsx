@@ -59,7 +59,7 @@ export default function Explorar() {
     const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const session = userCookiesObj.sessionKey;
     axios
-      .get(api + `quizes/${session}`)
+      .get(api + `quizes/${session}`, { headers: { 'sessionKey': session } })
       .then((res) => {
         setCardData(res.data);
       })

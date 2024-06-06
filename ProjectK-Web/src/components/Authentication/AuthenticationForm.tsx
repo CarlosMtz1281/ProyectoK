@@ -14,6 +14,7 @@ import {
   IconButton,
   FormHelperText,
   Backdrop,
+  CircularProgress
 } from "@mui/material";
 import { Visibility, VisibilityOff, EmailOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -26,6 +27,7 @@ import {
 import axios from "axios";
 import { SetCookieAPI } from "@/app/utils/setcookie";
 import { getCookie } from "@/app/utils/getcookie";
+import "ldrs/hatch";
 
 const auth = getAuth(app);
 
@@ -135,6 +137,7 @@ export default function AuthenticationForm() {
         open={isLoginLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
       >
+        <CircularProgress sx = {{color: "#fff"}} size = {75} />
       </Backdrop>
       <Box
         id="insideboxonpaper"
