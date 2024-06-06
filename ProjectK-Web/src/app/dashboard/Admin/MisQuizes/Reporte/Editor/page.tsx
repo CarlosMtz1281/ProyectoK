@@ -95,7 +95,7 @@ export default function Editor() {
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      const response = await axios.post(`${apiURL}quizes`, data);
+      const response = await axios.put(`${apiURL}quizes`, data);
       console.log(response.data);
       alert("Quiz guardado en la DB!");
     } catch (error) {
