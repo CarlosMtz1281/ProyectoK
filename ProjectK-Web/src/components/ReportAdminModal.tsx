@@ -146,7 +146,7 @@ export default function ReportAdminModal({quizResponse, quizData}: ReportAdminMo
                         {
                             quizResponse?.responses.map((response : any, index : number) => {
                                 return (
-                                    <div className='responseContainer'>
+                                    <div key={index} className='responseContainer'>
                                         <p className='text-xl font-bold'>{index+1}. &nbsp;{response.question_text}</p>
                                         <div className='optionsContainer'>
                                             <div className={`optionContainer ${quizData?.questions[index].correct_answer == 1 ? "correctOption" : ""} ${quizResponse.responses[index].user_answer === 1 && quizData?.questions[index].correct_answer !== 1 ? "incorrectOption" : ""}`}><b>A. </b> &nbsp;{quizData?.questions[index].question_ans1}</div>
