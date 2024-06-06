@@ -159,7 +159,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 5vh;
+    height: 7vh;
     align-items: center;
     justify-content: space-between;
     border: 1px solid var(--primaryBG-200);

@@ -5,6 +5,7 @@ import { BsFillInfoCircleFill } from "react-icons/bs";
 import Box from '@mui/material/Box';
 import '@/styles/ReportAdminModal.css';
 import '@/styles/ReporteAdmin.css';
+import { RoundedCorner } from '@mui/icons-material';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -15,8 +16,8 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    height: '50vh',
-    width: '40vw'
+    height: '70vh',
+    width: '60vw',
 };
 
 interface ReportAdminModalProps {
@@ -34,7 +35,7 @@ export default function ReportAdminModal({name, precision, confianza, desempeno,
   
     return (
       <div>
-        <button onClick={handleOpen}><BsFillInfoCircleFill size={'3vh'}/></button>
+        <button onClick={handleOpen}><BsFillInfoCircleFill size={'3vh'} style={{marginLeft:"10px"}}/></button>
         <Modal
           open={open}
           onClose={handleClose}

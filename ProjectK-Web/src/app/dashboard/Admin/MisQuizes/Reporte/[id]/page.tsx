@@ -165,14 +165,7 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
                     </div>
 
                     <div className='questionsAccordionContainer'>
-                        {/*
-                            quizReport?.QuizData.questions.map((question : any, index : number) => {
-                                return (
-                                    <QuestionStats data={dummyBarData} contentAI={defaultContent} precisionV={97} confidenceV={89}/>
-                                )
-                            })
-                        */
-                            // map over each value in the questions map
+                        {
                             questions.map((question : any, index : number) => {
                                 return (
                                     question.question !== "" &&(
@@ -198,6 +191,16 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
                         />
                     </div>
                     <div className='studentList'>
+                        {quizReport?.QuizSubmissions.map((submission : any, index : number) => {
+                            return (
+                                <div className='studentCard' key={index}>
+                                    <p className='studentName'>{submission.user_name}</p>
+                                    <ReportAdminModal name={submission.user_name} precision={submission.precision} confianza={submission.confidence} desempeno={submission.performance} contentAI={submission.report_analysis}/>
+                                </div>
+                            );
+                        })
+
+                        }
                         {dummyStudents.map((student) => {
                             if (student.name?.toLowerCase().includes(query.toLowerCase())) {
                                 return (
