@@ -20,7 +20,7 @@ export default function AnswerButton({name, label, rules, idx, currentChecked, o
   const ans = getValues("questions."+ (optionIdx - 1) +".options."+(idx - 1));
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked === true) {
+    if (event.target.checked) {
       onCheck(idx);
     }
   }

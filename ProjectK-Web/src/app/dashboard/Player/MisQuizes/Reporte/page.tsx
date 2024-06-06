@@ -86,16 +86,18 @@ export default function Reporte() {
 
   // Cookies must be fetched like this
   const cookieGetter = async () => {
-    const firstname = await getCookie("first_name");
-    const secondname = await getCookie("last_name");
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    const firstname = userCookiesObj.first_name;
+    const secondname = userCookiesObj.last_name;
     const cookiereportid = await getCookie("reporte_Id");
+    const session = userCookiesObj.sessionKey;
 
     setName(firstname);
     setLastName(secondname);
     setReportId(Number(cookiereportid));
 
     axios
-      .get(api + `responses/${cookiereportid}`)
+      .get(api + `responses/${cookiereportid}`, {headers: {sessionKey: session}})
       .then(async (response) => {
         await setReportData(response.data);
         console.log(response.data);

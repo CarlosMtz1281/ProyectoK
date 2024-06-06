@@ -9,10 +9,11 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   async function checkAdmin() {
-    const isAdminLocal = await getCookie("admin");
-    if (isAdminLocal === "true") {
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    const isAdminLocal = userCookiesObj.admin;
+    if (isAdminLocal) {
       setIsLoading(false);
-      appRouter.replace("/dashboard/Admin/Explorar");
+      appRouter.replace("/dashboard/Admin/MisQuizes");
     } else {
       setIsLoading(false);
       appRouter.replace("/dashboard/Player/Explorar");

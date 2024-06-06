@@ -87,12 +87,14 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
+  async function fetchData() {
     console.log("api: ", api + `quizes/${quizId}`);
     setIsLoaded(true);
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    const sessionKey = userCookiesObj.sessionKey;
 
     axios
-      .get(api + `quizes/${quizId}`)
+      .get(api + `quizes/quizId/${quizId}`,{ headers: { 'sessionKey': sessionKey }})
       .then((res) => {
         console.log(res);
         setQuizData(res.data);
@@ -101,6 +103,10 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  useEffect(() => {
+      fetchData();
   }, []); // Runs only once after the initial render
 
   function closeQuiz() {
@@ -176,7 +182,9 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
 
   useEffect(() => {
     async function setUserId() {
-      setUser_id(Number(await getCookie("user_id")));
+      const userCookies = await getCookie("userCookies");
+      const userCookiesObj = JSON.parse(userCookies);
+      setUser_id(Number(userCookiesObj.user_id));
     }
 
     console.log(currentQuestion);
@@ -184,6 +192,8 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
   }, [currentQuestion]);
 
   async function postResults() {
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    const session = userCookiesObj.sessionKey;
     console.log("Posting results");
     const dataToSend = {
       quizId: quizId,
@@ -191,7 +201,7 @@ export default function Quiz({ onClose, quizId }: QuizProps) {
       responses: userAnswers,
     };
     axios
-      .post(api + "responses/", dataToSend)
+      .post(api + `responses/${session}`, dataToSend)
       .then((res) => {
         console.log(res);
       })

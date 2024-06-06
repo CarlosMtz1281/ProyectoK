@@ -40,7 +40,9 @@ export default function Editor() {
 
   useEffect(() => {
     const fetchUserId = async () => {
-      const userId = Number(await getCookie("user_id"));
+      const userCookies = await getCookie("userCookies");
+      const userCookiesObj = JSON.parse(userCookies);
+      const userId = Number(userCookiesObj.user_id);
       setUserIdLocal(userId);
       setValue("adminId", userId);
     };
@@ -63,8 +65,11 @@ export default function Editor() {
   }, [setValue]);
 
   const onSubmit = async (data: FieldValues) => {
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    console.log(userCookiesObj);
+    const session = userCookiesObj.sessionKey;
     try {
-      const response = await axios.post(`${apiURL}quizes`, data);
+      const response = await axios.post(`${apiURL}quizes/${session}`, data);
       console.log(response.data);
       alert("Quiz guardado en la DB!");
     } catch (error) {
