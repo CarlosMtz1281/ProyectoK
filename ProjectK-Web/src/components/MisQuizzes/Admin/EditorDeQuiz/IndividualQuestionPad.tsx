@@ -52,6 +52,7 @@ export default function IndividualQuestionPad({
           label={`Pregunta N. ${idx}`}
           rules={null}
           value = {question}
+          required = {true}
         />
       </Paper>
 
@@ -60,7 +61,7 @@ export default function IndividualQuestionPad({
         className="w-full h-full grid grid-cols-2 grid-rows-2 gap-4 mt-2"
       >
         <AnswerButton
-          name={`questions.${idx - 1}.options`}
+          name={`questions.${idx - 1}.opcion1`}
           label="Respuesta 1"
           rules={null}
           idx={1}

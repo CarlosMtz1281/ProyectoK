@@ -46,6 +46,7 @@ export default function NavbarConf() {
   async function signOut() {
     if (flag) {
       await deleteCookie("userCookies");
+      await deleteCookie("ID");
     }
     appRouter.replace("/");
   }

@@ -41,9 +41,9 @@ export default function ThemeSelection({ topics }: ThemeSelectionProps) {
   }, [topicIdForm])
 
   return (
-    <Grid item xs={2}>
-      <Paper elevation={24} className="h-2/3 w-5/6 flex items-center p-6 gap-4">
-        <Typography>Temas:</Typography>
+    <Grid item xs={3}>
+      <Paper elevation={24} className="h-full w-full flex items-center p-6 gap-4">
+        <Typography>Tema:</Typography>
         <FormControl sx={{ width: "100%" }}>
           <InputLabel>tema</InputLabel>
           <Select

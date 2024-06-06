@@ -74,9 +74,16 @@ export default function Editor() {
     }
   };
 
+  // Form error handler
+  const onError = (errors: any) => {
+    // Show an alert with the error messages
+    alert('Llena todos los espacios necesarios para continuar.');
+    console.log('Form Errors:', errors);
+  };
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
         <div className="h-screen m-2">
           <EditorBanner />
           <Grid container direction="row" className="h-full">

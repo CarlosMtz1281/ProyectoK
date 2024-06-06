@@ -27,6 +27,98 @@ const defaultThemes = [
   },
 ];
 
+// Default JSON for testing
+const defaultQuizJson = {
+  "quiz_id": 14,
+  "admin_id": 7,
+  "topic_id": 1,
+  "quiz_name": "quizcreadoenelclient3",
+  "topic_name": "Matematicas",
+  "questions": [
+    {
+      "question_id": 21,
+      "question": "holi",
+      "options": [
+        "me la p",
+        "yoo",
+        "rah",
+        ""
+      ],
+      "correct_answer": 1,
+      "active": true,
+      "answer": 1,
+      "opcion2": "",
+      "opcion3": "",
+      "opcion4": ""
+    },
+    {
+      "question_id": 22,
+      "question": "",
+      "options": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "correct_answer": 1,
+      "active": true,
+      "answer": 1,
+      "opcion2": "",
+      "opcion3": "",
+      "opcion4": ""
+    },
+    {
+      "question_id": 23,
+      "question": "",
+      "options": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "correct_answer": 1,
+      "active": true,
+      "answer": 1,
+      "opcion2": "",
+      "opcion3": "",
+      "opcion4": ""
+    },
+    {
+      "question_id": 24,
+      "question": "",
+      "options": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "correct_answer": 1,
+      "active": true,
+      "answer": 1,
+      "opcion2": "",
+      "opcion3": "",
+      "opcion4": ""
+    },
+    {
+      "question_id": 25,
+      "question": "",
+      "options": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "correct_answer": 1,
+      "active": true,
+      "answer": 1,
+      "opcion2": "",
+      "opcion3": "",
+      "opcion4": ""
+    }
+  ],
+  "topicId": 1
+}
+
 interface Option {
   question_id: number;
   question: string;
@@ -61,10 +153,15 @@ export default function Editor({params} : {params: {id: string}}) {
       setValue("adminId", userId);
       const userCookiesObj = JSON.parse(await getCookie("userCookies"));
       const session = userCookiesObj.sessionKey;
+      console.log(session)
+
+      // setQuizData(defaultQuizJson);
+      // reset(defaultQuizJson);
 
       try {
+        console.log(apiURL + `quizes/quizId/${report_id}`)
         const res = await axios
-          .get(apiURL + `quizes/${report_id}`, { headers: { 'sessionKey': session } })
+          .get(apiURL + `quizes/quizId/${report_id}`, { headers: { 'sessionKey': session } })
           .then((res) => {
             setQuizData(res.data);
             reset(res.data);
@@ -93,8 +190,10 @@ export default function Editor({params} : {params: {id: string}}) {
     setValue("topicId", 1);
   }, [setValue]);
 
+  // Handles form submission
   const onSubmit = async (data: FieldValues) => {
     try {
+      console.log("form: ", getValues());
       const response = await axios.put(`${apiURL}quizes`, data);
       console.log(response.data);
       alert("Quiz guardado en la DB!");
@@ -104,23 +203,30 @@ export default function Editor({params} : {params: {id: string}}) {
     }
   };
 
+  // Form error handler
+  const onError = (errors: any) => {
+    // Show an alert with the error messages
+    alert('Llena todos los espacios necesarios para continuar.');
+    console.log('Form Errors:', errors);
+  };
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
         <div className="h-screen m-2">
           <EditorBanner />
-          <Grid container direction="row" className="h-full">
-            <Grid item xs={12} md={4}>
-              <Grid container direction="column" className="h-full">
+          <Grid container direction="column" className="h-full overflow-x-visible flex-nowrap" gap = {3}>
+            <Grid item xs={12} md={1}>
+              <Grid container direction="row" className="h-full justify-between">
                 <FileUpload />
                 <ThemeSelection topics={topics} />
-                <Grid item md={3}>
+                <Grid item md={5}>
                   <QuizTitle />
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} md={8}>
-              <Grid container direction="column" className="h-5/6 w-full">
+            <Grid item xs={12} md={9}>
+              <Grid container direction="column" className="h-full w-full ">
                 <Grid item xs={12} md={12}>
                   <QuestionPad />
                 </Grid>

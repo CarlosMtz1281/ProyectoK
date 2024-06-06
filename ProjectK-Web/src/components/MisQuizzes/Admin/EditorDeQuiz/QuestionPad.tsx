@@ -31,6 +31,7 @@ export default function QuestionPad() {
   return (
     <div className="flex flex-col w-full h-full gap-3">
 
+      
       {Array.from({ length: numberOfQuestions }, (_, index) => (
         <IndividualQuestionPad idx = {index + 1} key={index} currentQuestion={currentQuestion} />
       ))}
@@ -39,7 +40,7 @@ export default function QuestionPad() {
         id="pagination boxybox"
         className="flex flex-row h-full w-full justify-center items-center"
       >
-        <Pagination variant="outlined" color="primary" onChange={handlePagination} count={numberOfQuestions} />
+        <Pagination size = "large" variant="outlined" color="primary" onChange={handlePagination} count={numberOfQuestions} />
       </div>
     </div>
   );
