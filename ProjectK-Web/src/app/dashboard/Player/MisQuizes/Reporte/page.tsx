@@ -16,6 +16,8 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getCookie } from "@/app/utils/getcookie";
 import ChatBot from "@/components/general/chatBot";
+import Button from '@mui/material/Button';
+
 
 interface Response {
   response_id: number;
@@ -84,6 +86,10 @@ export default function Reporte() {
   const [exactDate, setExactDate] = useState("");
   const [preformance, setPreformance] = useState(0);
   const [reportId, setReportId] = useState(0);
+  //chatbot
+  const [chatStarted, setChatStarted] = useState(false);
+  const [prompt, setPrompt] = useState("");
+  const [quizName, setQuizName] = useState("");
 
   // Cookies must be fetched like this
   const cookieGetter = async () => {
@@ -104,6 +110,7 @@ export default function Reporte() {
         console.log(response.data);
         formatAnalysis();
         calculateStats();
+
       })
       .catch((error) => {
         console.log(error);
@@ -245,12 +252,22 @@ export default function Reporte() {
                     <Typography>{response.question}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography>
-                      Your answer: {getOptionTxt(response.answer, response)} <br />
-                      Correct answer: {getOptionTxt(response.correct_answer,response)} <br />
-                      Confidence: {response.confidence}
-                    </Typography>
-                  </AccordionDetails>
+    <Typography>
+        Your answer: {getOptionTxt(response.answer, response)} <br />
+        Correct answer: {getOptionTxt(response.correct_answer,response)} <br />
+        Confidence: {response.confidence}
+    </Typography>
+    <Button
+        variant="contained"
+        color="primary"
+        style={{ marginLeft: 'auto' }}
+        onClick={() => {
+            setPrompt(response.question);
+            setChatStarted(true); }}
+    >
+        Pregunatle al profesor virtual
+    </Button>
+</AccordionDetails>
                 </Accordion>
               ))}
             </div>
@@ -258,7 +275,7 @@ export default function Reporte() {
 
         </div>
       )}
-      <ChatBot question="Explicame esta pregunta y su respuesta correcta: Como se llamaba la fuerza area inglesa  " quizName="Segunda Guerra Mundial"/>
+        {chatStarted && <ChatBot question={prompt} />}
     </div>
   );
 }
