@@ -1,0 +1,88 @@
+.chatbot {
+    position: fixed;
+    bottom: 0;
+    left: 17; /* Changed from left to right */
+    width: 400px;
+    height: 500px;
+    background-color: var(--primaryBG-200);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.chatbot.closed {
+    transform: translateY(100%);
+}
+
+
+.chatbot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.chatbot-prompt {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.chatbot-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.chatbot-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns messages to the left */
+}
+
+.chatbot-message {
+    margin-bottom: 5px;
+    max-width: 80%; /* Prevents messages from taking up the full width */
+    border-radius: 15px; /* Makes messages look like bubbles */
+    padding: 10px; /* Adds some space around the text */
+    color: black; /* Makes text color white */
+    word-wrap: break-word; /* Breaks the words at the end of the line */
+    overflow-wrap: break-word; /* Breaks the words at the end of the line */
+    background-color: var(--primaryBG-300);
+
+}
+
+.chatbot-message-user {
+    align-self: flex-end; /* Aligns user messages to the right */
+}
+
+.chatbot-message-bot {
+    background-color: red;
+}
+
+.chatbot-input {
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+}
+.chatbot-input-text{
+    border-radius: 20px;
+    padding: 2px;
+    width: 85%;
+
+}
+
+.chatbot-input input {
+    flex-grow: 1;
+    width: 20%;
+
+}
+
+.chatbot-close {
+    align-self: flex-end;
+    margin-top: 5px;
+}

@@ -15,6 +15,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getCookie } from "@/app/utils/getcookie";
+import ChatBot from "@/components/general/chatBot";
 
 interface Response {
   response_id: number;
@@ -254,8 +255,10 @@ export default function Reporte() {
               ))}
             </div>
           </div>
+
         </div>
       )}
+      <ChatBot question="Explicame esta pregunta y su respuesta correcta: Como se llamaba la fuerza area inglesa  " quizName="Segunda Guerra Mundial"/>
     </div>
   );
 }
