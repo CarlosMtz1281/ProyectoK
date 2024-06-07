@@ -17,7 +17,7 @@ public class TitleScreenUI : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("GameMobile");
+        SceneManager.LoadScene("Game");
     }
 
     public void SelectLevel()
