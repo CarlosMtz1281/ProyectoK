@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoIosClose } from "react-icons/io";
 import PlayerStats from "./playerStats";
+import Image from "next/image";
 
 interface QuizBreakProps {
     type: number;
@@ -95,14 +96,21 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
           <div className="mainHeader">
             <h1 className="result">{type === 1 ? 'Correcto' : type === 2 ? 'Incorrecto' : ''}</h1>
             <div className="icon">
-              {type === 1 && <IoMdCheckmark className="checkmark" size={120} />}
-              {type === 2 && <IoIosClose className="cross" size={120} />}
+              {type === 1 && <IoMdCheckmark className="checkmark" size={60} />}
+              {type === 2 && <IoIosClose className="cross" size={60} />}
             </div>
           </div>
-          <p>La pregunta era</p>
+          <div className = "flex flex-row gap-7">
+            <div>
+          <p>Pregunta:</p>
           <h1 className="question">{questionData.question}</h1>
-          <p>La respuesta correcta era</p>
+          </div>
+          <div>
+          <p>Respuesta:</p>
           <h1 className="question-resp">{questionData.options[questionData.correct_answer-1] }</h1>
+          </div>
+          </div>
+          <iframe src=  {type === 1 ? "https://giphy.com/embed/13CoXDiaCcCoyk": "https://giphy.com/embed/YSBLqMGIUoAgHxihVw/video"} width="400" height="300" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/wiggle-shaq-13CoXDiaCcCoyk">via GIPHY</a></p>
 
         <div className="nextQuestionWrap">
             <div className={`nextQuestionBtn type-${type}`} onClick={startClosing}>Siguiente </div>
