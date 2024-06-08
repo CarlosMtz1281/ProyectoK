@@ -15,6 +15,8 @@ import { Loading } from "react-loading-dot";
 
 interface ChatBotProps {
   question: string;
+  quizName: string;
+  onClose: () => void;
 }
 
 interface Message {
@@ -26,7 +28,7 @@ interface Message {
   ];
 }
 
-const ChatBot: React.FC<ChatBotProps> = ({ question }) => {
+const ChatBot: React.FC<ChatBotProps> = ({ question, quizName, onClose }) => {
   const [chatStarted, setChatStarted] = useState(false);
   const[closing, setClosing] = useState(false)
   const [isOpen, setIsOpen] = useState(true);
@@ -38,7 +40,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ question }) => {
       role: "user",
       parts: [
         {
-          text: `Estas es un chat con un estudiante que constesto un quiz de  te va a hacer preguntas sobre varios temas`,
+          text: `Estas es un chat con un estudiante que constesto un quiz de ${quizName} te va a hacer preguntas sobre varios temas`,
         },
       ],
     },
@@ -92,7 +94,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ question }) => {
             role: "user",
             parts: [
               {
-                text: question,
+                text: `Explicame esta pregunta, ${question}`,
               },
             ],
           },
@@ -110,7 +112,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ question }) => {
             role: "user",
             parts: [
               {
-                text: question,
+                text: `Explicame esta pregunta, ${question}`,
               },
             ],
           },
@@ -200,10 +202,10 @@ const ChatBot: React.FC<ChatBotProps> = ({ question }) => {
   }, []);
 
 const handleClose = () => {
-    //wait a sec
     setClosing(true);
     setTimeout(() => {
         setIsOpen(false);
+        onClose();
     }, 1000); // add a 1 sec delay
 };
 
