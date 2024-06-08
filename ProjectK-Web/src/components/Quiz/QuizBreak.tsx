@@ -14,7 +14,7 @@ interface QuizBreakProps {
             errores: number;
             resultadoFinal: number;
             confianzaFinal: number;
-            precision: number;
+            preformance: number;
         };
         bot2: {
             respuestas: number;
@@ -22,7 +22,7 @@ interface QuizBreakProps {
             errores: number;
             resultadoFinal: number;
             confianzaFinal: number;
-            precision: number;
+            preformance: number;
         };
         bot3: {
             respuestas: number;
@@ -30,7 +30,7 @@ interface QuizBreakProps {
             errores: number;
             resultadoFinal: number;
             confianzaFinal: number;
-            precision: number;
+            preformance: number;
         };
         player: {
             respuestas: number;
@@ -38,7 +38,7 @@ interface QuizBreakProps {
             errores: number;
             resultadoFinal: number;
             confianzaFinal: number;
-            precision: number;
+            preformance: number;
         };
 
     }
@@ -59,35 +59,35 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
     }
 
   return (
-    <div className= {`breakContainer ${isClosing ? "closing" : ""} type-${type}`}>
+    <div className={`breakContainer ${isClosing ? "closing" : ""} type-${type}`}>
       <div className="mainBody">
         <div className="statsBots">
           <PlayerStats
             type={1}
-            respuestas={10}
-            correctas={10}
-            errores={0}
-            resultadoFinal={100}
-            confianzaFinal={100}
-            precision={100}
+            respuestas={stats.bot1.respuestas}
+            correctas={stats.bot1.correctas}
+            errores={stats.bot1.errores}
+            resultadoFinal={stats.bot1.resultadoFinal}
+            confianzaFinal={stats.bot1.confianzaFinal}
+            precision={stats.bot1.preformance}
           />
           <PlayerStats
             type={1}
-            respuestas={10}
-            correctas={10}
-            errores={0}
-            resultadoFinal={100}
-            confianzaFinal={100}
-            precision={100}
+            respuestas={stats.bot2.respuestas}
+            correctas={stats.bot2.correctas}
+            errores={stats.bot2.errores}
+            resultadoFinal={stats.bot2.resultadoFinal}
+            confianzaFinal={stats.bot2.confianzaFinal}
+            precision={stats.bot2.preformance}
           />
           <PlayerStats
             type={1}
-            respuestas={10}
-            correctas={10}
-            errores={0}
-            resultadoFinal={100}
-            confianzaFinal={100}
-            precision={100}
+            respuestas={stats.bot3.respuestas}
+            correctas={stats.bot3.correctas}
+            errores={stats.bot3.errores}
+            resultadoFinal={stats.bot3.resultadoFinal}
+            confianzaFinal={stats.bot3.confianzaFinal}
+            precision={stats.bot3.preformance}
           />
         </div>
 
@@ -113,12 +113,12 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
         <div className="statsPlayer">
           <PlayerStats
             type={2}
-            respuestas={10}
-            correctas={10}
-            errores={0}
-            resultadoFinal={100}
-            confianzaFinal={100}
-            precision={100}
+            respuestas={stats.player.respuestas}
+            correctas={stats.player.correctas}
+            errores={stats.player.errores}
+            resultadoFinal={stats.player.resultadoFinal}
+            confianzaFinal={stats.player.confianzaFinal}
+            precision={stats.player.preformance}
           />
         </div>
       </div>

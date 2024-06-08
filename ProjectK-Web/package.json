@@ -27,6 +27,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
     "react-icons": "^5.2.1",
+    "react-loading-dot": "^1.0.6",
     "react-markdown": "^9.0.1",
     "react-select": "^5.8.0",
     "react-type-animation": "^3.2.0",

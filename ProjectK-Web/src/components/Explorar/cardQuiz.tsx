@@ -73,6 +73,8 @@ export default function Card({
   let formattedDate = "";
   if (fecha) {
     const date = new Date(fecha);
+    date.setHours(date.getHours() - 6);
+    date.setDate(date.getDate() );
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const amOrPm = hours >= 12 ? "pm" : "am";
