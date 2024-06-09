@@ -11,6 +11,7 @@ import ReportAdminModal from "@/components/ReportAdminModal";
 import Link from 'next/link';
 import { getCookie } from '@/app/api/cookies/cookie';
 import axios from 'axios';
+import { Fab } from '@mui/material';
 
 interface quizReport {
     QuizData: any,
@@ -117,7 +118,7 @@ export default function ReporteAdmin({params} : {params: {id: string}}) {
             <div className='header'>
                 <div className='headerContainer'>
                     <Link href="/dashboard/Admin/MisQuizes">
-                        <button className='returnButton'> <IoIosArrowBack size={40}/> </button>
+                        <Fab> <IoIosArrowBack size={25}/> </Fab>
                     </Link>
                     <h1 className='headerText'>{quizReport?.QuizData.quiz_name}</h1>
                 </div>

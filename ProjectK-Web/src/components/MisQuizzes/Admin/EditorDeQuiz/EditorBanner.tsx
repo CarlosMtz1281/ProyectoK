@@ -56,20 +56,17 @@ export default function EditorBanner({}: EditorBannerProps) {
         </Typography>
       </div>
       <div className="flex items-center gap-5">
-        <Tooltip title="Add question" placement="top">
-          <Fab color="success">
-            <Add />
-          </Fab>
-        </Tooltip>
-
         <Tooltip title="Save Quiz" placement="top">
-          <Fab type="submit" color="primary" className="flex ml-auto">
+          <Fab variant = "extended" type="submit" color="primary" className="flex ml-auto items-center gap-3 justify-around">
+            
             <SaveAlt />
+            Save
           </Fab>
         </Tooltip>
         <Tooltip title="Delete Quiz" placement="top">
-          <Fab color="error" className="flex ml-auto">
+          <Fab variant = "extended" color="error" className="flex ml-auto items-center gap-3 justify-around">
             <DeleteOutline />
+            Delete
           </Fab>
         </Tooltip>
       </div>
