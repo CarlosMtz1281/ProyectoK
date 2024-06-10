@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoIosClose } from "react-icons/io";
 import PlayerStats from "./playerStats";
+import Image from "next/image";
 
 interface QuizBreakProps {
     type: number;
@@ -14,7 +15,7 @@ interface QuizBreakProps {
             errores: number;
             resultadoFinal: number;
             confianzaFinal: number;
-            precision: number;
+            preformance: number;
         };
         bot2: {
             respuestas: number;
@@ -22,7 +23,7 @@ interface QuizBreakProps {
             errores: number;
             resultadoFinal: number;
             confianzaFinal: number;
-            precision: number;
+            preformance: number;
         };
         bot3: {
             respuestas: number;
@@ -30,7 +31,7 @@ interface QuizBreakProps {
             errores: number;
             resultadoFinal: number;
             confianzaFinal: number;
-            precision: number;
+            preformance: number;
         };
         player: {
             respuestas: number;
@@ -38,7 +39,7 @@ interface QuizBreakProps {
             errores: number;
             resultadoFinal: number;
             confianzaFinal: number;
-            precision: number;
+            preformance: number;
         };
 
     }
@@ -59,35 +60,35 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
     }
 
   return (
-    <div className= {`breakContainer ${isClosing ? "closing" : ""} type-${type}`}>
+    <div className={`breakContainer ${isClosing ? "closing" : ""} type-${type}`}>
       <div className="mainBody">
         <div className="statsBots">
           <PlayerStats
             type={1}
-            respuestas={10}
-            correctas={10}
-            errores={0}
-            resultadoFinal={100}
-            confianzaFinal={100}
-            precision={100}
+            respuestas={stats.bot1.respuestas}
+            correctas={stats.bot1.correctas}
+            errores={stats.bot1.errores}
+            resultadoFinal={stats.bot1.resultadoFinal}
+            confianzaFinal={stats.bot1.confianzaFinal}
+            precision={stats.bot1.preformance}
           />
           <PlayerStats
             type={1}
-            respuestas={10}
-            correctas={10}
-            errores={0}
-            resultadoFinal={100}
-            confianzaFinal={100}
-            precision={100}
+            respuestas={stats.bot2.respuestas}
+            correctas={stats.bot2.correctas}
+            errores={stats.bot2.errores}
+            resultadoFinal={stats.bot2.resultadoFinal}
+            confianzaFinal={stats.bot2.confianzaFinal}
+            precision={stats.bot2.preformance}
           />
           <PlayerStats
             type={1}
-            respuestas={10}
-            correctas={10}
-            errores={0}
-            resultadoFinal={100}
-            confianzaFinal={100}
-            precision={100}
+            respuestas={stats.bot3.respuestas}
+            correctas={stats.bot3.correctas}
+            errores={stats.bot3.errores}
+            resultadoFinal={stats.bot3.resultadoFinal}
+            confianzaFinal={stats.bot3.confianzaFinal}
+            precision={stats.bot3.preformance}
           />
         </div>
 
@@ -95,14 +96,21 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
           <div className="mainHeader">
             <h1 className="result">{type === 1 ? 'Correcto' : type === 2 ? 'Incorrecto' : ''}</h1>
             <div className="icon">
-              {type === 1 && <IoMdCheckmark className="checkmark" size={120} />}
-              {type === 2 && <IoIosClose className="cross" size={120} />}
+              {type === 1 && <IoMdCheckmark className="checkmark" size={60} />}
+              {type === 2 && <IoIosClose className="cross" size={60} />}
             </div>
           </div>
-          <p>La pregunta era</p>
+          <div className = "flex flex-row gap-7">
+            <div>
+          <p>Pregunta:</p>
           <h1 className="question">{questionData.question}</h1>
-          <p>La respuesta correcta era</p>
+          </div>
+          <div>
+          <p>Respuesta:</p>
           <h1 className="question-resp">{questionData.options[questionData.correct_answer-1] }</h1>
+          </div>
+          </div>
+          <iframe src=  {type === 1 ? "https://giphy.com/embed/13CoXDiaCcCoyk": "https://giphy.com/embed/YSBLqMGIUoAgHxihVw/video"} width="400" height="300" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/wiggle-shaq-13CoXDiaCcCoyk">via GIPHY</a></p>
 
         <div className="nextQuestionWrap">
             <div className={`nextQuestionBtn type-${type}`} onClick={startClosing}>Siguiente </div>
@@ -113,12 +121,12 @@ export default function QuizBreak( {onClose, type, stats, questionData}: QuizBre
         <div className="statsPlayer">
           <PlayerStats
             type={2}
-            respuestas={10}
-            correctas={10}
-            errores={0}
-            resultadoFinal={100}
-            confianzaFinal={100}
-            precision={100}
+            respuestas={stats.player.respuestas}
+            correctas={stats.player.correctas}
+            errores={stats.player.errores}
+            resultadoFinal={stats.player.resultadoFinal}
+            confianzaFinal={stats.player.confianzaFinal}
+            precision={stats.player.preformance}
           />
         </div>
       </div>

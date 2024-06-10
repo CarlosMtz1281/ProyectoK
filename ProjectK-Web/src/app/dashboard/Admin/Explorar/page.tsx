@@ -6,11 +6,9 @@ import "@/styles/Explora.css";
 import { IoIosSearch } from "react-icons/io";
 import axios from "axios";
 import { hatch } from "ldrs";
-import { Backdrop } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 export default function Explorar() {
-  const api = process.env.NEXT_PUBLIC_API_URL;
-
   const [query, setQuery] = useState("");
   const [selectedTema, setSelectedTema] = useState("Temas");
   const [realData, setCardData] = useState([]);
@@ -28,8 +26,8 @@ export default function Explorar() {
 
   // Fetch de datos
   useEffect(() => {
+    const api = process.env.NEXT_PUBLIC_API_URL;
     setCheckEmailLocal(true);
-
     axios
       .get(api + `quizes`)
       .then((res) => {
@@ -53,7 +51,7 @@ export default function Explorar() {
         open={isLoading}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}
       >
-        <l-hatch size="52" stroke="10" speed="3.5" color="white"></l-hatch>
+        <CircularProgress />
       </Backdrop>
       <div className="title-container">
         <p className="title-explora">Explorar Catalogo</p>

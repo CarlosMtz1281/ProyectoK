@@ -11,9 +11,14 @@ public class TitleScreenUI : MonoBehaviour
 {
     [SerializeField] GameObject titleScreen, instructionsScreen, settingsScreen, selectLevelScreen, quizButtonPrefab;
     [SerializeField] Transform quizListHolder;
+    string jwt = "";
     string endpoint = "https://proyecto-k-backend.vercel.app";
-    //string endpoint = "http://localhost:2024";
+    // string endpoint = "http://localhost:2025";
     JsonData data;
+
+    void Start(){
+        StartCoroutine(GetToken());
+    }
 
     public void StartGame()
     {
@@ -64,7 +69,7 @@ public class TitleScreenUI : MonoBehaviour
 
     IEnumerator GetQuizes()
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(endpoint + "/quizes"))
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(endpoint + "/quizes/" + jwt))
         {
             yield return webRequest.SendWebRequest();
 
@@ -86,11 +91,15 @@ public class TitleScreenUI : MonoBehaviour
 
             }
         }
+        
     }
 
     IEnumerator GetQuiz(int id)
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(endpoint + "/quizes/" + id))
+        UnityWebRequest webRequest = UnityWebRequest.Get(endpoint + "/quizes/quizId/" + id);
+        webRequest.SetRequestHeader("sessionKey", jwt);
+        /*
+        using (webRequest)
         {
             yield return webRequest.SendWebRequest();
 
@@ -103,6 +112,38 @@ public class TitleScreenUI : MonoBehaviour
                 string json = webRequest.downloadHandler.text;
                 quizInfo.Instance.quizJson = json;
                 StartGame();
+            }
+        }
+        */
+        yield return webRequest.SendWebRequest();
+
+        if (webRequest.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(webRequest.error);
+        }
+        else
+        {
+            string json = webRequest.downloadHandler.text;
+            quizInfo.Instance.quizJson = json;
+            StartGame();
+        }
+    }
+
+    IEnumerator GetToken()
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(endpoint + "/users/ixpolingame@gmail.com")){
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(webRequest.error);
+            }
+            else
+            {
+                string json = webRequest.downloadHandler.text;
+                JsonData data = JsonMapper.ToObject(json);
+                jwt = data["session"]["session_key"].ToString();
+                Debug.Log(jwt);
             }
         }
     }

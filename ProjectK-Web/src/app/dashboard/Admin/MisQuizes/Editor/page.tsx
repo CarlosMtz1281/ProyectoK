@@ -2,12 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import {
-  useForm,
-  FormProvider,
-  FieldValues,
-} from "react-hook-form";
-import FileUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/FileUpload";
+import { useForm, FormProvider, FieldValues } from "react-hook-form";
+import ThemeUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeUpload";
 import ThemeSelection from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeSelection";
 import AIRecommendation from "@/components/MisQuizzes/Admin/EditorDeQuiz/AIRecommendation";
 import EditorBanner from "@/components/MisQuizzes/Admin/EditorDeQuiz/EditorBanner";
@@ -33,21 +29,25 @@ const defaultThemes = [
 
 export default function Editor() {
   const methods = useForm();
-  const { register, setValue } = methods;
+  const { register, setValue, getValues } = methods;
   const [userIdLocal, setUserIdLocal] = useState<number | null>(null);
   const [topics, setTopics] = useState(defaultThemes);
   const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const fetchUserId = async () => {
-      const userId = Number(await getCookie("user_id"));
+      const userCookies = await getCookie("userCookies");
+      const userCookiesObj = JSON.parse(userCookies);
+      const userId = Number(userCookiesObj.user_id);
       setUserIdLocal(userId);
       setValue("adminId", userId);
     };
 
     const fetchTopics = async () => {
       try {
-        const res = await axios.get(`${apiURL}quizes/topics`);
+        const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+        const session = userCookiesObj.sessionKey;
+        const res = await axios.get(`${apiURL}quizes/topics/` + session);
         setTopics(res.data);
       } catch (error) {
         console.error(error);
@@ -63,8 +63,11 @@ export default function Editor() {
   }, [setValue]);
 
   const onSubmit = async (data: FieldValues) => {
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    console.log(userCookiesObj);
+    const session = userCookiesObj.sessionKey;
     try {
-      const response = await axios.post(`${apiURL}quizes`, data);
+      const response = await axios.post(`${apiURL}quizes/${session}`, data);
       console.log(response.data);
       alert("Quiz guardado en la DB!");
     } catch (error) {
@@ -73,25 +76,32 @@ export default function Editor() {
     }
   };
 
+  // Form error handler
+  const onError = (errors: any) => {
+    // Show an alert with the error messages
+    alert('Llena todos los espacios necesarios para continuar.');
+    console.log('Form Errors:', errors);
+    console.log("Form", getValues());
+  };
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
         <div className="h-screen m-2">
           <EditorBanner />
-          <Grid container direction="row" className="h-full">
-            <Grid item xs={12} md={4}>
-              <Grid container direction="column" className="h-full">
-                <FileUpload />
+          <Grid container direction="column" className="h-full overflow-x-visible flex-nowrap" gap = {3}>
+            <Grid item xs={12} md={1}>
+              <Grid container direction="row" className="h-full justify-between">
+                <ThemeUpload />
                 <ThemeSelection topics={topics} />
-                <AIRecommendation />
-              </Grid>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Grid container direction="column" className="h-full w-full">
-                <Grid item xs={12} md={2}>
+                <Grid item md={4}>
                   <QuizTitle />
                 </Grid>
-                <Grid item xs={12} md={9}>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={9}>
+              <Grid container direction="column" className="h-full w-full ">
+                <Grid item xs={12} md={12}>
                   <QuestionPad />
                 </Grid>
               </Grid>

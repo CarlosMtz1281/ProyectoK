@@ -1,0 +1,22 @@
+.button-shiny {
+    background: linear-gradient(90deg, #ffe96d, #ffcc00, #ffae00);    
+    background-size: 200% auto;
+    transition: all 0.5s ease-out;
+}
+
+.button-shiny:hover {
+    background-position: 100% 0;
+}
+
+.button-shiny:active {
+    transform: scale(0.95);
+    animation: gradient-shift 5s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 25% 50%; }
+    50% { background-position: 50% 50%; }
+    75% { background-position: 75% 50%; }
+    100% { background-position: 100% 50%; }
+}

@@ -7,6 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { set } from "firebase/database";
 import { SetCookieAPI } from "@/app/utils/setcookie";
 import { getCookie } from "@/app/utils/getcookie";
+import Link from "next/link";
 
 interface CardProps {
   ID: number;
@@ -33,12 +34,13 @@ export default function Card({
 }: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
-  const [isAdmin, setIsAdmin] = useState<string>("false");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [checkIDLocal, setCheckIDLocal] = useState(false);
   const [checkReportLocal, setCheckReportLocal] = useState(false);
 
   async function setAdmin() {
-    const adminname = await getCookie("admin");
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    const adminname = userCookiesObj.admin;
     setIsAdmin(adminname);
     setCheckIDLocal(true);
     setCheckReportLocal(true);
@@ -51,7 +53,6 @@ export default function Card({
   }, []);
 
   function handleDelete() {
-    console.log(ID);
     if (onDelete) {
       onDelete();
     }
@@ -59,26 +60,21 @@ export default function Card({
 
   const onClick = async () => {
     if (mayDelete === false) {
-      console.log("ID", ID);
       if (checkIDLocal) {
         await SetCookieAPI("ID", ID.toString());
       }
-      if (checkReportLocal) {
+      if (checkReportLocal && !isAdmin) {
         console.log("this should be reporteid", reporteId);
         await SetCookieAPI("reporte_Id", reporteId);
       }
-      if (isAdmin === "false") {
-        appRouter.replace("/dashboard/Player/MisQuizes/Reporte");
-      } else if (isAdmin === "true") {
-        appRouter.replace("/dashboard/Admin/MisQuizes/Reporte");
-      }
-
     }
   };
 
   let formattedDate = "";
   if (fecha) {
     const date = new Date(fecha);
+    date.setHours(date.getHours() - 6);
+    date.setDate(date.getDate() );
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const amOrPm = hours >= 12 ? "pm" : "am";
@@ -91,7 +87,7 @@ export default function Card({
 
   return (
     <a>
-      <div className="card-content" onClick={onClick}>
+      <Link href={`${!isAdmin ? "/dashboard/Player/MisQuizes/Reporte" : `/dashboard/Admin/MisQuizes/Reporte/${ID}`}`} className="card-content" onClick={onClick}>
         <div className="image-container">
           {mayDelete && (
             <div className="onDelete" onClick={handleDelete}>
@@ -123,7 +119,7 @@ export default function Card({
             <p className="card-autor">{tema}</p>
           </div>
         </div>
-      </div>
+      </Link>
     </a>
   );
 }

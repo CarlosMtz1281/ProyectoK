@@ -15,6 +15,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { getCookie } from "@/app/utils/getcookie";
+import ChatBot from "@/components/general/chatBot";
+import Button from "@mui/material/Button";
 
 interface Response {
   response_id: number;
@@ -48,28 +50,7 @@ export default function Reporte() {
     { ssr: false }
   );
 
-  const data = {
-    labels: [
-      "Correctas",
-      "Incorrectas",
-      "Calificacion",
-      "Confianza",
-      "Desempeño",
-    ],
-    datasets: [
-      {
-        label: name + " " + lastName,
-        data: [28, 48, 40, 96, 19],
-        fill: true,
-        backgroundColor: "rgba(92, 93, 94, 0.25)",
-        borderColor: "rgb(92, 93, 94)",
-        pointBackgroundColor: "rgb(92, 93, 94)",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgb(92, 93, 94)",
-      },
-    ],
-  };
+
 
   const api = process.env.NEXT_PUBLIC_API_URL;
 
@@ -82,23 +63,35 @@ export default function Reporte() {
   const [calificacionObtenida, setCalificacionObtenida] = useState(0);
   const [exactDate, setExactDate] = useState("");
   const [preformance, setPreformance] = useState(0);
+  const [respuestasCorrectas, setRespuestasCorrectas] = useState(0);
+  const [respuestasIncorrectas, setRespuestasIncorrectas] = useState(0);
   const [reportId, setReportId] = useState(0);
+  //chatbot
+  const [chatStarted, setChatStarted] = useState(false);
+  const [prompt, setPrompt] = useState("");
+  const [quizName, setQuizName] = useState("");
 
   // Cookies must be fetched like this
   const cookieGetter = async () => {
-    const firstname = await getCookie("first_name");
-    const secondname = await getCookie("last_name");
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    const firstname = userCookiesObj.first_name;
+    const secondname = userCookiesObj.last_name;
     const cookiereportid = await getCookie("reporte_Id");
+    const session = userCookiesObj.sessionKey;
 
     setName(firstname);
     setLastName(secondname);
     setReportId(Number(cookiereportid));
 
     axios
-      .get(api + `responses/${cookiereportid}`)
+      .get(api + `responses/${cookiereportid}`, {
+        headers: { sessionKey: session },
+      })
       .then(async (response) => {
         await setReportData(response.data);
+        console.log("Report data");
         console.log(response.data);
+        setQuizName(response.data.report.quiz_name);
         formatAnalysis();
         calculateStats();
       })
@@ -158,6 +151,40 @@ export default function Reporte() {
     setPreformance(Math.round((averageScore + averageConfidence) / 2));
   }
 
+  function getOptionTxt(option: number, response: any) {
+    if (option === 1) {
+      return response.question_ans1;
+    } else if (option === 2) {
+      return response.question_ans2;
+    } else if (option === 3) {
+      return response.question_ans3;
+    }
+    return response.question_ans4;
+  }
+  //graph data
+  const data = {
+    labels: [
+      "Promedio",
+      "Dificultad",
+      "Calificacion",
+      "Confianza",
+      "Desempeño",
+    ],
+    datasets: [
+      {
+        label: name + " " + lastName,
+        data: [85, 73, calificacionObtenida, confianzaPromedio, preformance],
+        fill: true,
+        backgroundColor: "rgba(92, 93, 94, 0.25)",
+        borderColor: "rgb(92, 93, 94)",
+        pointBackgroundColor: "rgb(92, 93, 94)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgb(92, 93, 94)",
+      },
+    ],
+  };
+
   return (
     <div className="flex flex-row w-full">
       {reportData.report && (
@@ -167,6 +194,7 @@ export default function Reporte() {
             <p className="report-date">
               {name} {lastName} contestó a las {exactDate}
             </p>
+            <strong><h3 className="report-date" >{quizName}</h3></strong>
           </div>
           <div className="flex h-full w-full">
             <div className="graph-container">
@@ -231,10 +259,23 @@ export default function Reporte() {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      Your answer: {response.answer} <br />
-                      Correct answer: {response.correct_answer} <br />
-                      Confidence: {response.confidence}
+                      Tu respuesta: {getOptionTxt(response.answer, response)}{" "}
+                      <br />
+                      Respuesta correcta:{" "}
+                      {getOptionTxt(response.correct_answer, response)} <br />
+                      Confianza: {response.confidence}
                     </Typography>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ marginLeft: "auto" }}
+                      onClick={() => {
+                        setPrompt(response.question);
+                        setChatStarted(true);
+                      }}
+                    >
+                      Pregunatle al profesor virtual
+                    </Button>
                   </AccordionDetails>
                 </Accordion>
               ))}
@@ -242,6 +283,7 @@ export default function Reporte() {
           </div>
         </div>
       )}
+      {chatStarted && <ChatBot question={prompt} quizName={quizName} onClose={()=> setChatStarted(false)}/>}
     </div>
   );
 }

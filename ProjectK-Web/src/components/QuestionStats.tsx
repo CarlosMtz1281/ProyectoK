@@ -9,6 +9,7 @@ import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 import '@/styles/QuestionStats.css';
+import { useState, useEffect } from 'react';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -32,7 +33,7 @@ const barOptions = {
               offset: true
             },
             suggestedMin: 0,
-            suggestedMax: 100
+            suggestedMax: 10
         },
         y: {
             suggestedMin: 0,
@@ -42,13 +43,73 @@ const barOptions = {
 }
 
 interface QuestionStatsProps {
-    data: any;
-    contentAI: string;
-    precisionV: number;
-    confidenceV: number;
+    questionData?: any;
+    index?: number;
 }
 
-export default function QuestionStats({data, contentAI, precisionV, confidenceV}: QuestionStatsProps) {
+interface questionStatsData {
+    precision: number;
+    confianza: number;
+    graphData: any;
+}
+
+
+export default function QuestionStats({questionData, index}: QuestionStatsProps) {
+
+    const [questionStatsData, setQuestionStatsData] = useState<questionStatsData | undefined>(undefined);
+    useEffect(() => {
+        let counter = 0;
+        let precision = 0;
+        let confidence = 0;
+        let responses = [
+            {
+                label: 'A',
+                data: [0],
+                backgroundColor: 'rgba(255, 99, 132)',
+            },
+            {
+                label: 'B',
+                data: [0],
+                backgroundColor: 'rgba(54, 162, 235)',
+            },
+            {
+                label: 'C',
+                data: [0],
+                backgroundColor: 'rgba(255, 206, 86)',
+            },
+            {
+                label: 'D',
+                data: [0],
+                backgroundColor: 'rgba(75, 192, 192)',
+            },
+
+        ];
+
+        for(const response in questionData.responses) {
+            counter ++;
+            confidence += (questionData.responses[response] as any).user_confidence * 10;
+            if((questionData.responses[response] as any).user_answer === questionData.correct) {
+                precision ++;
+            }
+
+            responses[(questionData.responses[response] as any).user_answer - 1].data[0] ++;
+        }
+        precision = precision / counter * 100;
+        //console.log("confidence: ", confidence, " precision: ", precision);
+        //console.log(questionData);
+        //console.log(responses);
+
+        const responesFormatted = {
+            labels: [''],
+            datasets: responses
+        }
+        setQuestionStatsData({
+            precision: precision,
+            confianza: confidence,
+            graphData: responesFormatted
+        });
+    }, [])
+
     return (
         <Accordion
             style={{
@@ -66,16 +127,27 @@ export default function QuestionStats({data, contentAI, precisionV, confidenceV}
 
                 }}
             >
-                <h1 className=' font-bold text-xl '>Pregunta 1</h1>
+                <h1 className=' font-bold text-xl '>Pregunta {index}</h1>
             </AccordionSummary>
             <AccordionDetails>
                 <div className='questionContainer'>
                     <div className='feedbackContainer'>
                         <div className=' font-bold text-xl '>
-                            <p>Información de la AI</p>
+                            <p>{questionData?.question}</p>
                         </div>
-                        <div className=' text-sm'>
-                            <p> {contentAI}</p>
+                        <div style={{display: "flex", flexDirection: "column", gap: "1rem"}}>
+                            <div className = {`${questionData?.correct === 1 ? "CorrectOptionContainer" : "OptionContainer"}`}>
+                                <b>A.</b>&nbsp; {questionData?.ans1} 
+                            </div>
+                            <div className = {`${questionData?.correct === 2 ? "CorrectOptionContainer" : "OptionContainer"}`}>
+                                <b>B.</b>&nbsp; {questionData?.ans2}
+                            </div>
+                            <div className = {`${questionData?.correct === 3 ? "CorrectOptionContainer" : "OptionContainer"}`}>
+                                <b>C.</b>&nbsp; {questionData?.ans3}
+                            </div>
+                            <div className = {`${questionData?.correct === 4 ? "CorrectOptionContainer" : "OptionContainer"}`}>
+                                <b>D.</b>&nbsp; {questionData?.ans4}
+                            </div>
                         </div> 
                     </div>
                     <div className='questionStatsContainer'>
@@ -84,7 +156,7 @@ export default function QuestionStats({data, contentAI, precisionV, confidenceV}
                                 <p className='font-bold'>Precision</p>
                                 <div className='w-full h-full'>
                                     <Gauge
-                                        value={precisionV}
+                                        value={questionStatsData?.precision}
                                         startAngle={-110}
                                         endAngle={110}
                                         sx={{
@@ -109,7 +181,7 @@ export default function QuestionStats({data, contentAI, precisionV, confidenceV}
                                 <p className='font-bold'>Confianza</p>
                                 <div className='w-full h-full'>
                                     <Gauge
-                                        value={confidenceV}
+                                        value={questionStatsData?.confianza}
                                         startAngle={-110}
                                         endAngle={110}
                                         sx={{
@@ -135,7 +207,9 @@ export default function QuestionStats({data, contentAI, precisionV, confidenceV}
                                 <p className='font-bold'>Respuestas</p>
                             </div>
                             <div className='barContainer'>
-                                <Bar data={data} options={barOptions} />
+                                { questionStatsData !== undefined &&(
+                                    <Bar data={questionStatsData.graphData} options={barOptions} />
+                                )}
                             </div>
                         </div>
                     </div>

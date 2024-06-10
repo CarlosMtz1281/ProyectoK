@@ -13,8 +13,6 @@ import { Add } from "@mui/icons-material";
 import Link from "next/link";
 import { getCookie } from "@/app/utils/getcookie";
 
-
-
 interface CardData {
   quiz_id: number;
   admin_id: number;
@@ -48,22 +46,30 @@ export default function Explorar() {
 
   // We set cookies appropiately
   const fetchCookies = async () => {
-    const userid = await getCookie("user_id");
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    const userid = userCookiesObj.user_id;
     setAdminIDLocal(Number(userid));
     setCheckEmailLocal(true);
-  }
+  };
 
   // Fetch de datos
-  useEffect(() => {
-    fetchCookies();
+
+  const fetchdata = async () => {
+    await fetchCookies();
+    const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+    const session = userCookiesObj.sessionKey;
     axios
-      .get(api + `quizes`)
+      .get(api + `quizes/${session}`, { headers: { sessionKey: session } })
       .then((res) => {
         setCardData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    fetchdata();
   }, []);
   /*
     const handleDelete = (id: number) => {
@@ -90,7 +96,7 @@ export default function Explorar() {
           <input
             className="searchBar"
             type="text"
-            placeholder={"Busqueda por titulo de quiz ej. Calculo diferencial"}
+            placeholder={"Búsqueda por título de quiz ej. Cálculo diferencial"}
             value={query}
             onChange={handleChange}
           />
