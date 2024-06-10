@@ -74,7 +74,7 @@ export default function Card({
   if (fecha) {
     const date = new Date(fecha);
     date.setHours(date.getHours() - 6);
-    date.setDate(date.getDate() );
+    date.setDate(date.getDate());
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const amOrPm = hours >= 12 ? "pm" : "am";
@@ -87,7 +87,15 @@ export default function Card({
 
   return (
     <a>
-      <Link href={`${!isAdmin ? "/dashboard/Player/MisQuizes/Reporte" : `/dashboard/Admin/MisQuizes/Reporte/${ID}`}`} className="card-content" onClick={onClick}>
+      <Link
+        href={`${
+          !isAdmin
+            ? "/dashboard/Player/MisQuizes/Reporte"
+            : `/dashboard/Admin/MisQuizes/Reporte/${ID}`
+        }`}
+        className="card-content"
+        onClick={onClick}
+      >
         <div className="image-container">
           {mayDelete && (
             <div className="onDelete" onClick={handleDelete}>
@@ -109,6 +117,17 @@ export default function Card({
           {tema === "Ciencia" && (
             <Image src="/ciencia.jpeg" className="card-img" alt="foto" fill />
           )}
+
+          {tema !== "Matematicas" &&
+            tema !== "Ciencia" &&
+            tema !== "Historia" && (
+              <Image
+                src="/matematicas.jpg"
+                className="card-img"
+                alt="foto"
+                fill
+              />
+            )}
         </div>
         <div className="description-container">
           <p className="card-text">{nombre}</p>
