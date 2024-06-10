@@ -17,6 +17,8 @@ import TextFieldComponent from "./TextFieldController";
 import IndividualQuestionPad from "./IndividualQuestionPad";
 
 export default function QuestionPad({}: {}) {
+  // Form methods
+  const { unregister, getValues, setValue } = useFormContext();
   // We should keep track of the number of questions and the current location
   const [numberOfQuestions, setNumberOfQuestions] = React.useState<number>(10);
   const [currentQuestion, setCurrentQuestion] = React.useState<number>(1);
@@ -31,14 +33,22 @@ export default function QuestionPad({}: {}) {
 
   // We add questions to the form
   const handleAdd = (event: any) => {
-    setNumberOfQuestions((prevNumberOfQuestions) => prevNumberOfQuestions + 1);
-  };
+  setNumberOfQuestions((prevNumberOfQuestions) => prevNumberOfQuestions + 1);
+
+  const questions = getValues('questions');
+  questions.push({ /* initial values for the new question */ });
+  setValue('questions', questions);
+};
 
   // We delete the last question
   const handleDelete = (event: any) => {
     setNumberOfQuestions((prevNumberOfQuestions) =>
       prevNumberOfQuestions > 1 ? prevNumberOfQuestions - 1 : 1
     );
+
+    const questions = getValues("questions");
+    questions.splice(currentQuestion - 1, 1);
+    setValue("questions", questions);
   };
 
   return (

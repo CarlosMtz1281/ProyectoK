@@ -14,7 +14,7 @@ export default function QuizTitle() {
         elevation={24}
         className="flex flex-row w-full h-full justify-center items-center"
       >
-        <TextFieldComponent name="quiz_name" label="Título" rules={null} value = {titleForm} />
+        <TextFieldComponent name="name" label="Título" rules={null} value = {titleForm} />
       </Paper>
     </div>
   );
