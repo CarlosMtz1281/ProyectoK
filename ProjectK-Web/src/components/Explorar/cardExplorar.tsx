@@ -63,7 +63,7 @@ export default function Card({
 
           {tema !== "Matematicas" && tema !== "Ciencia" && tema !== "Historia" && (
             <Image
-              src="/matematicas.jpeg"
+              src="/matematicas.jpg"
               className="card-img"
               alt="foto"
               fill
