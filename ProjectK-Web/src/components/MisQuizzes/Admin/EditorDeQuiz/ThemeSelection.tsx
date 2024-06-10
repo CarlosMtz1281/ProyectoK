@@ -17,10 +17,11 @@ export type Topic = {
 
 export type ThemeSelectionProps = {
   topics: Topic[];
+  isSlug?: boolean;
 };
 
-export default function ThemeSelection({ topics }: ThemeSelectionProps) {
-  const { control, getValues } = useFormContext();
+export default function ThemeSelection({ topics, isSlug = false }: ThemeSelectionProps) {
+  const { control, getValues, setValue } = useFormContext();
   const topicIdForm = getValues("topic_id") ?? 1;
 
   return (
@@ -30,7 +31,7 @@ export default function ThemeSelection({ topics }: ThemeSelectionProps) {
         <FormControl sx={{ width: "100%" }}>
           <InputLabel>tema</InputLabel>
           <Controller
-            name="topicId"
+            name={isSlug ? "topic_id" : "topicId"}
             control={control}
             defaultValue={String(topicIdForm)}
             render={({ field }) => (
@@ -40,7 +41,12 @@ export default function ThemeSelection({ topics }: ThemeSelectionProps) {
                 value={field.value}
                 label="seleccione un tema"
                 onChange={(event) => {
+                  const selectedTopic = topics.find(topic => String(topic.topic_id) === event.target.value);
                   field.onChange(event.target.value);
+                  if (selectedTopic) {
+                    console.log(selectedTopic.topic_name);
+                    setValue("topic_name", selectedTopic.topic_name);
+                  }
                 }}
                 sx={{ width: "100%" }}
               >

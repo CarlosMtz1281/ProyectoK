@@ -21,14 +21,6 @@ const TextFieldComponent = ({
     control,
     formState: { errors },
   } = useFormContext();
-  const [valueInTextField, setValueInTextField] = useState<string | string[]>(
-    value
-  );
-
-  // On render, we change the component if value changes
-  useEffect(() => {
-    setValueInTextField(value);
-  }, [value]);
 
   return (
     <Controller

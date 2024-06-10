@@ -12,12 +12,13 @@ export type AnswerButtonProps = {
   idx: number,
   currentChecked: number,
   onCheck: (ans: number) => void,
-  optionIdx?: number
+  optionIdx?: number,
+  isSlug?: boolean
 }
 
-export default function AnswerButton({name, label, rules, idx, currentChecked, onCheck, optionIdx = 1000} : AnswerButtonProps) {
+export default function AnswerButton({name, label, rules, idx, currentChecked, onCheck, optionIdx = 1000, isSlug = false} : AnswerButtonProps) {
   const { getValues } = useFormContext();
-  const ans = getValues("questions."+ (optionIdx - 1) +".options."+(idx - 1));
+  const nameToPass = isSlug ? "questions."+ (optionIdx - 1) +".options."+(idx - 1) : name;
 
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -33,7 +34,7 @@ export default function AnswerButton({name, label, rules, idx, currentChecked, o
             className="w-full h-full flex flex-col items-center justify-start gap-1"
           >
             <Checkbox className = 'flex self-end mt-3 mr-3' color = "success" checked = {currentChecked === idx} onChange = {handleCheckbox} />
-            <TextFieldComponent name = {name} label = {label} rules = {rules} value = {ans} />
+            <TextFieldComponent name = {nameToPass} label = {label} rules = {rules} />
           </Paper>
         </div>
       </div>

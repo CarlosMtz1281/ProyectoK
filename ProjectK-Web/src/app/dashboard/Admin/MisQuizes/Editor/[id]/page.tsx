@@ -114,17 +114,13 @@ interface QuizData {
 export default function Editor({ params }: { params: { id: string } }) {
   const methods = useForm();
   const { register, setValue, reset, getValues } = methods;
-  const [userIdLocal, setUserIdLocal] = useState<number | null>(null);
   const [topics, setTopics] = useState(defaultThemes);
-  const [quizData, setQuizData] = useState({} as QuizData);
   const apiURL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const fetchUserId = async () => {
       const userId = Number(await getCookie("user_id"));
       const report_id = params.id;
-
-      setUserIdLocal(userId);
       setValue("adminId", userId);
       const userCookiesObj = JSON.parse(await getCookie("userCookies"));
       const session = userCookiesObj.sessionKey;
@@ -140,7 +136,6 @@ export default function Editor({ params }: { params: { id: string } }) {
             headers: { sessionKey: session },
           })
           .then((res) => {
-            setQuizData(res.data);
             reset(res.data);
             console.log(res.data);
             console.log(getValues());
@@ -177,7 +172,13 @@ export default function Editor({ params }: { params: { id: string } }) {
   const onSubmit = async (data: FieldValues) => {
     try {
       console.log("form: ", getValues());
-      const response = await axios.put(`${apiURL}quizes`, data);
+      const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+      const session = userCookiesObj.sessionKey;
+      const response = await axios.put(`${apiURL}quizes`, data, {
+        headers: {
+          sessionKey: session
+        }
+      });
       console.log(response.data);
       alert("Quiz guardado en la DB!");
     } catch (error) {
@@ -191,6 +192,7 @@ export default function Editor({ params }: { params: { id: string } }) {
     // Show an alert with the error messages
     alert("Llena todos los espacios necesarios para continuar.");
     console.log("Form Errors:", errors);
+    console.log("form", getValues());
   };
 
   return (
@@ -211,16 +213,16 @@ export default function Editor({ params }: { params: { id: string } }) {
                 className="h-full justify-between"
               >
                 <ThemeUpload />
-                <ThemeSelection topics={topics} />
+                <ThemeSelection isSlug = {true} topics={topics} />
                 <Grid item md={4}>
-                  <QuizTitle />
+                  <QuizTitle isSlug = {true} />
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12} md={9}>
               <Grid container direction="column" className="h-full w-full ">
                 <Grid item xs={12} md={12}>
-                  <QuestionPad />
+                  <QuestionPad isSlug = {true} />
                 </Grid>
               </Grid>
             </Grid>

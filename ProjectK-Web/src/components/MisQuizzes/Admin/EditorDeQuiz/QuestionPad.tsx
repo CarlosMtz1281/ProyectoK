@@ -1,26 +1,35 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
   Paper,
-  TextField,
   Pagination,
   Fab,
   Tooltip,
 } from "@mui/material";
 import { Add, DeleteForever } from "@mui/icons-material";
-import { useForm, useFormContext } from "react-hook-form";
-import AnswerButtons from "./AnswerButton";
-import TextFieldComponent from "./TextFieldController";
+import { useFormContext } from "react-hook-form";
 import IndividualQuestionPad from "./IndividualQuestionPad";
 
-export default function QuestionPad({}: {}) {
+export default function QuestionPad({
+  isSlug = false
+}: {
+  nQuestions?: number;
+  isSlug?: boolean
+}) {
   // Form methods
-  const { unregister, getValues, setValue } = useFormContext();
+  const { getValues, setValue, watch } = useFormContext();
+
+  // We watch the form's questions
+  const questions = watch("questions");
+
+  // If it's on a slug, it should be 1. Else, 10
+  const startQuestions = isSlug ? 1 : 10;
+
   // We should keep track of the number of questions and the current location
-  const [numberOfQuestions, setNumberOfQuestions] = React.useState<number>(10);
+  const [numberOfQuestions, setNumberOfQuestions] = React.useState<number>(questions?.length || startQuestions); // Initialize to the length of questions or 1
   const [currentQuestion, setCurrentQuestion] = React.useState<number>(1);
 
   // We iterate whenever the pagination changes
@@ -32,24 +41,38 @@ export default function QuestionPad({}: {}) {
   };
 
   // We add questions to the form
-  const handleAdd = (event: any) => {
-  setNumberOfQuestions((prevNumberOfQuestions) => prevNumberOfQuestions + 1);
+  const handleAdd = () => {
+    setNumberOfQuestions((prevNumberOfQuestions) => prevNumberOfQuestions + 1);
 
-  const questions = getValues('questions');
-  questions.push({ /* initial values for the new question */ });
-  setValue('questions', questions);
-};
+    const updatedQuestions = getValues("questions") || [];
+    updatedQuestions.push({}); // An empty object is fine
+    setValue("questions", updatedQuestions);
+  };
 
   // We delete the last question
-  const handleDelete = (event: any) => {
-    setNumberOfQuestions((prevNumberOfQuestions) =>
-      prevNumberOfQuestions > 1 ? prevNumberOfQuestions - 1 : 1
-    );
+  const handleDelete = () => {
+    if (numberOfQuestions <= 1) return;
 
-    const questions = getValues("questions");
-    questions.splice(currentQuestion - 1, 1);
-    setValue("questions", questions);
+    setNumberOfQuestions((prevNumberOfQuestions) => prevNumberOfQuestions - 1);
+
+    const updatedQuestions = getValues("questions") || [];
+    updatedQuestions.splice(currentQuestion - 1, 1);
+    setValue("questions", updatedQuestions);
+
+    if (currentQuestion !== 1) {
+      setCurrentQuestion((prevCurr) => prevCurr - 1);
+    }
   };
+
+  // Whenever the questions change, we re-render and update numberOfQuestions
+  useEffect(() => {
+    if (questions) {
+      setNumberOfQuestions(questions.length);
+      if (questions.length < currentQuestion) {
+        setCurrentQuestion(questions.length);
+      }
+    }
+  }, [questions, currentQuestion]);
 
   return (
     <div className="flex flex-col w-full h-full gap-3">
@@ -58,6 +81,7 @@ export default function QuestionPad({}: {}) {
           idx={index + 1}
           key={index}
           currentQuestion={currentQuestion}
+          isSlug={isSlug}
         />
       ))}
 
@@ -69,6 +93,7 @@ export default function QuestionPad({}: {}) {
           size="large"
           variant="outlined"
           color="primary"
+          page={currentQuestion}
           onChange={handlePagination}
           count={numberOfQuestions}
         />
