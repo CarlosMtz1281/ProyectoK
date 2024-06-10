@@ -154,7 +154,11 @@ export default function Editor({ params }: { params: { id: string } }) {
       try {
         const userCookiesObj = JSON.parse(await getCookie("userCookies"));
         const session = userCookiesObj.sessionKey;
-        const res = await axios.get(`${apiURL}quizes/topics/` + session);
+        const res = await axios.get(`${apiURL}quizes/topics/get`, {
+          headers: {
+            sessionKey: session
+          }
+        } );
         setTopics(res.data);
       } catch (error) {
         console.error(error);
