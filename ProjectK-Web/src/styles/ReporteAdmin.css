@@ -32,10 +32,21 @@
 
 .editButton {
     padding: 1rem 0rem;
-    background-color: var(--white);
-    width: 100%;
-    border-radius: 1rem;
+    background: linear-gradient(to bottom, #add8e6, #a6a6f7); 
+    width: 80%;
+    border-radius: 30px;
+    color: "white";
+    transition: 0.3s ease;
+}
 
+.editButton:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 0px rgba(0, 0, 0, 0.7);
+}
+
+.editButton:active {
+    transform: translateY(1px);
+    box-shadow: none;
 }
 
 .content {

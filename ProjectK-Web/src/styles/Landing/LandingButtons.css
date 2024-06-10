@@ -1,0 +1,80 @@
+
+.LandingLogin {
+    border: 1px solid;
+    border-color: black;
+    border-radius: 15px;
+    background-color: white;
+    transition: 0.2s ease-in;
+    width: 100%;
+    height: 100%;
+}
+
+.LandingLogin:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 0px rgba(0, 0, 0, 0.7);
+}
+
+.LandingLogin:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.LandingRegister {
+    border: 1px solid;
+    border-color: black;
+    border-radius: 15px;
+    background-color: blanchedalmond;
+    transition: 0.2s ease-in;
+    height: 100%;
+    width: 100%;
+}
+
+.LandingRegister:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 0px rgba(0, 0, 0, 0.7);
+}
+
+.LandingRegister:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+
+.TypingBox {
+    display: grid;
+    align-items: start;
+    width: 20%;
+    height: 10%;
+}
+
+.TypingLanding {
+    font-size: 1.7em;
+    text-align: begin;
+    justify-self: start;
+    width: 90%;
+    align-self: flex-start;
+    height: 150px;
+    width: 400px;
+}
+
+.leftside {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row-reverse;
+    gap: 75px;
+}
+
+@media (max-width: 600px) {
+    .TypingBox {
+        margin-top: 60px;
+        width: 60%;
+        align-items: center;
+        justify-self: center;
+    }
+    .TypingLanding {
+        font-size: 1em;
+    }
+  }

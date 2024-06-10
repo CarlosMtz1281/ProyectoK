@@ -50,7 +50,7 @@ export default function Explorar() {
     const userid = userCookiesObj.user_id;
     setAdminIDLocal(Number(userid));
     setCheckEmailLocal(true);
-  }
+  };
 
   // Fetch de datos
 
@@ -59,14 +59,14 @@ export default function Explorar() {
     const userCookiesObj = JSON.parse(await getCookie("userCookies"));
     const session = userCookiesObj.sessionKey;
     axios
-      .get(api + `quizes/${session}`, { headers: { 'sessionKey': session } })
+      .get(api + `quizes/${session}`, { headers: { sessionKey: session } })
       .then((res) => {
         setCardData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
     fetchdata();
@@ -96,7 +96,7 @@ export default function Explorar() {
           <input
             className="searchBar"
             type="text"
-            placeholder={"Busqueda por titulo de quiz ej. Calculo diferencial"}
+            placeholder={"Búsqueda por título de quiz ej. Cálculo diferencial"}
             value={query}
             onChange={handleChange}
           />

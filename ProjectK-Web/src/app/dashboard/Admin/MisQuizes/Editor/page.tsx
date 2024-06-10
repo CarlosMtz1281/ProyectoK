@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
-import FileUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/FileUpload";
+import ThemeUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeUpload";
 import ThemeSelection from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeSelection";
 import AIRecommendation from "@/components/MisQuizzes/Admin/EditorDeQuiz/AIRecommendation";
 import EditorBanner from "@/components/MisQuizzes/Admin/EditorDeQuiz/EditorBanner";
@@ -29,7 +29,7 @@ const defaultThemes = [
 
 export default function Editor() {
   const methods = useForm();
-  const { register, setValue } = methods;
+  const { register, setValue, getValues } = methods;
   const [userIdLocal, setUserIdLocal] = useState<number | null>(null);
   const [topics, setTopics] = useState(defaultThemes);
   const apiURL = process.env.NEXT_PUBLIC_API_URL;
@@ -45,7 +45,9 @@ export default function Editor() {
 
     const fetchTopics = async () => {
       try {
-        const res = await axios.get(`${apiURL}quizes/topics`);
+        const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+        const session = userCookiesObj.sessionKey;
+        const res = await axios.get(`${apiURL}quizes/topics/` + session);
         setTopics(res.data);
       } catch (error) {
         console.error(error);
@@ -79,6 +81,7 @@ export default function Editor() {
     // Show an alert with the error messages
     alert('Llena todos los espacios necesarios para continuar.');
     console.log('Form Errors:', errors);
+    console.log("Form", getValues());
   };
 
   return (
@@ -86,18 +89,18 @@ export default function Editor() {
       <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
         <div className="h-screen m-2">
           <EditorBanner />
-          <Grid container direction="row" className="h-full">
-            <Grid item xs={12} md={4}>
-              <Grid container direction="column" className="h-full">
-                <FileUpload />
+          <Grid container direction="column" className="h-full overflow-x-visible flex-nowrap" gap = {3}>
+            <Grid item xs={12} md={1}>
+              <Grid container direction="row" className="h-full justify-between">
+                <ThemeUpload />
                 <ThemeSelection topics={topics} />
-                <Grid item xs={3} md={3}>
+                <Grid item md={4}>
                   <QuizTitle />
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} md={8}>
-              <Grid container direction="column" className="h-5/6 w-full">
+            <Grid item xs={12} md={9}>
+              <Grid container direction="column" className="h-full w-full ">
                 <Grid item xs={12} md={12}>
                   <QuestionPad />
                 </Grid>

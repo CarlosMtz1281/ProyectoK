@@ -5,11 +5,10 @@ import {
   Paper,
   Select,
   MenuItem,
-  SelectChangeEvent,
   InputLabel,
   FormControl,
 } from "@mui/material";
-import { useForm, useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 
 export type Topic = {
   topic_id: number;
@@ -21,24 +20,8 @@ export type ThemeSelectionProps = {
 };
 
 export default function ThemeSelection({ topics }: ThemeSelectionProps) {
-  const { register, setValue, getValues } = useFormContext();
+  const { control, getValues } = useFormContext();
   const topicIdForm = getValues("topic_id") ?? 1;
-  console.log("topicid", topicIdForm);
-
-  const [theme, setTheme] = React.useState(String(topicIdForm));
-
-  // We register the default topic name
-  register("topicId", { value: topicIdForm, required: true });
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setTheme(event.target.value);
-    setValue("topicId", theme);
-  };
-
-  // Rerender whenever topicIdForm changes
-  React.useEffect(() => {
-    setTheme(String(topicIdForm))
-  }, [topicIdForm])
 
   return (
     <Grid item xs={3}>
@@ -46,21 +29,29 @@ export default function ThemeSelection({ topics }: ThemeSelectionProps) {
         <Typography>Tema:</Typography>
         <FormControl sx={{ width: "100%" }}>
           <InputLabel>tema</InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={String(theme)}
-            label="seleccione un tema"
-            onChange={handleChange}
-            sx={{ width: "100%" }}
+          <Controller
+            name="topicId"
+            control={control}
             defaultValue={String(topicIdForm)}
-          >
-            {topics.map((topic) => (
-              <MenuItem key={topic.topic_id} value={topic.topic_id}>
-                {topic.topic_name}
-              </MenuItem>
-            ))}
-          </Select>
+            render={({ field }) => (
+              <Select
+                labelId="demo-simple-select-helper-label"
+                id="demo-simple-select-helper"
+                value={field.value}
+                label="seleccione un tema"
+                onChange={(event) => {
+                  field.onChange(event.target.value);
+                }}
+                sx={{ width: "100%" }}
+              >
+                {topics.map((topic) => (
+                  <MenuItem key={topic.topic_id} value={String(topic.topic_id)}>
+                    {topic.topic_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+          />
         </FormControl>
       </Paper>
     </Grid>

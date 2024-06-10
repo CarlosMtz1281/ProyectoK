@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import { useForm, FormProvider, FieldValues } from "react-hook-form";
-import FileUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/FileUpload";
+import ThemeUpload from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeUpload";
 import ThemeSelection from "@/components/MisQuizzes/Admin/EditorDeQuiz/ThemeSelection";
 import AIRecommendation from "@/components/MisQuizzes/Admin/EditorDeQuiz/AIRecommendation";
 import EditorBanner from "@/components/MisQuizzes/Admin/EditorDeQuiz/EditorBanner";
@@ -29,95 +29,70 @@ const defaultThemes = [
 
 // Default JSON for testing
 const defaultQuizJson = {
-  "quiz_id": 14,
-  "admin_id": 7,
-  "topic_id": 1,
-  "quiz_name": "quizcreadoenelclient3",
-  "topic_name": "Matematicas",
-  "questions": [
+  quiz_id: 14,
+  admin_id: 7,
+  topic_id: 1,
+  quiz_name: "quizcreadoenelclient3",
+  topic_name: "Matematicas",
+  questions: [
     {
-      "question_id": 21,
-      "question": "holi",
-      "options": [
-        "me la p",
-        "yoo",
-        "rah",
-        ""
-      ],
-      "correct_answer": 1,
-      "active": true,
-      "answer": 1,
-      "opcion2": "",
-      "opcion3": "",
-      "opcion4": ""
+      question_id: 21,
+      question: "holi",
+      options: ["me la p", "yoo", "rah", ""],
+      correct_answer: 1,
+      active: true,
+      answer: 1,
+      opcion2: "",
+      opcion3: "",
+      opcion4: "",
     },
     {
-      "question_id": 22,
-      "question": "",
-      "options": [
-        "",
-        "",
-        "",
-        ""
-      ],
-      "correct_answer": 1,
-      "active": true,
-      "answer": 1,
-      "opcion2": "",
-      "opcion3": "",
-      "opcion4": ""
+      question_id: 22,
+      question: "",
+      options: ["", "", "", ""],
+      correct_answer: 1,
+      active: true,
+      answer: 1,
+      opcion2: "",
+      opcion3: "",
+      opcion4: "",
     },
     {
-      "question_id": 23,
-      "question": "",
-      "options": [
-        "",
-        "",
-        "",
-        ""
-      ],
-      "correct_answer": 1,
-      "active": true,
-      "answer": 1,
-      "opcion2": "",
-      "opcion3": "",
-      "opcion4": ""
+      question_id: 23,
+      question: "",
+      options: ["", "", "", ""],
+      correct_answer: 1,
+      active: true,
+      answer: 1,
+      opcion2: "",
+      opcion3: "",
+      opcion4: "",
     },
     {
-      "question_id": 24,
-      "question": "",
-      "options": [
-        "",
-        "",
-        "",
-        ""
-      ],
-      "correct_answer": 1,
-      "active": true,
-      "answer": 1,
-      "opcion2": "",
-      "opcion3": "",
-      "opcion4": ""
+      question_id: 24,
+      question: "",
+      options: ["", "", "", ""],
+      correct_answer: 1,
+      active: true,
+      answer: 1,
+      opcion2: "",
+      opcion3: "",
+      opcion4: "",
     },
     {
-      "question_id": 25,
-      "question": "",
-      "options": [
-        "",
-        "",
-        "",
-        ""
-      ],
-      "correct_answer": 1,
-      "active": true,
-      "answer": 1,
-      "opcion2": "",
-      "opcion3": "",
-      "opcion4": ""
-    }
+      question_id: 25,
+      question: "",
+      options: ["", "", "", ""],
+      correct_answer: 1,
+      active: true,
+      answer: 1,
+      opcion2: "",
+      opcion3: "",
+      opcion4: "",
+    },
   ],
-  "topicId": 1
-}
+  topicId: 1,
+};
 
 interface Option {
   question_id: number;
@@ -136,7 +111,7 @@ interface QuizData {
   topic_name: string;
 }
 
-export default function Editor({params} : {params: {id: string}}) {
+export default function Editor({ params }: { params: { id: string } }) {
   const methods = useForm();
   const { register, setValue, reset, getValues } = methods;
   const [userIdLocal, setUserIdLocal] = useState<number | null>(null);
@@ -153,15 +128,17 @@ export default function Editor({params} : {params: {id: string}}) {
       setValue("adminId", userId);
       const userCookiesObj = JSON.parse(await getCookie("userCookies"));
       const session = userCookiesObj.sessionKey;
-      console.log(session)
+      console.log(session);
 
       // setQuizData(defaultQuizJson);
       // reset(defaultQuizJson);
 
       try {
-        console.log(apiURL + `quizes/quizId/${report_id}`)
+        console.log(apiURL + `quizes/quizId/${report_id}`);
         const res = await axios
-          .get(apiURL + `quizes/quizId/${report_id}`, { headers: { 'sessionKey': session } })
+          .get(apiURL + `quizes/quizId/${report_id}`, {
+            headers: { sessionKey: session },
+          })
           .then((res) => {
             setQuizData(res.data);
             reset(res.data);
@@ -175,7 +152,9 @@ export default function Editor({params} : {params: {id: string}}) {
 
     const fetchTopics = async () => {
       try {
-        const res = await axios.get(`${apiURL}quizes/topics`);
+        const userCookiesObj = JSON.parse(await getCookie("userCookies"));
+        const session = userCookiesObj.sessionKey;
+        const res = await axios.get(`${apiURL}quizes/topics/` + session);
         setTopics(res.data);
       } catch (error) {
         console.error(error);
@@ -183,7 +162,7 @@ export default function Editor({params} : {params: {id: string}}) {
     };
 
     fetchUserId();
-    // fetchTopics();
+    fetchTopics();
   }, [setValue, apiURL]);
 
   useEffect(() => {
@@ -206,8 +185,8 @@ export default function Editor({params} : {params: {id: string}}) {
   // Form error handler
   const onError = (errors: any) => {
     // Show an alert with the error messages
-    alert('Llena todos los espacios necesarios para continuar.');
-    console.log('Form Errors:', errors);
+    alert("Llena todos los espacios necesarios para continuar.");
+    console.log("Form Errors:", errors);
   };
 
   return (
@@ -215,12 +194,21 @@ export default function Editor({params} : {params: {id: string}}) {
       <form onSubmit={methods.handleSubmit(onSubmit, onError)}>
         <div className="h-screen m-2">
           <EditorBanner />
-          <Grid container direction="column" className="h-full overflow-x-visible flex-nowrap" gap = {3}>
+          <Grid
+            container
+            direction="column"
+            className="h-full overflow-x-visible flex-nowrap"
+            gap={3}
+          >
             <Grid item xs={12} md={1}>
-              <Grid container direction="row" className="h-full justify-between">
-                <FileUpload />
+              <Grid
+                container
+                direction="row"
+                className="h-full justify-between"
+              >
+                <ThemeUpload />
                 <ThemeSelection topics={topics} />
-                <Grid item md={5}>
+                <Grid item md={4}>
                   <QuizTitle />
                 </Grid>
               </Grid>

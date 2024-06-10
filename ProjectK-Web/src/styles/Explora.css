@@ -81,7 +81,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     grid-gap: 0rem;
-    overflow-x: hidden;
+    overflow-x: visible;
     overflow-y: scroll;
     height: 70vh;
     background-color: var(--primaryBG-200);

@@ -10,7 +10,10 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-
+import { LuBrain } from "react-icons/lu";
+import LandingLogin from "@/components/Landing/LandingLogIn";
+import LandingRegister from "@/components/Landing/LandingRegister";
+import { TypeAnimation } from "react-type-animation";
 
 export default function Home() {
   const appRouter = useRouter();
@@ -24,7 +27,7 @@ export default function Home() {
     appRouter.replace("/gates/register");
   };
 
-  const [checkEmailLocal, setCheckEmailLocal] = useState('');
+  const [checkEmailLocal, setCheckEmailLocal] = useState("");
 
   // We move into the dashboard if the user was already in
   // useEffect(() => {
@@ -54,25 +57,33 @@ export default function Home() {
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           WBAN solutions
         </Typography>
-        <Typography variant="h2">QuizOnline</Typography>
-        <Typography variant="h6">
-          Tu quiz online. Practica cuando necesites y analiza tus habilidades.
-        </Typography>
-        <Grid container spacing={3}>
-          <Grid item>
-            <Button onClick={sendToLogin} size="large" variant="contained">
-              Ingresar
-            </Button>
+        <div className="flex flex-row gap-5 items-center">
+          <LuBrain size={82} />
+          <Typography variant="h1" className="font-thin">
+            Ixpolin
+          </Typography>
+        </div>
+        <TypeAnimation
+          sequence={[
+            "Tu quiz online. Práctica cuando necesites y analiza tus habilidades.",
+            1000,
+            "Práctica con nuestro juego antes de tus examenes!!",
+            1000,
+            "Administra, crea, edita tus exámenes y deja que Gemini haga los análisis por ti!",
+            1000,
+          ]}
+          wrapper="span"
+          speed={50}
+          className="TypingLanding"
+          repeat={Infinity}
+        />
+        <Grid className="min-h-16" container spacing={3}>
+          <Grid item xs={6}>
+            <LandingLogin onClick={sendToLogin} />
           </Grid>
 
-          <Grid item>
-            <Button
-              onClick={sendToRegistration}
-              size="large"
-              variant="outlined"
-            >
-              Crear cuenta
-            </Button>
+          <Grid item xs={6}>
+            <LandingRegister onClick={sendToRegistration} />
           </Grid>
         </Grid>
 
@@ -83,6 +94,14 @@ export default function Home() {
           <CircularProgress color="inherit" />
         </Backdrop>
       </Box>
+      <div className="leftside">
+        <iframe
+          allow="fullscreen"
+          height="600"
+          width="600"
+          src="https://giphy.com/embed/SE4TI6jZe3fm3OmzuZ/video"
+        ></iframe>
+      </div>
     </div>
   );
 }
