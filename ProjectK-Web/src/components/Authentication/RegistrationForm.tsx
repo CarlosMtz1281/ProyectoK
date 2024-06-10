@@ -87,7 +87,7 @@ export default function RegistrationForm() {
           sessionKey: res.data.session.session_key,
         };
         // set just one cookie with all the data
-        await SetCookieAPI("userCookies", JSON.stringify(userCookies));
+        const cookieRes = await SetCookieAPI("userCookies", JSON.stringify(userCookies));
       })
       .catch((err) => {
         console.log(err);
@@ -135,7 +135,7 @@ export default function RegistrationForm() {
   };
 
   // Handle user registration to the application
-  const handleRegistration = (email: string, password: string) => {
+  const handleRegistration = async (email: string, password: string) => {
     setIsLoginLoading(true);
     if (usernameError || passwordError) {
       alert("Correo o contraseña inválidos. Escríbalos correctamente");
@@ -143,11 +143,11 @@ export default function RegistrationForm() {
       return;
     }
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed up
         const user = userCredential.user;
         if (user.email) {
-          createUser(user.email);
+          await createUser(user.email);
         }
         setIsLoginLoading(false);
         router.replace("/dashboard");

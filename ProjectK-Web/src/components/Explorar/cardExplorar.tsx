@@ -7,17 +7,23 @@ import GameModal from "./gameModal";
 import { MdDelete } from "react-icons/md";
 import { SetCookieAPI } from "@/app/utils/setcookie";
 
-
 interface CardProps {
   ID: number;
   autor: string;
   nombre: string;
   tema: string;
-  openQuiz?: () => void
+  openQuiz?: () => void;
   onDelete?: (id: number) => void;
 }
 
-export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: CardProps) {
+export default function Card({
+  ID,
+  autor,
+  nombre,
+  tema,
+  openQuiz,
+  onDelete,
+}: CardProps) {
   const appRouter = useRouter();
   const pathName = usePathname();
 
@@ -27,8 +33,11 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: Card
 
   const onClick = async () => {
     console.log("ID", ID);
-    await SetCookieAPI("ID", ID.toString())
-    if(pathName === "/dashboard/Player/Explorar" || pathName === "/dashboard/Admin/Explorar"){
+    await SetCookieAPI("ID", ID.toString());
+    if (
+      pathName === "/dashboard/Player/Explorar" ||
+      pathName === "/dashboard/Admin/Explorar"
+    ) {
       handleOpen();
     }
   };
@@ -46,16 +55,15 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: Card
             />
           )}
           {tema === "Historia" && (
-            <Image
-              src="/historia.jpg"
-              className="card-img"
-              alt="foto"
-              fill
-            />
+            <Image src="/historia.jpg" className="card-img" alt="foto" fill />
           )}
           {tema === "Ciencia" && (
+            <Image src="/ciencia.jpeg" className="card-img" alt="foto" fill />
+          )}
+
+          {tema !== "Matematicas" && tema !== "Ciencia" && tema !== "Historia" && (
             <Image
-              src="/ciencia.jpeg"
+              src="/matematicas.jpeg"
               className="card-img"
               alt="foto"
               fill
@@ -70,10 +78,17 @@ export default function Card({ID, autor, nombre, tema, openQuiz, onDelete}: Card
           </div>
         </div>
       </div>
-      {open && <GameModal open={open} handleClose={handleClose} confirm={()=> {
-        if(openQuiz) {
-          openQuiz()}} }/>}
+      {open && (
+        <GameModal
+          open={open}
+          handleClose={handleClose}
+          confirm={() => {
+            if (openQuiz) {
+              openQuiz();
+            }
+          }}
+        />
+      )}
     </a>
-
   );
 }
